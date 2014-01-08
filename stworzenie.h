@@ -1,0 +1,183 @@
+/*
+ * ZAMIENIC INTERAKCJUJ NA SENSOWNA NAZWE
+ * interakcjuj będzie odpowiedzialne za rózne interakcjie pomiedzy stworzeniami
+ * */
+
+#include <iostream>
+#include <vector>
+#include <string>
+#include <queue>
+#include "przedmioty.h"
+
+using namespace std;
+
+class Poszukiwacz;
+class Stworzenie;
+class Inteligentne;
+class Prymitywne;
+class Pole;
+
+class Stworzenie{
+	
+public:
+	Stworzenie();
+	virtual ~Stworzenie();
+	int daj_zdrowie() const;				//zwraca zdrowie danego stworzenia
+	int daj_sile() const;					//zwraca sile danego stworzenia
+	void ustaw_sile( int x );				//ustawia sile danego stworzenia
+	void ustaw_zdrowie(int x);				// ustawia zdrowie danego stworzenia
+/*NIE*/	void rusz(const Pole &pole);
+	void zabierz_ruch(int x);
+	void zadaj_obrazenie(int x);
+	void umrzyj();
+	virtual void interakcjuj(Stworzenie &stworzenie);
+	virtual void atakuj(Stworzenie &stworzenie);
+// 	
+	//virtual string komunikat(const Stworzenie &stworzenie);				//oddawaie komunikatow przez rozne stworzenia
+
+	
+protected:							//konieczie protected bo prawie wszystko dziedziczy po tym
+	
+	int zdrowie;						//zdrowie stworzenia
+	int sila;
+	int punkty_ruchu;
+	//sila stworzenia
+	Pole *polozenie; 
+	queue <string> infrmacje;				//do dodawania komunikatw
+	// wkaznik do pola gdzie sie znajdujemy
+	/*
+	 * Chyba wiecej nie bedzie mi potrzebne
+	 * 
+	 * */
+	
+};
+
+// class Poszukiwacz;
+
+class Inteligentne:public Stworzenie{
+
+public:
+	Inteligentne();
+	virtual ~Inteligentne();
+	virtual void interakcjuj(Stworzenie &stworzenie);	//zmienia mlosza
+// 	virtual string komunikat(const Stworzenie &stworzenie);
+	/*
+	 * Do przedefiniowania w kilku miejscach
+	 * */
+};
+
+
+class Prymitywne:public Stworzenie{
+
+public:	
+	Prymitywne();
+	virtual ~Prymitywne();
+	virtual bool czy_atakowac(Stworzenie &stworzenie) const;
+	virtual void atakuj(Stworzenie &stworzenie);
+	
+// 	virtual string komunikat(const Stworzenie &stworzenie);
+};
+
+
+class Poszukiwacz:public Inteligentne{
+	
+public:
+	Poszukiwacz();						//spladzamy poszukiwacza
+	virtual ~Poszukiwacz();//zabijamy poszukiwacza
+	Zbroja daj_zbroje() const;
+	Bron daj_bron() const;			
+	bool daj_prezent() const;
+	void ustaw_prezent(bool x);		//zwracamy te trzy
+	virtual void kup(const vector <Przedmiot> przedmioty);	//kupujemy od sklepikarza
+	
+	
+protected:
+	
+	Zbroja zbroja;
+	Bron bron;
+	Prezent prezent;
+	
+};
+
+class Milosz: public Poszukiwacz{				//chyba wszystko
+
+public:
+	Milosz();
+	virtual ~Milosz();
+	void kup(const vector <Przedmiot> przedmioty);		//przedefiniowac
+	
+private:
+	vector <Przedmiot> *ekwipunek;		//wskaznik na to z czym bedzie chodzil
+
+};
+
+
+class Znachorka:public Inteligentne {
+
+public:	
+	Znachorka();						//spladzamy znachorke
+	virtual ~Znachorka();
+	void interakcjuj(Poszukiwacz &poszukiwacz);
+// 	string komunikat(const Stworzenie &stworzenie);
+};
+
+class Sklepikarz:public Inteligentne{
+	
+public:
+	Sklepikarz();
+	virtual ~Sklepikarz();
+	void interakcjuj(Stworzenie &stworzenie);		//przedefiniowac na sprzedawanie
+// 	string komunikat(const Stworzenie &stworzenie);
+	
+};
+
+class  Bard:public Inteligentne{
+
+public:	
+	Bard();
+	virtual ~Bard();
+	void interakcjuj(Stworzenie &stworzenie);
+// 	string komunikat(const Stworzenie &stworzenie);
+	/*
+	 * Pozostaje problem jak rozwiazac to co Bard nam przekazuje, 
+	 * zeby nie wiazac tego zbyt mocno z interfejsem
+	 * */
+private:
+	//jak ma przechowywac skarb.
+	
+};
+
+class Wybredne:public Prymitywne{
+public:
+	Wybredne();
+	virtual ~Wybredne();
+	bool czy_atakowac(Stworzenie &stworzenie) const;
+// 	string komunikat(const Stworzenie &stworzenie);
+	void atakuj(Stworzenie &stworzenie);
+
+};
+
+class Tchorzliwy:public Prymitywne{
+public:
+	Tchorzliwy();
+	virtual ~Tchorzliwy();
+	bool czy_atakowac(Stworzenie &stworzenie) const;
+// 	string komunikat(const Stworzenie &stworzenie);
+};
+
+
+class Neutralny:public Prymitywne{
+public:
+	Neutralny();
+	virtual ~Neutralny();
+	bool czy_atakowac(Stworzenie &stworzenie) const;
+// 	string komunikat(const Stworzenie &stworzenie);
+};
+
+class Agresywny:public Prymitywne{
+public:
+	Agresywny();
+	virtual ~Agresywny();
+	bool czy_atakowac(Stworzenie &stworzenie) const;
+// 	string komunikat(const Stworzenie &stworzenie);
+};
