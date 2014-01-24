@@ -1,5 +1,8 @@
 #include "plansza.h"
 #include "stworzenie.h"
+/*
+ * TROLOLOLO
+ */
 
 Pole::Pole()
 {
