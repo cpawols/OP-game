@@ -35,7 +35,7 @@ class Dozwolone : public Pole {
 public:	
 	Dozwolone();
 	virtual ~Dozwolone();
-	bool czy_mozna_wejsc() const; 		//juz nic nie chce przedefiniowac bo wszystko wiem
+	virtual	bool czy_mozna_wejsc() const; 		//juz nic nie chce przedefiniowac bo wszystko wiem
 	
 };
 
@@ -43,7 +43,7 @@ class Zakazane : public Pole {
 public:
 	Zakazane();
 	virtual ~Zakazane();
-	bool czy_mozna_wejsc() const; 		//juz nic nie chce przedefiniowac bo wszystko wiem
+	virtual bool czy_mozna_wejsc() const; 		//juz nic nie chce przedefiniowac bo wszystko wiem
 	
 };
 

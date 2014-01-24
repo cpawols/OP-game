@@ -9,16 +9,21 @@ using namespace std;
 int main()
 {
   
-      Milosz milosz;
-      
-      cout<<milosz.zbroja.daj_klase_zbroi()<<endl;
-  
+	Milosz milosz;
+	Znachorka znachorka;
+	
+	cout<<znachorka.daj_zdrowie()<<endl;
+	
+// 	cout<<Milosz::zbroja.daj_klase_zbroi()<<endl;
+	
 /*		
 	Znachorka Z;
 	Milosz M;
 	Trawa t;
 	Bagna_lagodne b;
-	Sklepikarz S;
+	Sklepikarz S;this->zdrowie = 100;
+ 	this->sila = 100;
+	this-> punkty_ruchu = 100;	
 	S.dostawa();
 	Agresywny A;
  	cout<<M.daj_ruch()<<endl;
@@ -46,6 +51,17 @@ int main()
  	cout<<"Milosz ma prezent"<<M.daj_prezent()<<endl;
 	
 	M.ustaw_prezent(1);
+#include <vector>
+#include <string>
+#include <queue>
+#include "przedmioty.h"
+
+using namespace std;
+
+class Poszukiwacz;
+class Stworzenie;
+class Inteligentne;
+class Prymitywne;
 	
 	cout<<"Milosz ma prezent"<<M.daj_prezent()<<endl;
 	

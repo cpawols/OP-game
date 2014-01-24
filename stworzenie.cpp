@@ -31,7 +31,7 @@ void Stworzenie::zabierz_ruch( int x )
 
 void Stworzenie::zadaj_obrazenie( int x )
 {
-	this->zdrowie -= x;
+	zdrowie -= x;
 }
 
 void Stworzenie::uderz( Stworzenie&  A)
@@ -47,10 +47,15 @@ void Stworzenie::uderz( Stworzenie&  A)
 
 void Stworzenie::umrzyj()
 {
-	this->zdrowie = 0;
+	ustaw_zdrowie(0);
 	/*
 	 * 
 	 * */
+}
+
+void Stworzenie::ustaw_ruch(int x)
+{
+	punkty_ruchu = x;
 }
 
 int Stworzenie::daj_zdrowie() const
@@ -71,12 +76,12 @@ int Stworzenie::daj_ruch() const
 
 void Stworzenie::ustaw_sile(int x)
 {
-	this->sila = x;
+	sila = x;
 }
 
 void Stworzenie::ustaw_zdrowie( int x)
 {
-	this->zdrowie = x;
+	zdrowie = x;
 }
 
 void Stworzenie::interakcjuj(Stworzenie&)
@@ -122,9 +127,9 @@ void Bard::interakcjuj(Stworzenie&)
 Sklepikarz::Sklepikarz()
 :Inteligentne()
 {
-	this->zdrowie = 100;
-	this->sila = 10;
-	this -> punkty_ruchu = 100;
+	ustaw_zdrowie(100);
+	ustaw_sile(10);
+	ustaw_ruch(100);
 	zbroja.ustaw_klase_zbroi(0);
 	bron.ustaw_klase_broni(0);
 	
@@ -160,9 +165,9 @@ void Sklepikarz::interakcjuj(Stworzenie&)
 Znachorka::Znachorka()
 :Inteligentne()
 {
-	this->zdrowie = 100;
-	this->sila = 10;
-	this -> punkty_ruchu = 100;
+	ustaw_zdrowie(82);
+	ustaw_sile(10);
+	ustaw_ruch(43);
 }
 
 Znachorka::~Znachorka()
@@ -184,9 +189,9 @@ Milosz::Milosz()
 :Poszukiwacz()
 {
 	
-	this->zdrowie = 100;
- 	this->sila = 100;
-	this-> punkty_ruchu = 100;	
+	ustaw_zdrowie(100);
+	ustaw_sile(100);
+	ustaw_ruch(430);
 	zbroja.ustaw_klase_zbroi(wylosuj(0,100));
 	bron.ustaw_klase_broni(wylosuj(0,100));
 	
@@ -290,9 +295,9 @@ bool Tchorzliwy::czy_atakowac(Stworzenie&) const
 Agresywny::Agresywny()
 :Prymitywne()
 {
-	this->zdrowie = 55;
- 	this->sila = 88;
-	this-> punkty_ruchu = 100;	
+	ustaw_zdrowie(55);
+ 	ustaw_sile(88);
+	ustaw_ruch(55);
 }
 
 Agresywny::~Agresywny()
@@ -303,4 +308,22 @@ Agresywny::~Agresywny()
 bool Agresywny::czy_atakowac(Stworzenie&) const
 {
 	
+}
+
+/*
+ * METODY DO TESTOWANIA
+ * */
+
+float Stworzenie::z() const
+{
+	return zbroja.daj_klase_zbroi();
+}
+
+float Stworzenie::b() const
+{
+	return bron.daj_klase_broni();
+}
+bool Stworzenie::p() const
+{
+	return prezent.sprawdz_prezent();
 }

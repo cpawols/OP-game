@@ -2,7 +2,7 @@
 #define PRZEDMIOTY_H
 
 class Przedmiot{
-
+	
 };
 
 class Zbroja : public Przedmiot{

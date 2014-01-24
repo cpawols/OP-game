@@ -1,5 +1,6 @@
 #include "przedmioty.h"
 
+	
 
 bool Prezent::sprawdz_prezent() const
 {

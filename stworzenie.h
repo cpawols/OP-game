@@ -25,6 +25,7 @@ public:
 	int daj_zdrowie() const;				//zwraca zdrowie danego stworzenia
 	int daj_sile() const;	//zwraca sile danego stworzenia
 	int daj_ruch() const;
+	void ustaw_ruch(int x);
 	void ustaw_sile( int x );				//ustawia sile danego stworzenia
 	void ustaw_zdrowie(int x);				// ustawia zdrowie danego stworzenia
 /*NIE*/	void rusz(const Pole &pole);
@@ -36,7 +37,12 @@ public:
 	virtual void atakuj(Stworzenie &stworzenie);
 // 	
 	//virtual string komunikat(const Stworzenie &stworzenie);				//oddawaie komunikatow przez rozne stworzenia
-
+	/* METODY TYLKO DO TESTOW
+	 */
+	
+	float z() const;	//daje klase zbroi
+	float b() const;
+	bool p() const;
 	
 protected:							//konieczie protected bo prawie wszystko dziedziczy po tym
 	
