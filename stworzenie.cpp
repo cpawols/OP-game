@@ -15,7 +15,7 @@ int wylosuj(int a, int b)
 
 Stworzenie::Stworzenie()
 {
-	this->prezent.czy_prezent = 0;
+	prezent.ustaw_prezent(0);
 }
 
 Stworzenie::~Stworzenie()
@@ -42,7 +42,7 @@ void Stworzenie::uderz( Stworzenie&  A)
 	
 	
 	A.zdrowie -= int(this->sila * (this->zdrowie / 100) * 
-	(1 + this->bron.klasa_broni)+(1-A.zbroja.klasa_zbroi));
+	(1 + bron.daj_klase_broni())+(1-A.zbroja.daj_klase_zbroi()));
 }
 
 void Stworzenie::umrzyj()
@@ -125,8 +125,8 @@ Sklepikarz::Sklepikarz()
 	this->zdrowie = 100;
 	this->sila = 10;
 	this -> punkty_ruchu = 100;
-	this->zbroja.klasa_zbroi = 0;
-	this->bron.klasa_broni =0;
+	zbroja.ustaw_klase_zbroi(0);
+	bron.ustaw_klase_broni(0);
 	
 }
 
@@ -136,15 +136,15 @@ Sklepikarz::~Sklepikarz()
 
 void Sklepikarz::dostawa()
 {
-	cout<<this->zbroja.klasa_zbroi<<endl;
-	cout<<this->prezent.czy_prezent<<endl;
+	cout<<zbroja.daj_klase_zbroi()<<endl;
+	cout<<prezent.sprawdz_prezent()<<endl;
 	
-	this->zbroja.klasa_zbroi = wylosuj(0,100);
-	this->bron.klasa_broni = wylosuj(0,100);
-	this->prezent.czy_prezent = wylosuj(0,1);
+	zbroja.ustaw_klase_zbroi(wylosuj(0,100));
+	bron.ustaw_klase_broni(wylosuj(0,100));
+	prezent.ustaw_prezent(wylosuj(0,1));
 	
-	cout<<this->zbroja.klasa_zbroi<<endl;
-	cout<<this->prezent.czy_prezent<<endl;
+	cout<<zbroja.daj_klase_zbroi()<<endl;
+	cout<<prezent.sprawdz_prezent()<<endl;
 }
 
 void Sklepikarz::interakcjuj(Stworzenie&)
@@ -187,8 +187,8 @@ Milosz::Milosz()
 	this->zdrowie = 100;
  	this->sila = 100;
 	this-> punkty_ruchu = 100;	
-	this->zbroja.klasa_zbroi = wylosuj(0,100);
-	this->bron.klasa_broni  = wylosuj(0,100);
+	zbroja.ustaw_klase_zbroi(wylosuj(0,100));
+	bron.ustaw_klase_broni(wylosuj(0,100));
 	
 }
 
@@ -206,7 +206,7 @@ void Milosz::kup(const vector <Przedmiot>)
 Poszukiwacz::Poszukiwacz()
 :Inteligentne()
 {
-	this->prezent.czy_prezent = false; //ustawia wszystkim poszukiwaczom brak prezentu.
+	prezent.ustaw_prezent(0); //ustawia wszystkim poszukiwaczom brak prezentu.
 }
 
 Poszukiwacz::~Poszukiwacz()
@@ -220,12 +220,12 @@ void Poszukiwacz::kup(const vector <Przedmiot> przedmioty)
 
 void Poszukiwacz::ustaw_prezent(bool x)
 {
-	this->prezent.czy_prezent = x;
+	prezent.ustaw_prezent(x);
 }
 
 bool Poszukiwacz::daj_prezent() const
 {
-	return this->prezent.czy_prezent;
+	return prezent.sprawdz_prezent();
 }
 
 
@@ -236,9 +236,9 @@ bool Poszukiwacz::daj_prezent() const
 Prymitywne::Prymitywne()
 :Stworzenie()
 {
-	this->zbroja.klasa_zbroi = 0;
-	this->bron.klasa_broni = 0;
-	this->prezent.czy_prezent = false;
+	zbroja.ustaw_klase_zbroi(0);
+	bron.ustaw_klase_broni(0);
+	prezent.ustaw_prezent(0);
 }
 
 Prymitywne::~Prymitywne()

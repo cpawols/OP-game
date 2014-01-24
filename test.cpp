@@ -8,7 +8,12 @@ using namespace std;
 
 int main()
 {
-		
+  
+      Milosz milosz;
+      
+      cout<<milosz.zbroja.daj_klase_zbroi()<<endl;
+  
+/*		
 	Znachorka Z;
 	Milosz M;
 	Trawa t;
@@ -16,13 +21,13 @@ int main()
 	Sklepikarz S;
 	S.dostawa();
 	Agresywny A;
-// 	cout<<M.daj_ruch()<<endl;
-// 	cout<<M.daj_zdrowie()<<endl;
-// 	t.dzialaj(M);
-// 	cout<<M.daj_ruch()<<endl;
-// 	cout<<M.daj_zdrowie()<<endl;
-// 	S.dostawa();
-/* 	cout<<S.zbroja.daj_klase_zbroi()<<endl;
+ 	cout<<M.daj_ruch()<<endl;
+ 	cout<<M.daj_zdrowie()<<endl;
+ 	t.dzialaj(M);
+ 	cout<<M.daj_ruch()<<endl;
+ 	cout<<M.daj_zdrowie()<<endl;
+ 	S.dostawa();
+ 	cout<<S.zbroja.daj_klase_zbroi()<<endl;
 	
 	cout<<"Milosz zdrowie"<<M.daj_zdrowie()<<endl;
 	Z.interakcjuj(M);
@@ -56,16 +61,16 @@ int main()
  	S.dzialaj(M);
 	
 	cout<<"Milosz punkty ruchu"<<M.daj_ruch()<<endl;
-*/	
+	
 
  	 
-// 	cout<<"Agresywny ma sile"<<M.daj_zdrowie()<<endl;
+ 	cout<<"Agresywny ma sile"<<M.daj_zdrowie()<<endl;
 	
-// 	A.uderz(M);
+ 	A.uderz(M);
 
-// 	cout<<S.bron.daj_klase_broni()<<endl;
+ 	cout<<S.bron.daj_klase_broni()<<endl;
 	
-// 	cout<<"Agresywny ma sile"<<M.daj_zdrowie()<<endl;
-
+ 	cout<<"Agresywny ma sile"<<M.daj_zdrowie()<<endl;
+*/
 	return 0;
 }
