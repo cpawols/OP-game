@@ -1,5 +1,6 @@
 #include <iostream>
 #include "plansza.h"
+#include "przedmioty.h"
 #include "stworzenie.h"
 
 using namespace std;
@@ -7,21 +8,21 @@ using namespace std;
 
 int main()
 {
-	/*Trawa t;
-	Rzeka R;
-	Skaly S;
-	Bagna_smiertelne B;
-	Bagna_lagodne b;
-	cout<<t.ruch()<<endl;
-	cout<<t.obrazenie()<<endl;
-	cout<<t.czy_mozna_wejsc()<<endl;
-	cout<<b.czy_smiertelne()<<endl;
- 	cout<<B.czy_smiertelne()<<endl;
-	*/
-	
+		
 	Znachorka Z;
 	Milosz M;
-	
+	Trawa t;
+	Bagna_lagodne b;
+	Sklepikarz S;
+	S.dostawa();
+	Agresywny A;
+// 	cout<<M.daj_ruch()<<endl;
+// 	cout<<M.daj_zdrowie()<<endl;
+// 	t.dzialaj(M);
+// 	cout<<M.daj_ruch()<<endl;
+// 	cout<<M.daj_zdrowie()<<endl;
+// 	S.dostawa();
+/* 	cout<<S.zbroja.daj_klase_zbroi()<<endl;
 	
 	cout<<"Milosz zdrowie"<<M.daj_zdrowie()<<endl;
 	Z.interakcjuj(M);
@@ -48,8 +49,23 @@ int main()
 	cout<<"Milosz zdrowie"<<M.daj_zdrowie()<<endl;
 	cout<<"Milosz ma prezent"<<M.daj_prezent()<<endl;
 	
-	M.ustaw_zdrowie(-99999990);
-	
 	cout<<"Milosz zdrowie"<<M.daj_zdrowie()<<endl;
+	
+	cout<<"Milosz punkty ruchu"<<M.daj_ruch()<<endl;
+	
+ 	S.dzialaj(M);
+	
+	cout<<"Milosz punkty ruchu"<<M.daj_ruch()<<endl;
+*/	
+
+ 	 
+// 	cout<<"Agresywny ma sile"<<M.daj_zdrowie()<<endl;
+	
+// 	A.uderz(M);
+
+// 	cout<<S.bron.daj_klase_broni()<<endl;
+	
+// 	cout<<"Agresywny ma sile"<<M.daj_zdrowie()<<endl;
+
 	return 0;
 }

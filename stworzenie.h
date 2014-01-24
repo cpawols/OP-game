@@ -23,13 +23,15 @@ public:
 	Stworzenie();
 	virtual ~Stworzenie();
 	int daj_zdrowie() const;				//zwraca zdrowie danego stworzenia
-	int daj_sile() const;					//zwraca sile danego stworzenia
+	int daj_sile() const;	//zwraca sile danego stworzenia
+	int daj_ruch() const;
 	void ustaw_sile( int x );				//ustawia sile danego stworzenia
 	void ustaw_zdrowie(int x);				// ustawia zdrowie danego stworzenia
 /*NIE*/	void rusz(const Pole &pole);
 	void zabierz_ruch(int x);
 	void zadaj_obrazenie(int x);
-	void umrzyj();
+ 	void uderz(Stworzenie&); 	//odpowiedzialna za zadawanie obrażeń.
+/*NIE*/	void umrzyj();
 	virtual void interakcjuj(Stworzenie &stworzenie);
 	virtual void atakuj(Stworzenie &stworzenie);
 // 	
@@ -41,15 +43,11 @@ protected:							//konieczie protected bo prawie wszystko dziedziczy po tym
 	int zdrowie;						//zdrowie stworzenia
 	int sila;
 	int punkty_ruchu;
-	//sila stworzenia
+	Bron bron;
+	Zbroja zbroja;
+	Prezent prezent;
 	Pole *polozenie; 
 	queue <string> infrmacje;				//do dodawania komunikatw
-	// wkaznik do pola gdzie sie znajdujemy
-	/*
-	 * Chyba wiecej nie bedzie mi potrzebne
-	 * 
-	 * */
-	
 };
 
 // class Poszukiwacz;
@@ -93,10 +91,10 @@ public:
 	
 protected:
 	
-	Zbroja zbroja;
+	/*Zbroja zbroja;
 	Bron bron;
 	Prezent prezent;
-	
+	*/
 };
 
 class Milosz: public Poszukiwacz{				//chyba wszystko
@@ -107,6 +105,7 @@ public:
 	void kup(const vector <Przedmiot> przedmioty);		//przedefiniowac
 	
 private:
+	
 	vector <Przedmiot> *ekwipunek;		//wskaznik na to z czym bedzie chodzil
 
 };
@@ -127,6 +126,7 @@ public:
 	Sklepikarz();
 	virtual ~Sklepikarz();
 	void interakcjuj(Stworzenie &stworzenie);		//przedefiniowac na sprzedawanie
+	void dostawa();
 // 	string komunikat(const Stworzenie &stworzenie);
 	
 };
