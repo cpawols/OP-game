@@ -1,5 +1,6 @@
 #include <cassert>
 #include <random>
+// #include <boost>
 #include "stworzenie.h"
 
 
@@ -12,6 +13,8 @@ int wylosuj(int a, int b)
 	
 	return dis(gen);
 }
+
+
 
 Stworzenie::Stworzenie()
 {
@@ -40,16 +43,21 @@ void Stworzenie::uderz( Stworzenie&  A)
 	 * this bije A
 	 */
 	/*
-	cout<<bron.daj_klase_broni()<<endl;
-	cout<<A.zbroja.daj_klase_zbroi()<<endl;
-	cout<<sila<<endl;
-	cout<<zdrowie<<endl;
+	cout<<"bron "<<bron.daj_klase_broni()<<endl;
+	cout<<"zbroja "<<zbroja.daj_klase_zbroi()<<endl;
+	cout<<"sila "<<sila<<endl;
+	cout<<"zdrowie "<<zdrowie<<endl;
 	
-	cout<<int(sila * (zdrowie / 100) * 
+	cout<<(sila * (zdrowie / 100) * 
 	(1 + bron.daj_klase_broni())+(1-A.zbroja.daj_klase_zbroi()))<<endl;
 	*/
-	A.ustaw_zdrowie( A.daj_zdrowie() + int(sila * (zdrowie / 100) * 
-	(1 + bron.daj_klase_broni())+(1-A.zbroja.daj_klase_zbroi())) );
+	cout<<"Z "<<zdrowie<<endl;
+	int k = 30;
+	
+	cout<< float(k/4) <<endl;
+	cout<<"Dupa"<< float(zdrowie/100) <<endl;
+	A.zadaj_obrazenie( int(sila * float((zdrowie / 100)) * 
+	(1 + bron.daj_klase_broni())*(1-A.zbroja.daj_klase_zbroi())) );
 }
 
 void Stworzenie::umrzyj()
@@ -109,6 +117,7 @@ Inteligentne::Inteligentne()
 
 Inteligentne::~Inteligentne()
 {
+	
 }
 
 void Inteligentne::interakcjuj(Stworzenie&)
@@ -196,11 +205,12 @@ Milosz::Milosz()
 :Poszukiwacz()
 {
 	
-	ustaw_zdrowie(100);
+	ustaw_zdrowie(30);
 	ustaw_sile(100);
 	ustaw_ruch(430);
 	zbroja.ustaw_klase_zbroi(wylosuj(0,100));
 	bron.ustaw_klase_broni(wylosuj(0,100));
+// 	cout<<"Klasa broni w konstruktorze milosz" <<bron.daj_klase_broni()<<endl;
 	
 }
 

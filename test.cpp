@@ -11,13 +11,19 @@ int main()
   
 	Milosz milosz;
 	Agresywny agresywny;
+	Znachorka znachorka;
 	
-// 	cout<<agresywny.daj_zdrowie()<<endl;
+	cout<<agresywny.daj_zdrowie()<<endl;
+
+	milosz.uderz(agresywny);
 	
-	agresywny.uderz(milosz);
 	cout<<milosz.daj_zdrowie()<<endl;
+  	cout<<agresywny.daj_zdrowie()<<endl;
+	
+// 	milosz.uderz(agresywny);
 // 	cout<<agresywny.daj_zdrowie()<<endl;
-// 	cout<<znachorka.daj_zdrowie()<<endl;
+//  	cout<<agresywny.daj_zdrowie()<<endl;
+//  	cout<<milosz.daj_zdrowie()<<endl;
 	
 //  	cout<<Milosz::zbroja.daj_klase_zbroi()<<endl;
 	
