@@ -10,11 +10,16 @@ int main()
 {
   
 	Milosz milosz;
-	Znachorka znachorka;
+	Agresywny agresywny;
 	
-	cout<<znachorka.daj_zdrowie()<<endl;
+// 	cout<<agresywny.daj_zdrowie()<<endl;
 	
-// 	cout<<Milosz::zbroja.daj_klase_zbroi()<<endl;
+	agresywny.uderz(milosz);
+	cout<<milosz.daj_zdrowie()<<endl;
+// 	cout<<agresywny.daj_zdrowie()<<endl;
+// 	cout<<znachorka.daj_zdrowie()<<endl;
+	
+//  	cout<<Milosz::zbroja.daj_klase_zbroi()<<endl;
 	
 /*		
 	Znachorka Z;

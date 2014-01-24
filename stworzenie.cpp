@@ -39,10 +39,17 @@ void Stworzenie::uderz( Stworzenie&  A)
 	/*
 	 * this bije A
 	 */
+	/*
+	cout<<bron.daj_klase_broni()<<endl;
+	cout<<A.zbroja.daj_klase_zbroi()<<endl;
+	cout<<sila<<endl;
+	cout<<zdrowie<<endl;
 	
-	
-	A.zdrowie -= int(this->sila * (this->zdrowie / 100) * 
-	(1 + bron.daj_klase_broni())+(1-A.zbroja.daj_klase_zbroi()));
+	cout<<int(sila * (zdrowie / 100) * 
+	(1 + bron.daj_klase_broni())+(1-A.zbroja.daj_klase_zbroi()))<<endl;
+	*/
+	A.ustaw_zdrowie( A.daj_zdrowie() + int(sila * (zdrowie / 100) * 
+	(1 + bron.daj_klase_broni())+(1-A.zbroja.daj_klase_zbroi())) );
 }
 
 void Stworzenie::umrzyj()
