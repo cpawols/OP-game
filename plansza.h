@@ -7,8 +7,8 @@ class Pole;
 class Stworzenie;
 
 class Plansza{
-	
-	Pole *plansza;					//wskaznik na tablice jednowymiarwa
+	Plansza();
+	Pole** plansza;					//wskaznik na tablice jednowymiarwa
 	void wypisz() const;
 };
 

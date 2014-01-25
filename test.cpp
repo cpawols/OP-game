@@ -9,17 +9,21 @@ using namespace std;
 int main()
 {
   
-	Milosz milosz;
-	Agresywny agresywny;
-	Znachorka znachorka;
 	
-	cout<<agresywny.daj_zdrowie()<<endl;
+// 	Milosz milosz;
+// 	Agresywny agresywny;
+// 	Poszukiwacz poszukiwacz;
+// 	Znachorka znachorka;
+// 	cout<<milosz.z()<<endl;
+// 	cout<<poszukiwacz.z()<<endl;
+// 	cout<<agresywny.daj_zdrowie()<<endl;
+	
 
-	milosz.uderz(agresywny);
+// 	milosz.uderz(agresywny);
 	
-	cout<<milosz.daj_zdrowie()<<endl;
-  	cout<<agresywny.daj_zdrowie()<<endl;
-	
+// 	cout<<milosz.daj_zdrowie()<<endl;
+//   	cout<<agresywny.daj_zdrowie()<<endl;
+// 	
 // 	milosz.uderz(agresywny);
 // 	cout<<agresywny.daj_zdrowie()<<endl;
 //  	cout<<agresywny.daj_zdrowie()<<endl;

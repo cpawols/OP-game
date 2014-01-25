@@ -3,9 +3,14 @@
 /*
  * TROLOLOLO
  */
+Plansza::Plansza()
+{
+	plansza = new Pole* [100];
+}
 
 Pole::Pole()
 {
+	
 }
 
 Pole::~Pole()

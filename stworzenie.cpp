@@ -228,6 +228,7 @@ void Milosz::kup(const vector <Przedmiot>)
 Poszukiwacz::Poszukiwacz()
 :Inteligentne()
 {
+	zbroja.ustaw_klase_zbroi(wylosuj(0,100));
 	prezent.ustaw_prezent(0); //ustawia wszystkim poszukiwaczom brak prezentu.
 }
 
