@@ -11,7 +11,8 @@ int main()
   
 	Plansza p;
 	p.wczytaj();
-	p.wypisz();
+// 	p.wypisz();
+// // 	*/
 // 	Milosz milosz;
 // 	Agresywny agresywny;
 // 	Poszukiwacz poszukiwacz;

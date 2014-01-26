@@ -22,6 +22,7 @@ public:
 	int dzialaj(Stworzenie &stworzenie) ; //koszt przejscia po danym polu, obrażenie, zabicie
 	virtual bool czy_mozna_wejsc() const = 0;
 	virtual bool czy_smiertelne() const;
+	virtual char jakie_pole() const = 0;
 	virtual int ruch() const = 0; //zwraca liczbe punktow ruchu potrzebych do wejscia na to pole
 	virtual int obrazenie() const;
 	
@@ -37,7 +38,7 @@ class Dozwolone : public Pole {
 public:	
 	Dozwolone();
 	virtual ~Dozwolone();
-	virtual	bool czy_mozna_wejsc() const; 		//juz nic nie chce przedefiniowac bo wszystko wiem
+	virtual	bool czy_mozna_wejsc() const; 			//juz nic nie chce przedefiniowac bo wszystko wiem
 	
 };
 
@@ -54,6 +55,7 @@ public:
 	Trawa();
 	virtual ~Trawa();
 	int ruch() const;
+	char jakie_pole() const;
 	
 };
 
@@ -63,6 +65,7 @@ public:
 	virtual ~Rzeka();
 	int ruch() const;
 	int obrazenie() const;
+	char jakie_pole() const;
 	
 };
 
@@ -71,6 +74,7 @@ public:
 	Jaskinia();
 	virtual ~Jaskinia();
 	int ruch() const;
+	char jakie_pole() const;
 	
 };
 
@@ -78,6 +82,7 @@ class Bagna : public Dozwolone{
 public:
 	Bagna();
 	virtual ~Bagna();
+	virtual char jakie_pole() const;
 	
 };
 
@@ -87,6 +92,7 @@ public:
 	virtual ~Bagna_lagodne();
 	int ruch() const;
 	int obrazenie() const;
+	char jakie_pole() const;
 	
 };
 
@@ -96,6 +102,7 @@ public:
 	virtual ~Bagna_smiertelne();
 	bool czy_smiertelne() const;
 	int ruch() const;
+	char jakie_pole() const;
 };
 
 class Droga : public Dozwolone{
@@ -103,7 +110,7 @@ public:
 	Droga();
 	virtual ~Droga();
 	int ruch() const;
-// 	int obrazenie() const;
+	char jakie_pole() const;
 };
 
 class Gory : public  Dozwolone{
@@ -112,6 +119,7 @@ public:
 	virtual ~Gory();
 	int ruch() const;
 	int obrazenie() const;
+	char jakie_pole() const;
 
 };
 
@@ -120,6 +128,7 @@ public:
 	Skaly();
 	virtual ~Skaly();
 	int ruch() const;
+	char jakie_pole() const;
 };
 
 #endif

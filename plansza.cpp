@@ -118,64 +118,76 @@ Skaly::~Skaly()
 
 void Plansza::wczytaj()
 {
-	int dl,sz;
-	plansza = new Pole*[dl*sz + dl + sz +1];
-	scanf("%d%d",&dl,&sz); //wczytuje wymiary planszy
-	for(int i = 0; i < dl; ++i)
+ 	FILE *plik;
+ 	plik = fopen("plansz_m.txt","r");
+ 	int dl,sz;
+  	fscanf(plik," %d%d",&dl,&sz);
+	
+	
+ 	plansza = new Pole*[dl*sz + dl + sz +1];
+	for(int i = 0; i < dl * sz; ++i)
 	{
-		for(int j = 0; j < sz; ++j)
-		{
 			char tmp;
-			scanf("%c",&tmp);	
+			fscanf(plik," %c",&tmp);	
 			switch(tmp)
 			{
 			case '#':
-				plansza[i+j] = new Skaly;
+				plansza[ i ] = new Skaly;
 				break;
  			case '^':
- 				plansza[ i + j ] = new Gory;
+ 				plansza[ i ] = new Gory;
 				break;
  			case '&':
 				if( wylosuj(1,100)%7 )
 				{
-					plansza[ i + j ] = new Bagna_lagodne;
+					plansza[ i ] = new Bagna_lagodne;
 					break;
 				}
 				else
 				{
-					plansza[ i + j ] = new Bagna_smiertelne;
+					plansza[ i ] = new Bagna_smiertelne;
 					break;
 				}
  				
  			case '.':
- 				plansza[ i + j ] = new Trawa;
+ 				plansza[ i ] = new Trawa;
+				break;
  			case '=':
- 				plansza[ i + j ] = new Droga;
+ 				plansza[ i ] = new Droga;
  				break;
 			case '~':
-				plansza[ i + j ] = new Rzeka;
+				plansza[ i ] = new Rzeka;
 				break;
 			case '$':
-				plansza[ i + j ] = new Jaskinia;
+				plansza[ i ] = new Jaskinia;
 				break;
 			case '*':
-				plansza[ i + j ] = new Jaskinia;
+				plansza[ i ] = new Jaskinia;
 				break;
 			}			
-		}
 	}
+	while(!feof(plik))
+	{
+		char temp1;
+		int temp2,temp3;
+		fscanf(plik," %c %d %d",&temp1,&temp2,&temp3); 
+	}
+	
 }
+
 
 void Plansza::wypisz() const
 {
-	for(int i = 0; i < 5; ++i)
+	for(int i = 0; i < 25; ++i)
 	{
-		for(int j = 0; j < 5; ++j)
-		{
-			if(*plansza[ i + j] == '&')
-				printf("&");
-		}
-		printf("\n");
+		
+			cout<<plansza[i]->jakie_pole(); 
+			if((i+6)%5 == 0)
+			 cout<<endl;
+// 			cout<<*plansza[i+j]<<endl;
+// 			if(*pole[ i + j] == '.')
+// 				printf("&");
+
 	}
 	
 }
@@ -195,10 +207,20 @@ int Trawa::ruch() const
 {
 	return 2;
 }
+char Trawa::jakie_pole() const
+{
+	return '.';
+}
+
 
 int Rzeka::ruch() const
 {
 	return 8;
+}
+
+char Rzeka::jakie_pole() const
+{
+	return '~';
 }
 
 int Jaskinia::ruch() const
@@ -206,9 +228,20 @@ int Jaskinia::ruch() const
 	return 3;
 }
 
+char Jaskinia::jakie_pole() const
+{
+	return '*';
+}
+
+
 int Bagna_lagodne::ruch() const
 {
 	return 7;
+}
+
+char Bagna::jakie_pole() const
+{
+	
 }
 
 int Bagna_smiertelne::ruch() const
@@ -216,9 +249,19 @@ int Bagna_smiertelne::ruch() const
 	return 1;
 }
 
+char Bagna_smiertelne::jakie_pole() const
+{
+	return '&';
+}
+
 int Skaly::ruch() const
 {
 	return 12;
+}
+
+char Skaly::jakie_pole() const
+{
+	return '#';
 }
 
 int Rzeka::obrazenie() const
@@ -231,9 +274,19 @@ int Bagna_lagodne::obrazenie() const
 	return 8;
 }
 
+char Bagna_lagodne::jakie_pole() const
+{
+	return '&';
+}
+
 int Droga::ruch() const
 {
 	return 1;
+}
+
+char Droga::jakie_pole() const
+{
+	return '=';
 }
 
 int Gory::ruch() const
@@ -245,6 +298,16 @@ int Gory::obrazenie() const
 {
 	return 8;
 }
+
+char Gory::jakie_pole() const
+{
+	return '^';
+}
+
+/*char Pole::jakie_pole() const
+{
+	
+}*/
 
 int Pole::obrazenie() const
 {
