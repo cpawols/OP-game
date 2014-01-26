@@ -9,7 +9,9 @@ using namespace std;
 int main()
 {
   
-	
+	Plansza p;
+	p.wczytaj();
+	p.wypisz();
 // 	Milosz milosz;
 // 	Agresywny agresywny;
 // 	Poszukiwacz poszukiwacz;

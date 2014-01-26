@@ -16,6 +16,8 @@ class Stworzenie;
 class Inteligentne;
 class Prymitywne;
 class Pole;
+// int dl,sz;
+int wylosuj(int a, int b);
 
 class Stworzenie{
 	

@@ -7,6 +7,7 @@ class Pole;
 class Stworzenie;
 
 class Plansza{
+public:
 	Plansza();
 	Pole** plansza;					//wskaznik na tablice jednowymiarwa
 	void wczytaj();

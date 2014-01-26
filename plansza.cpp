@@ -118,35 +118,66 @@ Skaly::~Skaly()
 
 void Plansza::wczytaj()
 {
-	int n,m;
-	plansza = new Pole*[n*m + n + m +1];
-	scanf("%d%d",&n,&m); //wczytuje wymiary planszy
-	for(int i = 0; i < n; ++i)
+	int dl,sz;
+	plansza = new Pole*[dl*sz + dl + sz +1];
+	scanf("%d%d",&dl,&sz); //wczytuje wymiary planszy
+	for(int i = 0; i < dl; ++i)
 	{
-		for(int j = 0; j < m; ++j)
+		for(int j = 0; j < sz; ++j)
 		{
 			char tmp;
-			cin>>tmp;
+			scanf("%c",&tmp);	
 			switch(tmp)
 			{
 			case '#':
-				*plansza[ i + j ] = Skaly();
+				plansza[i+j] = new Skaly;
 				break;
  			case '^':
- 				*plansza[ i + j ] = Gory();
+ 				plansza[ i + j ] = new Gory;
 				break;
  			case '&':
-//  				*plansza[ i + j ] = Bagna();
- 				break;
+				if( wylosuj(1,100)%7 )
+				{
+					plansza[ i + j ] = new Bagna_lagodne;
+					break;
+				}
+				else
+				{
+					plansza[ i + j ] = new Bagna_smiertelne;
+					break;
+				}
+ 				
  			case '.':
- 				*plansza[ i + j ] = Trawa();
+ 				plansza[ i + j ] = new Trawa;
  			case '=':
- 				*plansza[ i + j ] = Droga();
+ 				plansza[ i + j ] = new Droga;
  				break;
-			}	
-					
+			case '~':
+				plansza[ i + j ] = new Rzeka;
+				break;
+			case '$':
+				plansza[ i + j ] = new Jaskinia;
+				break;
+			case '*':
+				plansza[ i + j ] = new Jaskinia;
+				break;
+			}			
 		}
 	}
+}
+
+void Plansza::wypisz() const
+{
+	for(int i = 0; i < 5; ++i)
+	{
+		for(int j = 0; j < 5; ++j)
+		{
+			if(*plansza[ i + j] == '&')
+				printf("&");
+		}
+		printf("\n");
+	}
+	
 }
 
 
