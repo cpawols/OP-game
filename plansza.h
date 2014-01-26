@@ -9,6 +9,7 @@ class Stworzenie;
 class Plansza{
 	Plansza();
 	Pole** plansza;					//wskaznik na tablice jednowymiarwa
+	void wczytaj();
 	void wypisz() const;
 };
 
@@ -55,7 +56,7 @@ public:
 	
 };
 
-class Rzeka:public Dozwolone{
+class Rzeka : public Dozwolone{
 public:
 	Rzeka();
 	virtual ~Rzeka();
@@ -64,7 +65,7 @@ public:
 	
 };
 
-class Jaskinia:public Dozwolone{
+class Jaskinia : public Dozwolone{
 public:	
 	Jaskinia();
 	virtual ~Jaskinia();
@@ -72,14 +73,14 @@ public:
 	
 };
 
-class Bagna:public Dozwolone{
+class Bagna : public Dozwolone{
 public:
 	Bagna();
 	virtual ~Bagna();
 	
 };
 
-class Bagna_lagodne:public Bagna{
+class Bagna_lagodne : public Bagna{
 public:	
 	Bagna_lagodne();
 	virtual ~Bagna_lagodne();
@@ -94,6 +95,23 @@ public:
 	virtual ~Bagna_smiertelne();
 	bool czy_smiertelne() const;
 	int ruch() const;
+};
+
+class Droga : public Dozwolone{
+public:
+	Droga();
+	virtual ~Droga();
+	int ruch() const;
+// 	int obrazenie() const;
+};
+
+class Gory : public  Dozwolone{
+public:
+	Gory();
+	virtual ~Gory();
+	int ruch() const;
+	int obrazenie() const;
+
 };
 
 class Skaly:public Zakazane{

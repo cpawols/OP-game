@@ -89,6 +89,24 @@ Bagna_smiertelne::~Bagna_smiertelne()
 {
 }
 
+Droga::Droga()
+{
+}
+
+Droga::~Droga()
+{
+}
+
+Gory::Gory()
+{
+	
+}
+
+Gory::~Gory()
+{
+	
+}
+
 Skaly::Skaly()
 :Zakazane()
 {
@@ -96,6 +114,39 @@ Skaly::Skaly()
 
 Skaly::~Skaly()
 {
+}
+
+void Plansza::wczytaj()
+{
+	int n,m;
+	plansza = new Pole*[n*m + n + m +1];
+	scanf("%d%d",&n,&m); //wczytuje wymiary planszy
+	for(int i = 0; i < n; ++i)
+	{
+		for(int j = 0; j < m; ++j)
+		{
+			char tmp;
+			cin>>tmp;
+			switch(tmp)
+			{
+			case '#':
+				*plansza[ i + j ] = Skaly();
+				break;
+ 			case '^':
+ 				*plansza[ i + j ] = Gory();
+				break;
+ 			case '&':
+//  				*plansza[ i + j ] = Bagna();
+ 				break;
+ 			case '.':
+ 				*plansza[ i + j ] = Trawa();
+ 			case '=':
+ 				*plansza[ i + j ] = Droga();
+ 				break;
+			}	
+					
+		}
+	}
 }
 
 
@@ -145,6 +196,21 @@ int Rzeka::obrazenie() const
 }
 
 int Bagna_lagodne::obrazenie() const
+{
+	return 8;
+}
+
+int Droga::ruch() const
+{
+	return 1;
+}
+
+int Gory::ruch() const
+{
+	return 18;
+}
+
+int Gory::obrazenie() const
 {
 	return 8;
 }
