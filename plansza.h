@@ -12,6 +12,8 @@ public:
 	Pole** plansza;					//wskaznik na tablice jednowymiarwa
 	void wczytaj();
 	void wypisz() const;
+private:
+	int dl,sz;
 };
 
 class Pole{

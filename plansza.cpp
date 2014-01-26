@@ -118,78 +118,98 @@ Skaly::~Skaly()
 
 void Plansza::wczytaj()
 {
- 	FILE *plik;
- 	plik = fopen("plansz_m.txt","r");
- 	int dl,sz;
-  	fscanf(plik," %d%d",&dl,&sz);
+	FILE *plik;
+	plik = fopen("mapa_Adam_Zmuda.txt","r");
+ 	int licznik = 0;
+   	fscanf(plik,"%d%d",&sz,&dl);
+
+ 	plansza = new Pole*[dl*sz + dl*2 + sz*2 +4000];
+	int i = 0;
+	for( i = 0; i < sz + 2; i++)
+		plansza[ i ] = new Skaly;
 	
-	
- 	plansza = new Pole*[dl*sz + dl + sz +1];
-	for(int i = 0; i < dl * sz; ++i)
+	for(; i < 2*dl + 2*sz + 4 +dl*sz -sz ; i++)
 	{
-			char tmp;
-			fscanf(plik," %c",&tmp);	
-			switch(tmp)
+			
+			if( licznik == 0 || licznik == sz + 1)
 			{
-			case '#':
 				plansza[ i ] = new Skaly;
-				break;
- 			case '^':
- 				plansza[ i ] = new Gory;
-				break;
- 			case '&':
-				if( wylosuj(1,100)%7 )
+					if(licznik == sz + 1 )
+						licznik = -1;
+			}
+			else
+			{
+				char tmp;
+				fscanf(plik," %c",&tmp);
+				switch(tmp)
 				{
-					plansza[ i ] = new Bagna_lagodne;
+				case '#':
+					plansza[ i ] = new Skaly;
+					break;
+				case '^':
+					plansza[ i ] = new Gory;
+					break;
+				case '&':
+					if( wylosuj(1,100)%7 )
+					{
+						plansza[ i ] = new Bagna_lagodne;
+						break;
+					}
+					else
+					{
+						plansza[ i ] = new Bagna_smiertelne;
+						break;
+					}
+					
+				case '.':
+					plansza[ i ] = new Trawa;
+					break;
+				case '=':
+					plansza[ i ] = new Droga;
+					break;
+				case '~':
+					plansza[ i ] = new Rzeka;
+					break;
+				case '$':
+					plansza[ i ] = new Jaskinia;
+					break;
+				case '*':
+					plansza[ i ] = new Jaskinia;
 					break;
 				}
-				else
-				{
-					plansza[ i ] = new Bagna_smiertelne;
-					break;
-				}
- 				
- 			case '.':
- 				plansza[ i ] = new Trawa;
-				break;
- 			case '=':
- 				plansza[ i ] = new Droga;
- 				break;
-			case '~':
-				plansza[ i ] = new Rzeka;
-				break;
-			case '$':
-				plansza[ i ] = new Jaskinia;
-				break;
-			case '*':
-				plansza[ i ] = new Jaskinia;
-				break;
-			}			
+			}
+			licznik++;
 	}
+	cout<<i<<endl;
+	i-=1;	
+ 	for( ; i < 2*dl + 2*sz + 4 +dl*sz ; i++)
+ 		plansza[ i ] = new Skaly;
+	
 	while(!feof(plik))
 	{
 		char temp1;
 		int temp2,temp3;
-		fscanf(plik," %c %d %d",&temp1,&temp2,&temp3); 
+		fscanf(plik," %c %d %d",&temp1,&temp2,&temp3); 	
 	}
 	
+
 }
 
 
 void Plansza::wypisz() const
 {
-	for(int i = 0; i < 25; ++i)
+	int licznik = 0; 
+	for(int i = 0; i < (dl+2)*(sz+2); i++)
 	{
 		
 			cout<<plansza[i]->jakie_pole(); 
-			if((i+6)%5 == 0)
-			 cout<<endl;
-// 			cout<<*plansza[i+j]<<endl;
-// 			if(*pole[ i + j] == '.')
-// 				printf("&");
-
-	}
-	
+			if(licznik == (sz+1))
+			{	
+				cout<<endl;
+				licznik = -1;
+			}
+			licznik++;
+	}	
 }
 
 

@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cstdio>
 #include "plansza.h"
 #include "przedmioty.h"
 #include "stworzenie.h"
@@ -11,7 +12,7 @@ int main()
   
 	Plansza p;
 	p.wczytaj();
-// 	p.wypisz();
+ 	p.wypisz();
 // // 	*/
 // 	Milosz milosz;
 // 	Agresywny agresywny;
