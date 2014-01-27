@@ -25,6 +25,11 @@ Stworzenie::~Stworzenie()
 {
 }
 
+void Stworzenie::ustaw_pole(int x)
+{
+	
+}
+
 char Stworzenie::jakie_stworzenie() const
 {
 }
@@ -365,6 +370,27 @@ bool Agresywny::czy_atakowac(Stworzenie&) const
 char Agresywny::jakie_stworzenie() const
 {
 	return 'A';
+}
+
+
+char Neutralny::jakie_stworzenie() const
+{
+	return 'N';
+}
+
+bool Neutralny::czy_atakowac(Stworzenie&) const
+{
+	
+}
+
+Neutralny::Neutralny()
+{
+	
+}
+
+Neutralny::~Neutralny()
+{
+	
 }
 
 /*

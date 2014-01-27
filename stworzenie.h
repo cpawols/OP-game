@@ -27,6 +27,7 @@ public:
 	int daj_zdrowie() const;				//zwraca zdrowie danego stworzenia
 	int daj_sile() const;	//zwraca sile danego stworzenia
 	int daj_ruch() const;
+	void ustaw_pole(int x);
 	void ustaw_ruch(int x);
 	void ustaw_sile( int x );				//ustawia sile danego stworzenia
 	void ustaw_zdrowie(int x);				// ustawia zdrowie danego stworzenia

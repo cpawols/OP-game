@@ -21,7 +21,7 @@ Pole::~Pole()
 
 void Pole::postaw(Stworzenie& A)
 {
- 	*stworek =  A;
+  	stworek = &A;
 }
 
 Dozwolone::Dozwolone()
@@ -126,8 +126,9 @@ Skaly::~Skaly()
 void Plansza::wczytaj()
 {
 	FILE *plik;
+	int licznik = 0;
+	
 	plik = fopen("plansza_m.txt","r");
- 	int licznik = 0;
    	fscanf(plik,"%d%d",&sz,&dl);
 
  	plansza = new Pole*[dl*sz + dl*2 + sz*2 +4000];
@@ -187,18 +188,51 @@ void Plansza::wczytaj()
 			}
 			licznik++;
 	}
-	cout<<i<<endl;
-	i-=1;	
- 	for( ; i < 2*dl + 2*sz + 4 +dl*sz ; i++)
+	
+ 	for( i-=1 ; i < 2*dl + 2*sz + 4 +dl*sz ; i++)
  		plansza[ i ] = new Skaly;
+	
+	Stworzenie* stw;
 	
 	while(!feof(plik))
 	{
 		char temp1;
 		int temp2,temp3;
 		fscanf(plik," %c %d %d",&temp1,&temp2,&temp3); 	
+		switch(temp1)
+		{
+			case 'M':
+				stw = new Milosz;
+				break;
+			case 'S':
+				stw = new Sklepikarz;
+				break;
+			case  'Z':
+				stw = new Znachorka;
+				break;
+			case 'B':
+				stw = new Bard;
+				break;
+			case 'P':
+				stw = new Poszukiwacz;
+				break;
+			case 'W':
+				stw = new Wybredne;
+				break;
+			case 'A':
+				stw = new Agresywny;
+				break;
+			case 'T':
+				stw = new Tchorzliwy;
+				break;
+			case 'N':
+ 				stw = new Neutralny;
+				break;
+			
+			plansza[ sz + temp2 + temp3 + 1]->postaw(*stw);
+			delete stw;
+		}
 	}
-
 }
 
 
