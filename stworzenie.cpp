@@ -25,6 +25,9 @@ Stworzenie::~Stworzenie()
 {
 }
 
+char Stworzenie::jakie_stworzenie() const
+{
+}
 
 void Stworzenie::zabierz_ruch( int x )
 {
@@ -140,6 +143,11 @@ void Bard::interakcjuj(Stworzenie&)
 	
 }
 
+char Bard::jakie_stworzenie() const
+{
+	return 'B';
+}
+
 Sklepikarz::Sklepikarz()
 :Inteligentne()
 {
@@ -173,6 +181,11 @@ void Sklepikarz::interakcjuj(Stworzenie&)
 	
 }
 
+char Sklepikarz::jakie_stworzenie() const
+{
+	return 'S';
+}
+
 /*
  * ZNACHORKA
  * */
@@ -199,6 +212,10 @@ void Znachorka::interakcjuj(Poszukiwacz &poszukiwacz)
 	}
 }
 
+char Znachorka::jakie_stworzenie() const
+{
+	return 'Z';
+}
 
 
 Milosz::Milosz()
@@ -223,6 +240,10 @@ void Milosz::kup(const vector <Przedmiot>)
 	
 }
 
+char Milosz::jakie_stworzenie() const
+{
+	return 'M';
+}
 
 
 Poszukiwacz::Poszukiwacz()
@@ -251,9 +272,10 @@ bool Poszukiwacz::daj_prezent() const
 	return prezent.sprawdz_prezent();
 }
 
-
-
-
+char Poszukiwacz::jakie_stworzenie() const
+{
+	return 'P';
+}
 
 
 Prymitywne::Prymitywne()
@@ -277,6 +299,8 @@ void Prymitywne::atakuj(Stworzenie&)
 {
 }
 
+
+
 Wybredne::Wybredne()
 :Prymitywne()
 {
@@ -296,6 +320,11 @@ void Wybredne::atakuj(Stworzenie&)
 	
 }
 
+char Wybredne::jakie_stworzenie() const
+{
+	return 'W';
+}
+
 Tchorzliwy::Tchorzliwy()
 :Prymitywne()
 {
@@ -308,6 +337,11 @@ Tchorzliwy::~Tchorzliwy()
 bool Tchorzliwy::czy_atakowac(Stworzenie&) const
 {
 	
+}
+
+char Tchorzliwy::jakie_stworzenie() const
+{
+	return 'T';
 }
 
 Agresywny::Agresywny()
@@ -326,6 +360,11 @@ Agresywny::~Agresywny()
 bool Agresywny::czy_atakowac(Stworzenie&) const
 {
 	
+}
+
+char Agresywny::jakie_stworzenie() const
+{
+	return 'A';
 }
 
 /*

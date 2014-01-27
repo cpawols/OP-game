@@ -37,6 +37,7 @@ public:
 /*NIE*/	void umrzyj();
 	virtual void interakcjuj(Stworzenie &stworzenie);
 	virtual void atakuj(Stworzenie &stworzenie);
+	virtual char jakie_stworzenie() const;
 // 	
 	//virtual string komunikat(const Stworzenie &stworzenie);				//oddawaie komunikatow przez rozne stworzenia
 	/* METODY TYLKO DO TESTOW
@@ -95,6 +96,7 @@ public:
 	bool daj_prezent() const;
 	void ustaw_prezent(bool x);		//zwracamy te trzy
 	virtual void kup(const vector <Przedmiot> przedmioty);	//kupujemy od sklepikarza
+	virtual char jakie_stworzenie() const;
 	
 	
 protected:
@@ -111,6 +113,7 @@ public:
 	Milosz();
 	virtual ~Milosz();
 	void kup(const vector <Przedmiot> przedmioty);		//przedefiniowac
+	char jakie_stworzenie() const;
 	
 private:
 	
@@ -125,6 +128,7 @@ public:
 	Znachorka();						//spladzamy znachorke
 	virtual ~Znachorka();
 	void interakcjuj(Poszukiwacz &poszukiwacz);
+	char jakie_stworzenie() const;
 // 	string komunikat(const Stworzenie &stworzenie);
 };
 
@@ -135,6 +139,7 @@ public:
 	virtual ~Sklepikarz();
 	void interakcjuj(Stworzenie &stworzenie);		//przedefiniowac na sprzedawanie
 	void dostawa();
+	char jakie_stworzenie() const;
 // 	string komunikat(const Stworzenie &stworzenie);
 	
 };
@@ -145,6 +150,7 @@ public:
 	Bard();
 	virtual ~Bard();
 	void interakcjuj(Stworzenie &stworzenie);
+	char jakie_stworzenie() const;
 // 	string komunikat(const Stworzenie &stworzenie);
 	/*
 	 * Pozostaje problem jak rozwiazac to co Bard nam przekazuje, 
@@ -162,6 +168,7 @@ public:
 	bool czy_atakowac(Stworzenie &stworzenie) const;
 // 	string komunikat(const Stworzenie &stworzenie);
 	void atakuj(Stworzenie &stworzenie);
+	char jakie_stworzenie() const;
 
 };
 
@@ -170,6 +177,7 @@ public:
 	Tchorzliwy();
 	virtual ~Tchorzliwy();
 	bool czy_atakowac(Stworzenie &stworzenie) const;
+	char jakie_stworzenie() const;
 // 	string komunikat(const Stworzenie &stworzenie);
 };
 
@@ -179,6 +187,7 @@ public:
 	Neutralny();
 	virtual ~Neutralny();
 	bool czy_atakowac(Stworzenie &stworzenie) const;
+	char jakie_stworzenie() const;
 // 	string komunikat(const Stworzenie &stworzenie);
 };
 
@@ -187,5 +196,6 @@ public:
 	Agresywny();
 	virtual ~Agresywny();
 	bool czy_atakowac(Stworzenie &stworzenie) const;
+	char jakie_stworzenie() const;
 // 	string komunikat(const Stworzenie &stworzenie);
 };
