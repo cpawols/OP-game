@@ -35,6 +35,7 @@ public:
 	void zadaj_obrazenie(int x);
  	void uderz(Stworzenie&); 	//odpowiedzialna za zadawanie obrażeń.
 /*NIE*/	void umrzyj();
+
 	virtual void interakcjuj(Stworzenie &stworzenie);
 	virtual void atakuj(Stworzenie &stworzenie);
 	virtual char jakie_stworzenie() const;

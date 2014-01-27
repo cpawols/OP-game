@@ -13,7 +13,9 @@ public:
 	void wczytaj();
 	void wypisz() const;
 private:
-	int dl,sz;
+	int dl;
+	int sz;
+	
 };
 
 class Pole{
@@ -27,6 +29,7 @@ public:
 	virtual char jakie_pole() const = 0;
 	virtual int ruch() const = 0; //zwraca liczbe punktow ruchu potrzebych do wejscia na to pole
 	virtual int obrazenie() const;
+	void postaw(Stworzenie&);
 	
 protected:
 	int x;		

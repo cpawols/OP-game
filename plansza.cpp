@@ -14,7 +14,14 @@ Pole::Pole()
 }
 
 Pole::~Pole()
+{/*
+	 * 
+	 * */
+}
+
+void Pole::postaw(Stworzenie& A)
 {
+ 	*stworek =  A;
 }
 
 Dozwolone::Dozwolone()
@@ -119,7 +126,7 @@ Skaly::~Skaly()
 void Plansza::wczytaj()
 {
 	FILE *plik;
-	plik = fopen("mapa_Adam_Zmuda.txt","r");
+	plik = fopen("plansza_m.txt","r");
  	int licznik = 0;
    	fscanf(plik,"%d%d",&sz,&dl);
 
@@ -191,7 +198,6 @@ void Plansza::wczytaj()
 		int temp2,temp3;
 		fscanf(plik," %c %d %d",&temp1,&temp2,&temp3); 	
 	}
-	
 
 }
 
