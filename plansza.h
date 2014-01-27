@@ -30,12 +30,13 @@ public:
 	virtual int ruch() const = 0; //zwraca liczbe punktow ruchu potrzebych do wejscia na to pole
 	virtual int obrazenie() const;
 	void postaw(Stworzenie&);
+	char oddaj() const;
 	
 protected:
 	int x;		
 	int y;
 	int koszt_przejscia;
-	Stworzenie *stworek;				//aby bylo wiadomo jaki stworek jest na polu
+	Stworzenie* stworek;				//aby bylo wiadomo jaki stworek jest na polu
 	
 };
 

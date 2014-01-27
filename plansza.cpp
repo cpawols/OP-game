@@ -236,12 +236,20 @@ void Plansza::wczytaj()
 }
 
 
+char Pole::oddaj() const
+{
+	return stworek->jakie_stworzenie();
+}
+
 void Plansza::wypisz() const
 {
 	int licznik = 0; 
 	for(int i = 0; i < (dl+2)*(sz+2); i++)
 	{
-		
+// 		plansza[i]->stworek->jakie_stworzenie();
+			cout<<plansza[i]->oddaj() <<endl;
+// 				cout<<"M";
+// 			else
 			cout<<plansza[i]->jakie_pole(); 
 			if(licznik == (sz+1))
 			{	
