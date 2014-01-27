@@ -134,9 +134,10 @@ void Plansza::wczytaj()
  	plansza = new Pole*[dl*sz + dl*2 + sz*2 +4000];
 	int i = 0;
 	for( i = 0; i < sz + 2; i++)
+	{
 		plansza[ i ] = new Skaly;
-	
-	for(; i < 2*dl + 2*sz + 4 +dl*sz -sz ; i++)
+	}
+	for(; i < 2*dl + 2*sz + 4 + dl*sz -sz -1 ; i++)
 	{
 			
 			if( licznik == 0 || licznik == sz + 1)
@@ -187,11 +188,15 @@ void Plansza::wczytaj()
 				}
 			}
 			licznik++;
+     			plansza[ i ]->usun();
+			
 	}
 	
- 	for( i-=1 ; i < 2*dl + 2*sz + 4 +dl*sz ; i++)
+ 	for( i = (sz + 2)*(dl + 1)  ; i < 2*dl + 2*sz + 4 +dl*sz ; i++)
+	{
  		plansza[ i ] = new Skaly;
-	
+ 		plansza[ i ]->usun();
+	}
 	Stworzenie* stw;
 	
 	while(!feof(plik))
@@ -229,8 +234,8 @@ void Plansza::wczytaj()
  				stw = new Neutralny;
 				break;
 			
-			plansza[ sz + temp2 + temp3 + 1]->postaw(*stw);
-			delete stw;
+			plansza[ (sz + 2)*temp3 + temp2 ]->postaw(*stw);
+// 			delete stw;
 		}
 	}
 }
@@ -238,19 +243,34 @@ void Plansza::wczytaj()
 
 char Pole::oddaj() const
 {
+//  	cout<<"ySNDJSKDSIJes"<<endl;
 	return stworek->jakie_stworzenie();
+	
+}
+
+void Pole::usun()
+{
+ 	stworek = nullptr;
+}
+
+bool Pole::spr() const
+{
+	if(stworek == nullptr)
+		return false;
+	return true;
 }
 
 void Plansza::wypisz() const
 {
+	char u = plansza[10]->oddaj();
+// 	cout<<u<<endl;
 	int licznik = 0; 
 	for(int i = 0; i < (dl+2)*(sz+2); i++)
 	{
-// 		plansza[i]->stworek->jakie_stworzenie();
-			cout<<plansza[i]->oddaj() <<endl;
-// 				cout<<"M";
-// 			else
-			cout<<plansza[i]->jakie_pole(); 
+			if(plansza[i]->spr())
+				cout<<plansza[i]->oddaj();
+			else
+				cout<<plansza[i]->jakie_pole(); 
 			if(licznik == (sz+1))
 			{	
 				cout<<endl;

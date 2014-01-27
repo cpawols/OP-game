@@ -30,6 +30,8 @@ public:
 	virtual int ruch() const = 0; //zwraca liczbe punktow ruchu potrzebych do wejscia na to pole
 	virtual int obrazenie() const;
 	void postaw(Stworzenie&);
+	void usun();
+	bool spr() const;
 	char oddaj() const;
 	
 protected:
