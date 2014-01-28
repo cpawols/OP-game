@@ -57,7 +57,7 @@ protected:							//konieczie protected bo prawie wszystko dziedziczy po tym
 	Bron bron;
 	Zbroja zbroja;
 	Prezent prezent;
-	Pole *polozenie; 
+	Pole *polozenie;
 	queue <string> infrmacje;				//do dodawania komunikatw
 };
 

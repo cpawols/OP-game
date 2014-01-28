@@ -128,9 +128,12 @@ void Plansza::wczytaj()
 	FILE *plik;
 	int licznik = 0;
 	
-	plik = fopen("plansza_m.txt","r");
+	plik = fopen("mapa_Adam_Zmuda.txt","r");
    	fscanf(plik,"%d%d",&sz,&dl);
-
+	/*int pom = sz;
+	sz = dl;
+	dl = pom;
+*/
  	plansza = new Pole*[dl*sz + dl*2 + sz*2 +4000];
 	int i = 0;
 	for( i = 0; i < sz + 2; i++)
@@ -203,39 +206,48 @@ void Plansza::wczytaj()
 	{
 		char temp1;
 		int temp2,temp3;
-		fscanf(plik," %c %d %d",&temp1,&temp2,&temp3); 	
+		fscanf(plik,"%c%d%d",&temp1,&temp3,&temp2);
+		
 		switch(temp1)
 		{
 			case 'M':
 				stw = new Milosz;
+				plansza[ (sz + 2)*temp3 + temp2 ]->postaw(*stw);
 				break;
 			case 'S':
 				stw = new Sklepikarz;
+				plansza[ (sz + 2)*temp3 + temp2 ]->postaw(*stw);
 				break;
 			case  'Z':
 				stw = new Znachorka;
+				plansza[ (sz + 2)*temp3 + temp2 ]->postaw(*stw);
 				break;
 			case 'B':
 				stw = new Bard;
+				plansza[ (sz + 2)*temp3 + temp2 ]->postaw(*stw);
 				break;
 			case 'P':
 				stw = new Poszukiwacz;
+				plansza[ (sz + 2)*temp3 + temp2 ]->postaw(*stw);
 				break;
 			case 'W':
 				stw = new Wybredne;
+				plansza[ (sz + 2)*temp3 + temp2 ]->postaw(*stw);
 				break;
 			case 'A':
 				stw = new Agresywny;
+				plansza[ (sz + 2)*temp3 + temp2 ]->postaw(*stw);
 				break;
 			case 'T':
 				stw = new Tchorzliwy;
+				plansza[ (sz + 2)*temp3 + temp2 ]->postaw(*stw);
 				break;
 			case 'N':
  				stw = new Neutralny;
+				plansza[ (sz + 2)*temp3 + temp2 ]->postaw(*stw);
 				break;
 			
-			plansza[ (sz + 2)*temp3 + temp2 ]->postaw(*stw);
-// 			delete stw;
+ 			delete stw;
 		}
 	}
 }
@@ -243,9 +255,7 @@ void Plansza::wczytaj()
 
 char Pole::oddaj() const
 {
-//  	cout<<"ySNDJSKDSIJes"<<endl;
-	return stworek->jakie_stworzenie();
-	
+	return stworek->jakie_stworzenie();	
 }
 
 void Pole::usun()
@@ -262,11 +272,9 @@ bool Pole::spr() const
 
 void Plansza::wypisz() const
 {
-	char u = plansza[10]->oddaj();
-// 	cout<<u<<endl;
 	int licznik = 0; 
 	for(int i = 0; i < (dl+2)*(sz+2); i++)
-	{
+	{ 			
 			if(plansza[i]->spr())
 				cout<<plansza[i]->oddaj();
 			else

@@ -247,7 +247,7 @@ void Milosz::kup(const vector <Przedmiot>)
 
 char Milosz::jakie_stworzenie() const
 {
-	cout<<"DUPA"<<endl;
+// 	cout<<"/*DUP*/A"<<endl;
 	return 'M';
 }
 
