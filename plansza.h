@@ -1,5 +1,7 @@
 #ifndef PLANSZA_H
 #define PLANSZA_H
+#include "stworzenie.h"
+
 /*
  * Interakcjuj ma byc odpowiedzialne glownie za "odbieranie" punktow sily za ruch po danym polu
  * */
@@ -7,19 +9,25 @@ class Pole;
 class Stworzenie;
 
 class Plansza{
+	friend class Stworzenie;
 public:
 	Plansza();
 	Pole** plansza;					//wskaznik na tablice jednowymiarwa
 	void wczytaj();
 	void wypisz() const;
+	void rusz_milosza();
+	void rusz_reszte();
 private:
+	Milosz* milosz;
+	vector<int> stwory;
 	int dl;
 	int sz;
 	
 };
 
 class Pole{
-
+	friend class Stworzenie;
+	
 public:
 	Pole();
 	virtual ~Pole();
@@ -29,6 +37,7 @@ public:
 	virtual char jakie_pole() const = 0;
 	virtual int ruch() const = 0; //zwraca liczbe punktow ruchu potrzebych do wejscia na to pole
 	virtual int obrazenie() const;
+// 	void rusz_milosz();
 	void postaw(Stworzenie&);
 	void usun();
 	bool spr() const;
@@ -38,7 +47,7 @@ protected:
 	int x;		
 	int y;
 	int koszt_przejscia;
-	Stworzenie* stworek;				//aby bylo wiadomo jaki stworek jest na polu
+	Stworzenie* stworek;	
 	
 };
 

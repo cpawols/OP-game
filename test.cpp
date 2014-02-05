@@ -9,10 +9,17 @@ using namespace std;
 
 int main()
 {
-  
+// 	Skaly S;
+// 	cout<<S.czy_mozna_wejsc()<<endl;
 	Plansza p;
  	p.wczytaj();
-  	p.wypisz();
+	p.wypisz();
+	while(1)
+	{	
+ 	p.rusz_milosza();
+// 	p.rusz_reszte();
+	p.wypisz();
+	}
 // // 	*/
 // 	Milosz milosz;
 // 	Agresywny agresywny;

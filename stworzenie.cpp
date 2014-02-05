@@ -1,8 +1,7 @@
 #include <cassert>
 #include <random>
-// #include <boost>
 #include "stworzenie.h"
-
+#include "plansza.h"
 
 
 int wylosuj(int a, int b) 
@@ -27,7 +26,7 @@ Stworzenie::~Stworzenie()
 
 void Stworzenie::ustaw_pole(int x)
 {
-	
+	po = x;
 }
 
 char Stworzenie::jakie_stworzenie() const
@@ -59,13 +58,26 @@ void Stworzenie::uderz( Stworzenie&  A)
 	cout<<(sila * (zdrowie / 100) * 
 	(1 + bron.daj_klase_broni())+(1-A.zbroja.daj_klase_zbroi()))<<endl;
 	*/
-	cout<<"Z "<<zdrowie<<endl;
+// 	cout<<"Z "<<zdrowie<<endl;
 	int k = 30;
 	
 	cout<< float(k/4) <<endl;
-	cout<<"Dupa"<< float(zdrowie/100) <<endl;
+// 	cout<<"Dupa"<< float(zdrowie/100) <<endl;
 	A.zadaj_obrazenie( int(sila * float((zdrowie / 100)) * 
 	(1 + bron.daj_klase_broni())*(1-A.zbroja.daj_klase_zbroi())) );
+}
+
+/*void Stworzenie::rusz()
+{
+//  	Milosz->ustaw_ruch(2);
+	
+}*/
+
+
+
+int Stworzenie::daj_pole() const
+{
+		return po;
 }
 
 void Stworzenie::umrzyj()
@@ -206,6 +218,7 @@ Znachorka::Znachorka()
 
 Znachorka::~Znachorka()
 {
+	
 }
 
 void Znachorka::interakcjuj(Poszukiwacz &poszukiwacz)
@@ -229,7 +242,7 @@ Milosz::Milosz()
 	
 	ustaw_zdrowie(30);
 	ustaw_sile(100);
-	ustaw_ruch(430);
+	ustaw_ruch(100);
 	zbroja.ustaw_klase_zbroi(wylosuj(0,100));
 	bron.ustaw_klase_broni(wylosuj(0,100));
 // 	cout<<"Klasa broni w konstruktorze milosz" <<bron.daj_klase_broni()<<endl;

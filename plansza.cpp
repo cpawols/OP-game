@@ -128,12 +128,9 @@ void Plansza::wczytaj()
 	FILE *plik;
 	int licznik = 0;
 	
-	plik = fopen("mapa_Adam_Zmuda.txt","r");
+	plik = fopen("pl.txt","r");
    	fscanf(plik,"%d%d",&sz,&dl);
-	/*int pom = sz;
-	sz = dl;
-	dl = pom;
-*/
+
  	plansza = new Pole*[dl*sz + dl*2 + sz*2 +4000];
 	int i = 0;
 	for( i = 0; i < sz + 2; i++)
@@ -211,46 +208,69 @@ void Plansza::wczytaj()
 		switch(temp1)
 		{
 			case 'M':
-				stw = new Milosz;
-				plansza[ (sz + 2)*temp3 + temp2 ]->postaw(*stw);
+ 				milosz= new Milosz;
+ 				plansza[ (sz + 2)*temp3 + temp2 ]->postaw(*milosz);
+ 				milosz->ustaw_pole((sz + 2)*temp3 + temp2);
 				break;
 			case 'S':
 				stw = new Sklepikarz;
 				plansza[ (sz + 2)*temp3 + temp2 ]->postaw(*stw);
+				stw->ustaw_pole((sz + 2)*temp3 + temp2);
+				stwory.push_back((sz + 2)*temp3 + temp2);
 				break;
 			case  'Z':
 				stw = new Znachorka;
 				plansza[ (sz + 2)*temp3 + temp2 ]->postaw(*stw);
+				stw->ustaw_pole((sz + 2)*temp3 + temp2);
+				stwory.push_back((sz + 2)*temp3 + temp2);
 				break;
 			case 'B':
 				stw = new Bard;
 				plansza[ (sz + 2)*temp3 + temp2 ]->postaw(*stw);
+				stw->ustaw_pole((sz + 2)*temp3 + temp2);
+				stwory.push_back((sz + 2)*temp3 + temp2);
 				break;
 			case 'P':
 				stw = new Poszukiwacz;
 				plansza[ (sz + 2)*temp3 + temp2 ]->postaw(*stw);
+				stw->ustaw_pole((sz + 2)*temp3 + temp2);
+				stwory.push_back((sz + 2)*temp3 + temp2);
 				break;
 			case 'W':
 				stw = new Wybredne;
 				plansza[ (sz + 2)*temp3 + temp2 ]->postaw(*stw);
+				stw->ustaw_pole((sz + 2)*temp3 + temp2);
+				stwory.push_back((sz + 2)*temp3 + temp2);
 				break;
 			case 'A':
 				stw = new Agresywny;
 				plansza[ (sz + 2)*temp3 + temp2 ]->postaw(*stw);
+				stw->ustaw_pole((sz + 2)*temp3 + temp2);
+				stwory.push_back((sz + 2)*temp3 + temp2);
 				break;
 			case 'T':
 				stw = new Tchorzliwy;
 				plansza[ (sz + 2)*temp3 + temp2 ]->postaw(*stw);
+				stw->ustaw_pole((sz + 2)*temp3 + temp2);
+				stwory.push_back((sz + 2)*temp3 + temp2);
 				break;
 			case 'N':
  				stw = new Neutralny;
 				plansza[ (sz + 2)*temp3 + temp2 ]->postaw(*stw);
-				break;
+				stw->ustaw_pole((sz + 2)*temp3 + temp2);
+				stwory.push_back((sz + 2)*temp3 + temp2);
+					break;
 			
  			delete stw;
 		}
 	}
 }
+
+void Plansza::rusz_reszte()
+{
+		
+}
+
 
 
 char Pole::oddaj() const
@@ -274,7 +294,7 @@ void Plansza::wypisz() const
 {
 	int licznik = 0; 
 	for(int i = 0; i < (dl+2)*(sz+2); i++)
-	{ 			
+	{			
 			if(plansza[i]->spr())
 				cout<<plansza[i]->oddaj();
 			else
@@ -287,6 +307,56 @@ void Plansza::wypisz() const
 			licznik++;
 	}	
 }
+
+void Plansza::rusz_milosza()
+{
+	cout<<milosz->daj_ruch()<<endl;
+	
+	char kierunek;
+	cin>>kierunek;
+	int x;
+	
+ 	switch(kierunek)
+ 	{
+ 		case('p'):
+				x = 1;
+				break;
+		case('l'):
+				x = -1;
+				break;
+		case('g'):
+				x = -dl-2;
+				break;
+		case('d'):
+				x = dl+2;
+				break;
+ 	}
+ 	
+ 	if(
+		plansza[ milosz->daj_pole()+x]->czy_mozna_wejsc() == true 
+		&& plansza[ milosz->daj_pole() + x ]->spr() == false
+	)
+	{
+			plansza[milosz->daj_pole()+x]->dzialaj(*milosz);
+			if(milosz->daj_zdrowie()==0)
+			{
+				milosz->umrzyj();
+				cout<<"Koniec gry"<<endl;
+			}
+			milosz->ustaw_pole(milosz->daj_pole() + x);
+			plansza[milosz->daj_pole()]->postaw(*milosz);
+			plansza[milosz->daj_pole() - x ]->usun();
+	}
+	else
+		if(plansza[ milosz->daj_pole() + x ]->spr() == true)
+		{
+			/*
+			 * Dopisac co sie tu bedzie dzialo
+			 * */
+		}
+ 		cout<<milosz->daj_ruch()<<endl;
+}
+
 
 
 bool Zakazane::czy_mozna_wejsc() const 

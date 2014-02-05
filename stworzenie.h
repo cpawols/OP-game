@@ -9,6 +9,9 @@
 #include <queue>
 #include "przedmioty.h"
 
+#ifndef STWORZENIE_H
+#define STWORZENIE_H
+
 using namespace std;
 
 class Poszukiwacz;
@@ -16,11 +19,12 @@ class Stworzenie;
 class Inteligentne;
 class Prymitywne;
 class Pole;
-// int dl,sz;
+
 int wylosuj(int a, int b);
 
+
 class Stworzenie{
-	
+
 public:
 	Stworzenie();
 	virtual ~Stworzenie();
@@ -28,10 +32,11 @@ public:
 	int daj_sile() const;	//zwraca sile danego stworzenia
 	int daj_ruch() const;
 	void ustaw_pole(int x);
+	int daj_pole() const;
 	void ustaw_ruch(int x);
 	void ustaw_sile( int x );				//ustawia sile danego stworzenia
 	void ustaw_zdrowie(int x);				// ustawia zdrowie danego stworzenia
-/*NIE*/	void rusz(const Pole &pole);
+// /*NIE*/	void rusz();	//ZMIENIAM TYP
 	void zabierz_ruch(int x);
 	void zadaj_obrazenie(int x);
  	void uderz(Stworzenie&); 	//odpowiedzialna za zadawanie obrażeń.
@@ -50,14 +55,14 @@ public:
 	bool p() const;
 	
 protected:							//konieczie protected bo prawie wszystko dziedziczy po tym
-	
 	int zdrowie;						//zdrowie stworzenia
 	int sila;
 	int punkty_ruchu;
 	Bron bron;
 	Zbroja zbroja;
 	Prezent prezent;
-	Pole *polozenie;
+	int po;
+	Pole *polozenie;	//byc moze nie potrzebne wystarczy int
 	queue <string> infrmacje;				//do dodawania komunikatw
 };
 
@@ -201,3 +206,4 @@ public:
 	char jakie_stworzenie() const;
 // 	string komunikat(const Stworzenie &stworzenie);
 };
+#endif
