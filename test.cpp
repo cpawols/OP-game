@@ -12,6 +12,7 @@ int main()
 // 	Skaly S;
 // 	cout<<S.czy_mozna_wejsc()<<endl;
 	Plansza p;
+	
  	p.wczytaj();
 	p.wypisz();
 	while(1)
@@ -43,7 +44,7 @@ int main()
 //  	cout<<Milosz::zbroja.daj_klase_zbroi()<<endl;
 	
 /*		
-	Znachorka Z;
+	Znachorka Z;	
 	Milosz M;
 	Trawa t;
 	Bagna_lagodne b;

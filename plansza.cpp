@@ -128,7 +128,7 @@ void Plansza::wczytaj()
 	FILE *plik;
 	int licznik = 0;
 	
-	plik = fopen("pl.txt","r");
+	plik = fopen("plansza_m.txt","r");
    	fscanf(plik,"%d%d",&sz,&dl);
 
  	plansza = new Pole*[dl*sz + dl*2 + sz*2 +4000];
