@@ -470,10 +470,6 @@ char Gory::jakie_pole() const
 	return '^';
 }
 
-/*char Pole::jakie_pole() const
-{
-	
-}*/
 
 int Pole::obrazenie() const
 {

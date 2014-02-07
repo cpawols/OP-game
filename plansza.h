@@ -19,7 +19,7 @@ public:
 	void rusz_reszte();
 private:
 	Milosz* milosz;
-	vector<int> stwory;
+	vector<int> stwory;  //tutaj vector <Stworzenie*> 
 	int dl;
 	int sz;
 	
