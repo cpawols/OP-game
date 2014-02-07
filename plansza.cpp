@@ -5,7 +5,7 @@
  */
 Plansza::Plansza()
 {
-	plansza = new Pole* [100];
+	plansza = new Pole* [100000];
 }
 
 Pole::Pole()
@@ -24,10 +24,31 @@ void Pole::postaw(Stworzenie& A)
   	stworek = &A;
 }
 
+char Pole::oddaj() const
+{
+	return stworek->jakie_stworzenie();
+}
+
+void Pole::usun()
+{
+ 	stworek = nullptr;
+}
+
+bool Pole::spr() const
+{
+	if(stworek == nullptr)
+		return false;
+	return true;
+}
+
 Dozwolone::Dozwolone()
 : Pole()
 {
 }
+Dozwolone::~Dozwolone()
+{
+}
+
 Zakazane::Zakazane()
 :Pole()
 {
@@ -37,10 +58,6 @@ Zakazane::~Zakazane()
 {
 }
 
-
-Dozwolone::~Dozwolone()
-{
-}
 
 Trawa::Trawa()
 : Dozwolone()
@@ -128,9 +145,8 @@ void Plansza::wczytaj()
 	FILE *plik;
 	int licznik = 0;
 	
-	plik = fopen("plansza_m.txt","r");
-   	fscanf(plik,"%d%d",&sz,&dl);
-
+	plik = fopen("plansza_dd332083.txt","r");
+   	fscanf(plik,"%d%d",&dl,&sz);
  	plansza = new Pole*[dl*sz + dl*2 + sz*2 +4000];
 	int i = 0;
 	for( i = 0; i < sz + 2; i++)
@@ -198,13 +214,12 @@ void Plansza::wczytaj()
  		plansza[ i ]->usun();
 	}
 	Stworzenie* stw;
-	
 	while(!feof(plik))
 	{
 		char temp1;
 		int temp2,temp3;
 		fscanf(plik,"%c%d%d",&temp1,&temp3,&temp2);
-		
+
 		switch(temp1)
 		{
 			case 'M':
@@ -216,78 +231,55 @@ void Plansza::wczytaj()
 				stw = new Sklepikarz;
 				plansza[ (sz + 2)*temp3 + temp2 ]->postaw(*stw);
 				stw->ustaw_pole((sz + 2)*temp3 + temp2);
-				stwory.push_back((sz + 2)*temp3 + temp2);
+				stwory.push_back(stw);
 				break;
 			case  'Z':
 				stw = new Znachorka;
 				plansza[ (sz + 2)*temp3 + temp2 ]->postaw(*stw);
 				stw->ustaw_pole((sz + 2)*temp3 + temp2);
-				stwory.push_back((sz + 2)*temp3 + temp2);
+				stwory.push_back(stw);
 				break;
 			case 'B':
 				stw = new Bard;
 				plansza[ (sz + 2)*temp3 + temp2 ]->postaw(*stw);
 				stw->ustaw_pole((sz + 2)*temp3 + temp2);
-				stwory.push_back((sz + 2)*temp3 + temp2);
+				stwory.push_back(stw);
 				break;
 			case 'P':
 				stw = new Poszukiwacz;
 				plansza[ (sz + 2)*temp3 + temp2 ]->postaw(*stw);
 				stw->ustaw_pole((sz + 2)*temp3 + temp2);
-				stwory.push_back((sz + 2)*temp3 + temp2);
+				stwory.push_back(stw);
 				break;
 			case 'W':
 				stw = new Wybredne;
 				plansza[ (sz + 2)*temp3 + temp2 ]->postaw(*stw);
 				stw->ustaw_pole((sz + 2)*temp3 + temp2);
-				stwory.push_back((sz + 2)*temp3 + temp2);
+				stwory.push_back(stw);
 				break;
 			case 'A':
 				stw = new Agresywny;
 				plansza[ (sz + 2)*temp3 + temp2 ]->postaw(*stw);
 				stw->ustaw_pole((sz + 2)*temp3 + temp2);
-				stwory.push_back((sz + 2)*temp3 + temp2);
+				stwory.push_back(stw);
 				break;
 			case 'T':
 				stw = new Tchorzliwy;
 				plansza[ (sz + 2)*temp3 + temp2 ]->postaw(*stw);
 				stw->ustaw_pole((sz + 2)*temp3 + temp2);
-				stwory.push_back((sz + 2)*temp3 + temp2);
+				stwory.push_back(stw);
 				break;
 			case 'N':
  				stw = new Neutralny;
 				plansza[ (sz + 2)*temp3 + temp2 ]->postaw(*stw);
 				stw->ustaw_pole((sz + 2)*temp3 + temp2);
-				stwory.push_back((sz + 2)*temp3 + temp2);
+				stwory.push_back(stw);
 					break;
 			
  			delete stw;
+
 		}
 	}
-}
-
-void Plansza::rusz_reszte()
-{
-		
-}
-
-
-
-char Pole::oddaj() const
-{
-	return stworek->jakie_stworzenie();	
-}
-
-void Pole::usun()
-{
- 	stworek = nullptr;
-}
-
-bool Pole::spr() const
-{
-	if(stworek == nullptr)
-		return false;
-	return true;
 }
 
 void Plansza::wypisz() const
@@ -310,8 +302,6 @@ void Plansza::wypisz() const
 
 void Plansza::rusz_milosza()
 {
-	cout<<milosz->daj_ruch()<<endl;
-	
 	char kierunek;
 	cin>>kierunek;
 	int x;
@@ -325,16 +315,15 @@ void Plansza::rusz_milosza()
 				x = -1;
 				break;
 		case('g'):
-				x = -dl-2;
+				x = -sz-2;
 				break;
 		case('d'):
-				x = dl+2;
+				x = sz+2;
 				break;
  	}
- 	
  	if(
-		plansza[ milosz->daj_pole()+x]->czy_mozna_wejsc() == true 
-		&& plansza[ milosz->daj_pole() + x ]->spr() == false
+		plansza[ milosz->daj_pole()+x]->czy_mozna_wejsc()
+		&& !plansza[ milosz->daj_pole() + x ]->spr()
 	)
 	{
 			plansza[milosz->daj_pole()+x]->dzialaj(*milosz);
@@ -348,13 +337,49 @@ void Plansza::rusz_milosza()
 			plansza[milosz->daj_pole() - x ]->usun();
 	}
 	else
-		if(plansza[ milosz->daj_pole() + x ]->spr() == true)
+		if(plansza[ milosz->daj_pole() + x ]->spr())
 		{
 			/*
-			 * Dopisac co sie tu bedzie dzialo
-			 * */
+			 * Dopisać pewnie jakiegos settera
+			 */
 		}
- 		cout<<milosz->daj_ruch()<<endl;
+}
+
+
+void Plansza::rusz_reszte()
+{
+	int x;
+	for(auto stw:stwory)
+	{
+		int kierunek = wylosuj(1,4);
+
+		switch(kierunek)
+		{
+			case(1):
+					x = 1;
+					break;
+			case(2):
+					x = -1;
+					break;
+			case(3):
+					x = -sz - 2;
+					break;
+			case(4):
+					x = sz + 2;
+					break;
+		}
+
+		if(plansza[stw->daj_pole() + x]->czy_mozna_wejsc() &&
+			!plansza[stw->daj_pole()+x]->spr()
+		)
+		{
+			plansza[stw->daj_pole() +x ]->dzialaj(*stw);
+			stw->ustaw_pole(stw->daj_pole() + x);
+			plansza[stw->daj_pole()]->postaw(*stw);
+			plansza[stw->daj_pole() - x ]->usun();
+
+		}
+	}
 }
 
 
