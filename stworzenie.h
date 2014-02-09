@@ -28,56 +28,57 @@ class Stworzenie{
 public:
 	Stworzenie();
 	virtual ~Stworzenie();
-	int daj_zdrowie() const;				//zwraca zdrowie danego stworzenia
-	int daj_sile() const;	//zwraca sile danego stworzenia
+
+	int daj_zdrowie() const;
+	int daj_sile() const;
 	int daj_ruch() const;
-	void ustaw_pole(int x);
 	int daj_pole() const;
+	int daj_bron() const;
+	int daj_zbroje() const;
+
+
+	void ustaw_pole(int x);
 	void ustaw_ruch(int x);
-	void ustaw_sile( int x );				//ustawia sile danego stworzenia
-	void ustaw_zdrowie(int x);				// ustawia zdrowie danego stworzenia
-// /*NIE*/	void rusz();	//ZMIENIAM TYP
+	void ustaw_sile( int x );
+	void ustaw_zdrowie(int x);
+	void ustaw_bron(int x);
+	void ustaw_zbroje(int x);
 	void zabierz_ruch(int x);
 	void zadaj_obrazenie(int x);
- 	void uderz(Stworzenie&); 	//odpowiedzialna za zadawanie obrażeń.
-/*NIE*/	void umrzyj();
+ 	void uderz(Stworzenie&);
+ 	void umrzyj();
 
 	virtual void interakcjuj(Stworzenie &stworzenie);
 	virtual void atakuj(Stworzenie &stworzenie);
 	virtual char jakie_stworzenie() const;
-// 	
+	virtual bool daj_prezent() const;
+	virtual void ustaw_prezent(bool x);
+	virtual void dostawa();
 	//virtual string komunikat(const Stworzenie &stworzenie);				//oddawaie komunikatow przez rozne stworzenia
-	/* METODY TYLKO DO TESTOW
-	 */
 	
-	float z() const;	//daje klase zbroi
-	float b() const;
-	bool p() const;
 	
-protected:							//konieczie protected bo prawie wszystko dziedziczy po tym
-	int zdrowie;						//zdrowie stworzenia
+protected:
+	int zdrowie;
 	int sila;
 	int punkty_ruchu;
+	int po;
 	Bron bron;
 	Zbroja zbroja;
 	Prezent prezent;
-	int po;
-	Pole *polozenie;	//byc moze nie potrzebne wystarczy int
-	queue <string> infrmacje;				//do dodawania komunikatw
+	Pole *polozenie;
+	queue <string> infrmacje;
 };
 
-// class Poszukiwacz;
+
 
 class Inteligentne:public Stworzenie{
 
 public:
 	Inteligentne();
 	virtual ~Inteligentne();
-	virtual void interakcjuj(Stworzenie &stworzenie);	//zmienia mlosza
-// 	virtual string komunikat(const Stworzenie &stworzenie);
-	/*
-	 * Do przedefiniowania w kilku miejscach
-	 * */
+
+	virtual void interakcjuj(Poszukiwacz &stworzenie);
+ 	//virtual string komunikat(const Stworzenie &stworzenie);
 };
 
 
@@ -86,45 +87,42 @@ class Prymitywne:public Stworzenie{
 public:	
 	Prymitywne();
 	virtual ~Prymitywne();
+
 	virtual bool czy_atakowac(Stworzenie &stworzenie) const;
 	virtual void atakuj(Stworzenie &stworzenie);
-	
-// 	virtual string komunikat(const Stworzenie &stworzenie);
+ 	//virtual string komunikat(const Stworzenie &stworzenie);
 };
 
 
 class Poszukiwacz:public Inteligentne{
 	
 public:
-	Poszukiwacz();						//spladzamy poszukiwacza
-	virtual ~Poszukiwacz();//zabijamy poszukiwacza
+	Poszukiwacz();
+	virtual ~Poszukiwacz();
+
 	Zbroja daj_zbroje() const;
-	Bron daj_bron() const;			
-	bool daj_prezent() const;
-	void ustaw_prezent(bool x);		//zwracamy te trzy
-	virtual void kup(const vector <Przedmiot> przedmioty);	//kupujemy od sklepikarza
+	Bron daj_bron() const;
+	void ustaw_prezent(bool x);
+	virtual bool daj_prezent() const;
+	virtual void kup(const vector <Przedmiot> przedmioty);
 	virtual char jakie_stworzenie() const;
-	
-	
-protected:
-	
-	/*Zbroja zbroja;
-	Bron bron;
-	Prezent prezent;
-	*/
+
 };
 
-class Milosz: public Poszukiwacz{				//chyba wszystko
+class Milosz: public Poszukiwacz{
 
 public:
 	Milosz();
 	virtual ~Milosz();
-	void kup(const vector <Przedmiot> przedmioty);		//przedefiniowac
+
 	char jakie_stworzenie() const;
-	
+	void kup(const vector <Przedmiot> przedmioty);
+
+
+
 private:
 	
-	vector <Przedmiot> *ekwipunek;		//wskaznik na to z czym bedzie chodzil
+	vector <Przedmiot> *ekwipunek;
 
 };
 
@@ -132,11 +130,14 @@ private:
 class Znachorka:public Inteligentne {
 
 public:	
-	Znachorka();						//spladzamy znachorke
+	Znachorka();
 	virtual ~Znachorka();
-	void interakcjuj(Poszukiwacz &poszukiwacz);
+
 	char jakie_stworzenie() const;
-// 	string komunikat(const Stworzenie &stworzenie);
+
+	virtual void interakcjuj(Stworzenie &poszukiwacz);
+
+ 	//string komunikat(const Stworzenie &);
 };
 
 class Sklepikarz:public Inteligentne{
@@ -144,45 +145,60 @@ class Sklepikarz:public Inteligentne{
 public:
 	Sklepikarz();
 	virtual ~Sklepikarz();
-	void interakcjuj(Stworzenie &stworzenie);		//przedefiniowac na sprzedawanie
+
+	void interakcjuj(Stworzenie &stworzenie);
 	void dostawa();
+
 	char jakie_stworzenie() const;
-// 	string komunikat(const Stworzenie &stworzenie);
+ //	string komunikat(const Stworzenie &stworzenie);
+private:
+	vector<Bron> asortyment_broni;
+	vector<Zbroja> asortyment_zbroi;
+	int liczba_prezentow;
+
 	
 };
 
-class  Bard:public Inteligentne{
+class Bard:public Inteligentne{
 
 public:	
-	Bard();
+	Bard(int x);
 	virtual ~Bard();
-	void interakcjuj(Stworzenie &stworzenie);
+
+	void interakcjuj(Poszukiwacz &poszukiwacz);
+	void ustaw_skarb(int x);
+
 	char jakie_stworzenie() const;
+
+	int daj_skarb() const;
 // 	string komunikat(const Stworzenie &stworzenie);
-	/*
-	 * Pozostaje problem jak rozwiazac to co Bard nam przekazuje, 
-	 * zeby nie wiazac tego zbyt mocno z interfejsem
-	 * */
+
 private:
-	//jak ma przechowywac skarb.
+
+	int skarb;
 	
 };
 
 class Wybredne:public Prymitywne{
+
 public:
 	Wybredne();
 	virtual ~Wybredne();
+
 	bool czy_atakowac(Stworzenie &stworzenie) const;
 // 	string komunikat(const Stworzenie &stworzenie);
 	void atakuj(Stworzenie &stworzenie);
+
 	char jakie_stworzenie() const;
 
 };
 
 class Tchorzliwy:public Prymitywne{
+
 public:
 	Tchorzliwy();
 	virtual ~Tchorzliwy();
+
 	bool czy_atakowac(Stworzenie &stworzenie) const;
 	char jakie_stworzenie() const;
 // 	string komunikat(const Stworzenie &stworzenie);
@@ -190,20 +206,25 @@ public:
 
 
 class Neutralny:public Prymitywne{
+
 public:
 	Neutralny();
 	virtual ~Neutralny();
+
 	bool czy_atakowac(Stworzenie &stworzenie) const;
 	char jakie_stworzenie() const;
 // 	string komunikat(const Stworzenie &stworzenie);
 };
 
 class Agresywny:public Prymitywne{
+
 public:
 	Agresywny();
 	virtual ~Agresywny();
+
 	bool czy_atakowac(Stworzenie &stworzenie) const;
 	char jakie_stworzenie() const;
 // 	string komunikat(const Stworzenie &stworzenie);
 };
 #endif
+

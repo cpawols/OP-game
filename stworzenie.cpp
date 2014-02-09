@@ -24,6 +24,26 @@ Stworzenie::~Stworzenie()
 {
 }
 
+int Stworzenie::daj_bron() const
+{
+	return bron.daj_klase_broni();
+}
+
+int Stworzenie::daj_zbroje() const
+{
+	return zbroja.daj_klase_zbroi();
+}
+
+void Stworzenie::ustaw_bron(int x)
+{
+	bron.ustaw_klase_broni(x);
+}
+
+void Stworzenie::ustaw_zbroje(int x)
+{
+	zbroja.ustaw_klase_zbroi(x);
+}
+
 void Stworzenie::ustaw_pole(int x)
 {
 	po = x;
@@ -31,12 +51,13 @@ void Stworzenie::ustaw_pole(int x)
 
 char Stworzenie::jakie_stworzenie() const
 {
+
 }
 
 void Stworzenie::zabierz_ruch( int x )
 {
 	punkty_ruchu -= x;
- 	assert (punkty_ruchu > 0);
+// 	assert (punkty_ruchu > 0);
 }
 
 void Stworzenie::zadaj_obrazenie( int x )
@@ -67,13 +88,6 @@ void Stworzenie::uderz( Stworzenie&  A)
 	(1 + bron.daj_klase_broni())*(1-A.zbroja.daj_klase_zbroi())) );
 }
 
-/*void Stworzenie::rusz()
-{
-//  	Milosz->ustaw_ruch(2);
-	
-}*/
-
-
 
 int Stworzenie::daj_pole() const
 {
@@ -83,9 +97,7 @@ int Stworzenie::daj_pole() const
 void Stworzenie::umrzyj()
 {
 	ustaw_zdrowie(0);
-	/*
-	 * 
-	 * */
+	//to nie koniec
 }
 
 void Stworzenie::ustaw_ruch(int x)
@@ -108,6 +120,16 @@ int Stworzenie::daj_ruch() const
 	return punkty_ruchu;
 }
 
+bool Stworzenie::daj_prezent() const
+{
+	return false;
+}
+
+void Stworzenie::ustaw_prezent(bool x)
+{
+	prezent.ustaw_prezent(false);
+}
+
 
 void Stworzenie::ustaw_sile(int x)
 {
@@ -121,7 +143,8 @@ void Stworzenie::ustaw_zdrowie( int x)
 
 void Stworzenie::interakcjuj(Stworzenie&)
 {
-	
+	cout<<"TROLE"<<endl;
+
 }
 
 void Stworzenie::atakuj(Stworzenie&)
@@ -140,24 +163,40 @@ Inteligentne::~Inteligentne()
 	
 }
 
-void Inteligentne::interakcjuj(Stworzenie&)
+void Inteligentne::interakcjuj(Poszukiwacz& poszukiwacz)
 {
-	
+	cout<<"TROLE"<<endl;
 }
 
-Bard::Bard()
+
+
+Bard::Bard(int x)
 :Inteligentne()
 {
-	
+	skarb = x;
 }
 
 Bard::~Bard()
 {
 }
 
-void Bard::interakcjuj(Stworzenie&)
+void Bard::ustaw_skarb(int x)
 {
-	
+	skarb = x;
+}
+
+int Bard::daj_skarb() const
+{
+	return skarb;
+}
+
+void Bard::interakcjuj(Poszukiwacz &poszukiwacz)
+{
+	if(poszukiwacz.daj_prezent() )
+	{
+		poszukiwacz.ustaw_prezent( false );
+		//dalej nie dokonczone
+	}
 }
 
 char Bard::jakie_stworzenie() const
@@ -180,32 +219,71 @@ Sklepikarz::~Sklepikarz()
 {
 }
 
-void Sklepikarz::dostawa()
+void Stworzenie::dostawa()
 {
-	cout<<zbroja.daj_klase_zbroi()<<endl;
-	cout<<prezent.sprawdz_prezent()<<endl;
-	
-	zbroja.ustaw_klase_zbroi(wylosuj(0,100));
-	bron.ustaw_klase_broni(wylosuj(0,100));
-	prezent.ustaw_prezent(wylosuj(0,1));
-	
-	cout<<zbroja.daj_klase_zbroi()<<endl;
-	cout<<prezent.sprawdz_prezent()<<endl;
+
 }
 
-void Sklepikarz::interakcjuj(Stworzenie&)
+void Sklepikarz::dostawa()
 {
-	
+	Zbroja  z;
+	Bron b;
+	int random_x = wylosuj(1,100);
+	if( random_x % 2  ==  0)
+	{
+		z.ustaw_klase_zbroi(wylosuj(1,100));
+		asortyment_zbroi.push_back(z);
+	}
+	random_x = wylosuj(1,100);
+	if(random_x % 5 == 0)
+	{
+		b.ustaw_klase_broni(wylosuj(1,100));
+		asortyment_broni.push_back(b);
+	}
+
+	random_x = wylosuj(1,17);
+	if(random_x % 3)
+	{
+		liczba_prezentow++;
+	}
+}
+
+
+
+
+void Sklepikarz::interakcjuj(Stworzenie& stworzenie)
+{
+	cout<<"Stworzeni zmienia bron "<<endl;
+	cout<<"Aktualna bron "<<stworzenie.daj_bron()<<endl;
+
+
+	if(stworzenie.jakie_stworzenie() == 'P' || stworzenie.jakie_stworzenie() == 'M')
+	{
+		if(!asortyment_broni.empty())
+		{
+			stworzenie.ustaw_bron(asortyment_broni.back().daj_klase_broni());
+			asortyment_broni.pop_back();
+		}
+		if(!asortyment_zbroi.empty())
+		{
+			stworzenie.ustaw_zbroje(asortyment_zbroi.back().daj_klase_zbroi());
+			asortyment_zbroi.pop_back();
+		}
+		if(liczba_prezentow > 0)
+		{
+			stworzenie.ustaw_prezent(true);
+			liczba_prezentow--;
+		}
+
+	}
+	cout<<"NOWA bron "<<stworzenie.daj_bron()<<endl;
+
 }
 
 char Sklepikarz::jakie_stworzenie() const
 {
 	return 'S';
 }
-
-/*
- * ZNACHORKA
- * */
 
 
 Znachorka::Znachorka()
@@ -221,7 +299,7 @@ Znachorka::~Znachorka()
 	
 }
 
-void Znachorka::interakcjuj(Poszukiwacz &poszukiwacz)
+void Znachorka::interakcjuj(Stworzenie &poszukiwacz)
 {
  	if(poszukiwacz.daj_prezent())
 	{
@@ -243,10 +321,11 @@ Milosz::Milosz()
 	ustaw_zdrowie(30);
 	ustaw_sile(100);
 	ustaw_ruch(100);
-	zbroja.ustaw_klase_zbroi(wylosuj(0,100));
-	bron.ustaw_klase_broni(wylosuj(0,100));
-// 	cout<<"Klasa broni w konstruktorze milosz" <<bron.daj_klase_broni()<<endl;
-	
+	zbroja.ustaw_klase_zbroi(wylosuj(1,100));
+	bron.ustaw_klase_broni(wylosuj(1,100));
+	prezent.ustaw_prezent(true);
+
+	cout<<"Bron "<<bron.daj_klase_broni()<<endl;
 }
 
 Milosz::~Milosz()
@@ -260,7 +339,6 @@ void Milosz::kup(const vector <Przedmiot>)
 
 char Milosz::jakie_stworzenie() const
 {
-// 	cout<<"/*DUP*/A"<<endl;
 	return 'M';
 }
 
@@ -407,20 +485,4 @@ Neutralny::~Neutralny()
 	
 }
 
-/*
- * METODY DO TESTOWANIA
- * */
 
-float Stworzenie::z() const
-{
-	return zbroja.daj_klase_zbroi();
-}
-
-float Stworzenie::b() const
-{
-	return bron.daj_klase_broni();
-}
-bool Stworzenie::p() const
-{
-	return prezent.sprawdz_prezent();
-}

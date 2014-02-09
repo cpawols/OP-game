@@ -144,18 +144,22 @@ void Plansza::wczytaj()
 {
 	FILE *plik;
 	int licznik = 0;
+	int x = 0;
 	
 	plik = fopen("plansza_dd332083.txt","r");
    	fscanf(plik,"%d%d",&dl,&sz);
+
  	plansza = new Pole*[dl*sz + dl*2 + sz*2 +4000];
+
 	int i = 0;
+
 	for( i = 0; i < sz + 2; i++)
 	{
 		plansza[ i ] = new Skaly;
 	}
+
 	for(; i < 2*dl + 2*sz + 4 + dl*sz -sz -1 ; i++)
 	{
-			
 			if( licznik == 0 || licznik == sz + 1)
 			{
 				plansza[ i ] = new Skaly;
@@ -197,6 +201,7 @@ void Plansza::wczytaj()
 					break;
 				case '$':
 					plansza[ i ] = new Jaskinia;
+					x  = i;
 					break;
 				case '*':
 					plansza[ i ] = new Jaskinia;
@@ -204,7 +209,7 @@ void Plansza::wczytaj()
 				}
 			}
 			licznik++;
-     			plansza[ i ]->usun();
+     		plansza[ i ]->usun();
 			
 	}
 	
@@ -240,7 +245,7 @@ void Plansza::wczytaj()
 				stwory.push_back(stw);
 				break;
 			case 'B':
-				stw = new Bard;
+				stw = new Bard(x);
 				plansza[ (sz + 2)*temp3 + temp2 ]->postaw(*stw);
 				stw->ustaw_pole((sz + 2)*temp3 + temp2);
 				stwory.push_back(stw);
@@ -306,6 +311,8 @@ void Plansza::rusz_milosza()
 	cin>>kierunek;
 	int x;
 	
+	cout<<"Zdrowie Milosza"<<milosz->daj_zdrowie()<<endl;
+
  	switch(kierunek)
  	{
  		case('p'):
@@ -327,9 +334,15 @@ void Plansza::rusz_milosza()
 	)
 	{
 			plansza[milosz->daj_pole()+x]->dzialaj(*milosz);
-			if(milosz->daj_zdrowie()==0)
+			if(milosz->daj_zdrowie() <= 0 && milosz->daj_ruch() <= 0)
 			{
+				/*
+				 *Cos nie dziala
+				 * */
+
 				milosz->umrzyj();
+				plansza[milosz->daj_pole()]->usun();
+
 				cout<<"Koniec gry"<<endl;
 			}
 			milosz->ustaw_pole(milosz->daj_pole() + x);
@@ -339,10 +352,10 @@ void Plansza::rusz_milosza()
 	else
 		if(plansza[ milosz->daj_pole() + x ]->spr())
 		{
-			/*
-			 * Dopisać pewnie jakiegos settera
-			 */
+			plansza[ milosz->daj_pole() +x ]->daj_stworzenie()->interakcjuj(*milosz);
+			cout<<milosz->daj_zdrowie()<<endl;
 		}
+ 	cout<<"Zdrowie Milosza"<<milosz->daj_zdrowie()<<endl;
 }
 
 
@@ -369,6 +382,9 @@ void Plansza::rusz_reszte()
 					break;
 		}
 
+		if(stw->jakie_stworzenie() == 'S')
+			stw->dostawa();
+
 		if(plansza[stw->daj_pole() + x]->czy_mozna_wejsc() &&
 			!plansza[stw->daj_pole()+x]->spr()
 		)
@@ -382,6 +398,25 @@ void Plansza::rusz_reszte()
 	}
 }
 
+Stworzenie*  Pole::daj_stworzenie() const
+{
+	return stworek;
+}
+
+void Pole::pokaz_skarb()
+{
+	widac_skarb = true;
+}
+
+int Pole::daj_x() const
+{
+	return x;
+}
+
+int Pole::daj_y() const
+{
+	return y;
+}
 
 
 bool Zakazane::czy_mozna_wejsc() const 
@@ -432,7 +467,7 @@ int Bagna_lagodne::ruch() const
 
 char Bagna::jakie_pole() const
 {
-	
+	return 0; //?
 }
 
 int Bagna_smiertelne::ruch() const
