@@ -32,6 +32,7 @@ char Pole::oddaj() const
 void Pole::usun()
 {
  	stworek = nullptr;
+
 }
 
 bool Pole::spr() const
@@ -146,7 +147,7 @@ void Plansza::wczytaj()
 	int licznik = 0;
 	int x = 0;
 	
-	plik = fopen("plansza_dd332083.txt","r");
+	plik = fopen("plansza_m.txt","r");
    	fscanf(plik,"%d%d",&dl,&sz);
 
  	plansza = new Pole*[dl*sz + dl*2 + sz*2 +4000];
@@ -336,10 +337,7 @@ void Plansza::rusz_milosza()
 			plansza[milosz->daj_pole()+x]->dzialaj(*milosz);
 			if(milosz->daj_zdrowie() <= 0 && milosz->daj_ruch() <= 0)
 			{
-				/*
-				 *Cos nie dziala
-				 * */
-
+				//co tu zrobic?
 				milosz->umrzyj();
 				plansza[milosz->daj_pole()]->usun();
 
@@ -396,6 +394,7 @@ void Plansza::rusz_reszte()
 
 		}
 	}
+
 }
 
 Stworzenie*  Pole::daj_stworzenie() const
@@ -546,7 +545,7 @@ bool Bagna_smiertelne::czy_smiertelne() const
 	return true;
 }
 
-int Pole::dzialaj(Stworzenie &stworzenie) 
+void Pole::dzialaj(Stworzenie &stworzenie)
 {
 	stworzenie.zabierz_ruch(ruch());
 	stworzenie.zadaj_obrazenie(obrazenie());

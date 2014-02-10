@@ -47,6 +47,7 @@ public:
 	void zadaj_obrazenie(int x);
  	void uderz(Stworzenie&);
  	void umrzyj();
+ //	void wstaw_komunikat(string s);
 
 	virtual void interakcjuj(Stworzenie &stworzenie);
 	virtual void atakuj(Stworzenie &stworzenie);
@@ -66,7 +67,7 @@ protected:
 	Zbroja zbroja;
 	Prezent prezent;
 	Pole *polozenie;
-	queue <string> infrmacje;
+	queue <string> informacje;
 };
 
 
@@ -88,6 +89,7 @@ public:
 	Prymitywne();
 	virtual ~Prymitywne();
 
+	virtual void interakcjuj(Stworzenie&);	//trololo
 	virtual bool czy_atakowac(Stworzenie &stworzenie) const;
 	virtual void atakuj(Stworzenie &stworzenie);
  	//virtual string komunikat(const Stworzenie &stworzenie);
@@ -118,10 +120,7 @@ public:
 	char jakie_stworzenie() const;
 	void kup(const vector <Przedmiot> przedmioty);
 
-
-
 private:
-	
 	vector <Przedmiot> *ekwipunek;
 
 };
@@ -227,4 +226,3 @@ public:
 // 	string komunikat(const Stworzenie &stworzenie);
 };
 #endif
-

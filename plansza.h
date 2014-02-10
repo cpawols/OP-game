@@ -36,7 +36,7 @@ public:
 	Pole();
 	virtual ~Pole();
 
-	int dzialaj(Stworzenie &stworzenie) ;
+	void dzialaj(Stworzenie &stworzenie) ;
 	int daj_x() const;
 	int daj_y() const;
 

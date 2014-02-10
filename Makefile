@@ -1,4 +1,4 @@
-CPPFLAGS =  -ggdb -std=c++11 
+CPPFLAGS =  -ggdb -std=c++11  
 
 all : test
 
