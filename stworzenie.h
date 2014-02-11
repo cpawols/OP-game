@@ -56,12 +56,16 @@ public:
 	virtual bool czy_atakowac(Stworzenie&) const;
 	virtual void ustaw_prezent(bool x);
 	virtual void dostawa() ;
-	//virtual string komunikat(const Stworzenie &stworzenie);				//oddawaie komunikatow przez rozne stworzenia
+	//virtual void komunikat(const Stworzenie &stworzenie) ;
+
+	//oddawaie komunikatow przez rozne stworzenia
 	
 	
 protected:
 	int zdrowie;
 	int sila;
+
+	//
 	int punkty_ruchu;
 	int po;
 	Bron bron;
@@ -121,6 +125,7 @@ public:
 	char jakie_stworzenie() const;
 	void kup(const vector <Przedmiot> przedmioty);
 
+
 private:
 	vector <Przedmiot> *ekwipunek;
 
@@ -137,7 +142,7 @@ public:
 
 	virtual void interakcjuj(Stworzenie &poszukiwacz);
 
- 	//string komunikat(const Stworzenie &);
+ 	void komunikat(const Stworzenie &);
 };
 
 class Sklepikarz:public Inteligentne{
@@ -158,6 +163,7 @@ private:
 
 	
 };
+
 
 class Bard:public Inteligentne{
 

@@ -10,13 +10,23 @@ Plansza::Plansza()
 
 Pole::Pole()
 {
-	
+	skarb = false;
 }
 
 Pole::~Pole()
 {/*
 	 * 
 	 * */
+}
+
+void Pole::ustaw_x(int pion)
+{
+	x = pion;
+}
+
+void Pole::ustaw_y(int poziom)
+{
+	y = poziom;
 }
 
 void Pole::postaw(Stworzenie& A)
@@ -40,6 +50,21 @@ bool Pole::spr() const
 	if(stworek == nullptr)
 		return false;
 	return true;
+}
+
+int Pole::daj_x() const
+{
+	return x;
+}
+
+void Pole::usun_z_pola()
+{
+	stworek = nullptr;
+}
+
+Stworzenie*  Pole::daj_stworzenie() const
+{
+	return stworek;
 }
 
 Dozwolone::Dozwolone()
@@ -141,18 +166,26 @@ Skaly::~Skaly()
 {
 }
 
-void Plansza::wczytaj()
+void Plansza::u(int x)
+{
+	polozenie_skarbu = x;
+}
+
+void Plansza::wczytaj(char** argv)
 {
 	FILE *plik;
 	int licznik = 0;
 	int x = 0;
 	
-	plik = fopen("mapa_Adam_Zmuda.txt","r");
+	plik = fopen(argv[1],"r");
    	fscanf(plik,"%d%d",&dl,&sz);
+   	//scanf("%d%d",&dl,&sz);
 
  	plansza = new Pole*[dl*sz + dl*2 + sz*2 +4000];
 
 	int i = 0;
+	int pionowa = 0;
+	int pozioma = 0;
 
 	for( i = 0; i < sz + 2; i++)
 	{
@@ -161,16 +194,20 @@ void Plansza::wczytaj()
 
 	for(; i < 2*dl + 2*sz + 4 + dl*sz -sz -1 ; i++)
 	{
+			pionowa = 0;
 			if( licznik == 0 || licznik == sz + 1)
 			{
 				plansza[ i ] = new Skaly;
 					if(licznik == sz + 1 )
 						licznik = -1;
+					pozioma++;
+					pionowa++;
 			}
 			else
 			{
 				char tmp;
 				fscanf(plik," %c",&tmp);
+
 				switch(tmp)
 				{
 				case '#':
@@ -202,7 +239,7 @@ void Plansza::wczytaj()
 					break;
 				case '$':
 					plansza[ i ] = new Jaskinia;
-					x  = i;
+					u(i);
 					break;
 				case '*':
 					plansza[ i ] = new Jaskinia;
@@ -286,6 +323,7 @@ void Plansza::wczytaj()
 
 		}
 	}
+	fclose(plik	);
 }
 
 void Plansza::wypisz() const
@@ -306,27 +344,35 @@ void Plansza::wypisz() const
 	}	
 }
 
+int Plansza::pol() const
+{
+	return polozenie_skarbu;
+}
+
 void Plansza::rusz_milosza()
 {
 	char kierunek;
 	cin>>kierunek;
-	int x;
+	int x = 0;
 	
- 	switch(kierunek)
- 	{
- 		case('p'):
-				x = 1;
-				break;
-		case('l'):
-				x = -1;
-				break;
-		case('g'):
-				x = -sz-2;
-				break;
-		case('d'):
-				x = sz+2;
-				break;
- 	}
+	if(milosz->daj_zdrowie() > 0 && milosz->daj_ruch() > 0)
+	{
+		switch(kierunek)
+		{
+			case('p'):
+					x = 1;
+					break;
+			case('l'):
+					x = -1;
+					break;
+			case('g'):
+					x = -sz-2;
+					break;
+			case('d'):
+					x = sz+2;
+					break;
+		}
+	}
 
  	if(	plansza[ milosz->daj_pole()+x]->czy_mozna_wejsc() &&
 		!plansza[ milosz->daj_pole() + x ]->spr() )
@@ -334,15 +380,17 @@ void Plansza::rusz_milosza()
 			plansza[milosz->daj_pole()+x]->dzialaj(*milosz);
 			if(milosz->daj_zdrowie() <= 0 && milosz->daj_ruch() <= 0)
 			{
-				//co tu zrobic?
-				milosz->umrzyj();
-				plansza[milosz->daj_pole()]->usun();
-
 				cout<<"Koniec gry"<<endl;
 			}
+
 			milosz->ustaw_pole(milosz->daj_pole() + x);
 			plansza[milosz->daj_pole()]->postaw(*milosz);
 			plansza[milosz->daj_pole() - x ]->usun();
+
+			if(milosz->daj_pole()+x == pol() )
+			{
+				cout<<"MILOSZ ZNALAZL SKARB"<<endl;
+			}
 	}
 	else
 		if(plansza[ milosz->daj_pole() + x ]->spr())
@@ -388,43 +436,40 @@ void Plansza::rusz_reszte()
 			plansza[stw->daj_pole()]->postaw(*stw);
 			plansza[stw->daj_pole() - x ]->usun();
 
+			if(plansza[stw->daj_pole()]->daj_stworzenie()->daj_zdrowie() <= 0 &&
+				plansza[stw->daj_pole()]->daj_stworzenie()->daj_ruch() <= 0)
+			{
+				int temp = 0;
+				for(auto s : stwory)
+				{
+
+					if(s == plansza[stw->daj_pole()]->daj_stworzenie())
+					{
+						stwory.erase(stwory.begin()+temp);
+					}
+					temp++;
+				}
+				plansza[stw->daj_pole()]->usun_z_pola();
+			}
+
+
 		}
 		else
 			if(plansza[stw->daj_pole() + x ]->spr())
 			{
 				if(stw->czy_atakowac(*plansza[stw->daj_pole()+x]->daj_stworzenie()))
 				{
-					/*
-					cout<<"DEBUG"<<endl;
-					cout<<"Stworzenie bije "<<stw->jakie_stworzenie()<<" "<<stw->daj_zdrowie()<<endl;
-					cout<<"Stworzenie "<<plansza[stw->daj_pole()+x]->daj_stworzenie()->jakie_stworzenie()<<" "<<plansza[stw->daj_pole()+x]->daj_stworzenie()->daj_zdrowie();
-					*/
-
 					stw->interakcjuj(*plansza[stw->daj_pole()+x]->daj_stworzenie());
-					/*
-					cout<<"Stworzenie bije "<<stw->jakie_stworzenie()<<" "<<stw->daj_zdrowie()<<endl;
-					cout<<"Stworzenie "<<plansza[stw->daj_pole()+x]->daj_stworzenie()->jakie_stworzenie()<<" "<<plansza[stw->daj_pole()+x]->daj_stworzenie()->daj_zdrowie();
-					cout<<"END DEBUG"<<endl;
-					*/
 				}
 			}
 	}
-
 }
 
-Stworzenie*  Pole::daj_stworzenie() const
-{
-	return stworek;
-}
+
 
 void Pole::pokaz_skarb()
 {
 	widac_skarb = true;
-}
-
-int Pole::daj_x() const
-{
-	return x;
 }
 
 int Pole::daj_y() const

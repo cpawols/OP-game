@@ -176,6 +176,9 @@ Bard::~Bard()
 {
 }
 
+
+
+
 void Bard::ustaw_skarb(int x)
 {
 	skarb = x;
@@ -191,6 +194,7 @@ void Bard::interakcjuj(Poszukiwacz &poszukiwacz)
 	if(poszukiwacz.daj_prezent() )
 	{
 		poszukiwacz.ustaw_prezent( false );
+		//pokaz_skarb();
 		//dalej nie dokonczone
 	}
 }
@@ -237,7 +241,6 @@ void Sklepikarz::dostawa()
 	if(random_x % 5 == 0)
 	{
 		b.ustaw_klase_broni(wylosuj_ekwipunek(1,100));
-		cout<<"DOSTAWA BRONI "<<b.daj_klase_broni()<<endl;
 		asortyment_broni.push_back(b);
 	}
 
@@ -251,20 +254,13 @@ void Sklepikarz::dostawa()
 
 void Sklepikarz::interakcjuj(Stworzenie& stworzenie)
 {
-	cout<<"Aktualna bron "<<stworzenie.daj_bron()<<endl;
-
-	cout<<"Asortyment"<<endl;
-	for( auto aso : asortyment_broni)
-	{
-		cout<<aso.daj_klase_broni()<<endl;
-	}
-
 
 	if(stworzenie.jakie_stworzenie() == 'P' || stworzenie.jakie_stworzenie() == 'M')
 	{
 		if(!asortyment_broni.empty())
 		{
-			cout<<"USTAWIAM NOWA "<< asortyment_broni.back().daj_klase_broni() <<endl;
+			if(stworzenie.jakie_stworzenie() == 'M')
+				informacje.push("Milosz ma nowa zbroje ");
 			stworzenie.ustaw_bron(asortyment_broni.back().daj_klase_broni());
 			asortyment_broni.pop_back();
 		}
@@ -310,6 +306,7 @@ void Znachorka::interakcjuj(Stworzenie &poszukiwacz)
 	{
 		poszukiwacz.ustaw_zdrowie(100);
 		poszukiwacz.ustaw_prezent(false);
+
 	}
 }
 
@@ -508,3 +505,7 @@ Neutralny::~Neutralny()
 {
 	
 }
+
+
+
+

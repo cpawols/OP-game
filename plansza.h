@@ -15,16 +15,20 @@ class Plansza{
 public:
 	Plansza();
 	Pole** plansza;
-	void wczytaj();
+	void wczytaj(char** argv);
 	void wypisz() const;
 	void rusz_milosza();
 	void rusz_reszte();
+	void u(int x);
+	int pol()const;
 
 private:
 	Milosz* milosz;
 	vector<Stworzenie*> stwory;
+
 	int dl;
 	int sz;
+	int polozenie_skarbu;
 	
 };
 
@@ -39,6 +43,8 @@ public:
 	void dzialaj(Stworzenie &stworzenie) ;
 	int daj_x() const;
 	int daj_y() const;
+	void ustaw_x(int x);
+	void ustaw_y(int x);
 
 	virtual bool czy_mozna_wejsc() const = 0;
 	virtual bool czy_smiertelne() const;
@@ -52,12 +58,14 @@ public:
 	void pokaz_skarb();
 	char oddaj() const;
 	bool spr() const;
+	void usun_z_pola();
 
 	Stworzenie* daj_stworzenie() const;
 	
 protected:
 	int x;		
 	int y;
+	int skarb;
 	int koszt_przejscia;
 	bool widac_skarb;
 	Stworzenie* stworek;	
