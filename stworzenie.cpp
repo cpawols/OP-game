@@ -31,22 +31,27 @@ Stworzenie::~Stworzenie()
 {
 }
 
-int Stworzenie::daj_bron() const
+bool Stworzenie::czy_atakowac(Stworzenie&) const
+{
+	return false;
+}
+
+float Stworzenie::daj_bron() const
 {
 	return bron.daj_klase_broni();
 }
 
-int Stworzenie::daj_zbroje() const
+float Stworzenie::daj_zbroje() const
 {
 	return zbroja.daj_klase_zbroi();
 }
 
-void Stworzenie::ustaw_bron(int x)
+void Stworzenie::ustaw_bron(float x)
 {
 	bron.ustaw_klase_broni(x);
 }
 
-void Stworzenie::ustaw_zbroje(int x)
+void Stworzenie::ustaw_zbroje(float x)
 {
 	zbroja.ustaw_klase_zbroi(x);
 }
@@ -56,10 +61,10 @@ void Stworzenie::ustaw_pole(int x)
 	po = x;
 }
 
-char Stworzenie::jakie_stworzenie() const
+/*char Stworzenie::jakie_stworzenie() const
 {
 
-}
+}*/
 
 void Stworzenie::zabierz_ruch( int x )
 {
@@ -134,13 +139,11 @@ void Stworzenie::ustaw_zdrowie( int x)
 
 void Stworzenie::interakcjuj(Stworzenie&)
 {
-	cout<<"TROLE"<<endl;
 
 }
 
 void Stworzenie::atakuj(Stworzenie& stworzenie)
 {
-	cout<<"Jestem"<<endl;
 	this->uderz(stworzenie);
 	if(stworzenie.daj_zdrowie() > 0)
 		stworzenie.uderz(*this);
@@ -160,10 +163,8 @@ Inteligentne::~Inteligentne()
 
 void Inteligentne::interakcjuj(Poszukiwacz& poszukiwacz)
 {
-	cout<<"TROLE"<<endl;
+
 }
-
-
 
 Bard::Bard(int x)
 :Inteligentne()
@@ -236,6 +237,7 @@ void Sklepikarz::dostawa()
 	if(random_x % 5 == 0)
 	{
 		b.ustaw_klase_broni(wylosuj_ekwipunek(1,100));
+		cout<<"DOSTAWA BRONI "<<b.daj_klase_broni()<<endl;
 		asortyment_broni.push_back(b);
 	}
 
@@ -249,14 +251,20 @@ void Sklepikarz::dostawa()
 
 void Sklepikarz::interakcjuj(Stworzenie& stworzenie)
 {
-	cout<<"Stworzeni zmienia bron "<<endl;
 	cout<<"Aktualna bron "<<stworzenie.daj_bron()<<endl;
+
+	cout<<"Asortyment"<<endl;
+	for( auto aso : asortyment_broni)
+	{
+		cout<<aso.daj_klase_broni()<<endl;
+	}
 
 
 	if(stworzenie.jakie_stworzenie() == 'P' || stworzenie.jakie_stworzenie() == 'M')
 	{
 		if(!asortyment_broni.empty())
 		{
+			cout<<"USTAWIAM NOWA "<< asortyment_broni.back().daj_klase_broni() <<endl;
 			stworzenie.ustaw_bron(asortyment_broni.back().daj_klase_broni());
 			asortyment_broni.pop_back();
 		}
@@ -384,20 +392,24 @@ Prymitywne::~Prymitywne()
 {
 }
 
-bool Prymitywne::czy_atakowac(Stworzenie&) const
+/*bool Prymitywne::czy_atakowac(Stworzenie&) const
 {
 	
-}
+}*/
 
 void Prymitywne::interakcjuj(Stworzenie &stworzenie)
 {
 	//TU COS ROBILEM + interakcuj dla prymitywnych i cos jeszcze ale nie pamietam co
-	cout<<"STWORZENIE "<<stworzenie.jakie_stworzenie()<<endl;
 	stworzenie.atakuj(*this);
 }
 
-void Prymitywne::atakuj(Stworzenie&)
+void Prymitywne::atakuj(Stworzenie& stworzenie)
 {
+	stworzenie.uderz(*this);
+	if(this->daj_zdrowie() > 0)
+	{
+		this->uderz(stworzenie);
+	}
 }
 
 Wybredne::Wybredne()
@@ -419,9 +431,11 @@ bool Wybredne::czy_atakowac(Stworzenie& stworzenie) const
 	return false;
 }
 
-void Wybredne::atakuj(Stworzenie&)
+void Wybredne::atakuj(Stworzenie& stworzenie)
 {
-	
+	this->uderz(stworzenie);
+	if(stworzenie.daj_zdrowie() > 0)
+		stworzenie.uderz(*this);
 }
 
 char Wybredne::jakie_stworzenie() const
@@ -453,9 +467,9 @@ char Tchorzliwy::jakie_stworzenie() const
 Agresywny::Agresywny()
 :Prymitywne()
 {
-	ustaw_zdrowie(55);
- 	ustaw_sile(88);
-	ustaw_ruch(55);
+	ustaw_zdrowie(wylosuj(1,100));
+ 	ustaw_sile(wylosuj(1,100));
+	ustaw_ruch(wylosuj(1,100));
 }
 
 Agresywny::~Agresywny()
@@ -485,7 +499,9 @@ bool Neutralny::czy_atakowac(Stworzenie& stworzenie) const
 
 Neutralny::Neutralny()
 {
-	
+	ustaw_zdrowie(wylosuj(1,100));
+	ustaw_sile(wylosuj(1,100));
+	ustaw_ruch(wylosuj(1,100));
 }
 
 Neutralny::~Neutralny()

@@ -147,7 +147,7 @@ void Plansza::wczytaj()
 	int licznik = 0;
 	int x = 0;
 	
-	plik = fopen("plansza_m.txt","r");
+	plik = fopen("mapa_Adam_Zmuda.txt","r");
    	fscanf(plik,"%d%d",&dl,&sz);
 
  	plansza = new Pole*[dl*sz + dl*2 + sz*2 +4000];
@@ -312,8 +312,6 @@ void Plansza::rusz_milosza()
 	cin>>kierunek;
 	int x;
 	
-	cout<<"Zdrowie Milosza"<<milosz->daj_zdrowie()<<endl;
-
  	switch(kierunek)
  	{
  		case('p'):
@@ -329,10 +327,9 @@ void Plansza::rusz_milosza()
 				x = sz+2;
 				break;
  	}
- 	if(
-		plansza[ milosz->daj_pole()+x]->czy_mozna_wejsc()
-		&& !plansza[ milosz->daj_pole() + x ]->spr()
-	)
+
+ 	if(	plansza[ milosz->daj_pole()+x]->czy_mozna_wejsc() &&
+		!plansza[ milosz->daj_pole() + x ]->spr() )
 	{
 			plansza[milosz->daj_pole()+x]->dzialaj(*milosz);
 			if(milosz->daj_zdrowie() <= 0 && milosz->daj_ruch() <= 0)
@@ -351,7 +348,6 @@ void Plansza::rusz_milosza()
 		if(plansza[ milosz->daj_pole() + x ]->spr())
 		{
 			plansza[ milosz->daj_pole() +x ]->daj_stworzenie()->interakcjuj(*milosz);
-			cout<<milosz->daj_zdrowie()<<endl;
 		}
  	cout<<"Zdrowie Milosza"<<milosz->daj_zdrowie()<<endl;
 }
@@ -383,8 +379,8 @@ void Plansza::rusz_reszte()
 		if(stw->jakie_stworzenie() == 'S')
 			stw->dostawa();
 
-		if(plansza[stw->daj_pole() + x]->czy_mozna_wejsc() &&
-			!plansza[stw->daj_pole()+x]->spr()
+		if(		plansza[stw->daj_pole() + x]->czy_mozna_wejsc() &&
+				!plansza[stw->daj_pole()+x]->spr()
 		)
 		{
 			plansza[stw->daj_pole() +x ]->dzialaj(*stw);
@@ -393,6 +389,25 @@ void Plansza::rusz_reszte()
 			plansza[stw->daj_pole() - x ]->usun();
 
 		}
+		else
+			if(plansza[stw->daj_pole() + x ]->spr())
+			{
+				if(stw->czy_atakowac(*plansza[stw->daj_pole()+x]->daj_stworzenie()))
+				{
+					/*
+					cout<<"DEBUG"<<endl;
+					cout<<"Stworzenie bije "<<stw->jakie_stworzenie()<<" "<<stw->daj_zdrowie()<<endl;
+					cout<<"Stworzenie "<<plansza[stw->daj_pole()+x]->daj_stworzenie()->jakie_stworzenie()<<" "<<plansza[stw->daj_pole()+x]->daj_stworzenie()->daj_zdrowie();
+					*/
+
+					stw->interakcjuj(*plansza[stw->daj_pole()+x]->daj_stworzenie());
+					/*
+					cout<<"Stworzenie bije "<<stw->jakie_stworzenie()<<" "<<stw->daj_zdrowie()<<endl;
+					cout<<"Stworzenie "<<plansza[stw->daj_pole()+x]->daj_stworzenie()->jakie_stworzenie()<<" "<<plansza[stw->daj_pole()+x]->daj_stworzenie()->daj_zdrowie();
+					cout<<"END DEBUG"<<endl;
+					*/
+				}
+			}
 	}
 
 }

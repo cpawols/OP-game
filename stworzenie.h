@@ -33,16 +33,16 @@ public:
 	int daj_sile() const;
 	int daj_ruch() const;
 	int daj_pole() const;
-	int daj_bron() const;
-	int daj_zbroje() const;
+	float daj_bron() const;
+	float daj_zbroje() const;
 
 
 	void ustaw_pole(int x);
 	void ustaw_ruch(int x);
 	void ustaw_sile( int x );
 	void ustaw_zdrowie(int x);
-	void ustaw_bron(int x);
-	void ustaw_zbroje(int x);
+	void ustaw_bron(float x);
+	void ustaw_zbroje(float x);
 	void zabierz_ruch(int x);
 	void zadaj_obrazenie(int x);
  	void uderz(Stworzenie&);
@@ -51,10 +51,11 @@ public:
 
 	virtual void interakcjuj(Stworzenie &stworzenie);
 	virtual void atakuj(Stworzenie &stworzenie);
-	virtual char jakie_stworzenie() const;
+	virtual char jakie_stworzenie() const = 0;
 	virtual bool daj_prezent() const;
+	virtual bool czy_atakowac(Stworzenie&) const;
 	virtual void ustaw_prezent(bool x);
-	virtual void dostawa();
+	virtual void dostawa() ;
 	//virtual string komunikat(const Stworzenie &stworzenie);				//oddawaie komunikatow przez rozne stworzenia
 	
 	
@@ -90,7 +91,7 @@ public:
 	virtual ~Prymitywne();
 
 	virtual void interakcjuj(Stworzenie&);	//trololo
-	virtual bool czy_atakowac(Stworzenie &stworzenie) const;
+	virtual bool czy_atakowac(Stworzenie &stworzenie) const = 0;
 	virtual void atakuj(Stworzenie &stworzenie);
  	//virtual string komunikat(const Stworzenie &stworzenie);
 };
@@ -222,6 +223,7 @@ public:
 	virtual ~Agresywny();
 
 	bool czy_atakowac(Stworzenie &stworzenie) const;
+
 	char jakie_stworzenie() const;
 // 	string komunikat(const Stworzenie &stworzenie);
 };
