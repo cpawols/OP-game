@@ -47,32 +47,31 @@ public:
 	void zadaj_obrazenie(int x);
  	void uderz(Stworzenie&);
  	void umrzyj();
- //	void wstaw_komunikat(string s);
 
+  	virtual void wstaw_komunikat(string s, float x);
 	virtual void interakcjuj(Stworzenie &stworzenie);
 	virtual void atakuj(Stworzenie &stworzenie);
 	virtual char jakie_stworzenie() const = 0;
 	virtual bool daj_prezent() const;
 	virtual bool czy_atakowac(Stworzenie&) const;
 	virtual void ustaw_prezent(bool x);
-	virtual void dostawa() ;
-	//virtual void komunikat(const Stworzenie &stworzenie) ;
+	virtual void dostawa();
+	virtual bool czy_moze_kupic() const;
+	virtual bool czy_wstawia() const;
 
-	//oddawaie komunikatow przez rozne stworzenia
 	
 	
 protected:
 	int zdrowie;
 	int sila;
-
-	//
 	int punkty_ruchu;
 	int po;
+
+	queue<string> komunikaty;
 	Bron bron;
 	Zbroja zbroja;
 	Prezent prezent;
 	Pole *polozenie;
-	queue <string> informacje;
 };
 
 
@@ -84,7 +83,6 @@ public:
 	virtual ~Inteligentne();
 
 	virtual void interakcjuj(Poszukiwacz &stworzenie);
- 	//virtual string komunikat(const Stworzenie &stworzenie);
 };
 
 
@@ -97,7 +95,6 @@ public:
 	virtual void interakcjuj(Stworzenie&);	//trololo
 	virtual bool czy_atakowac(Stworzenie &stworzenie) const = 0;
 	virtual void atakuj(Stworzenie &stworzenie);
- 	//virtual string komunikat(const Stworzenie &stworzenie);
 };
 
 
@@ -110,10 +107,10 @@ public:
 	Zbroja daj_zbroje() const;
 	Bron daj_bron() const;
 	void ustaw_prezent(bool x);
+	
 	virtual bool daj_prezent() const;
 	virtual void kup(const vector <Przedmiot> przedmioty);
 	virtual char jakie_stworzenie() const;
-
 };
 
 class Milosz: public Poszukiwacz{
@@ -122,13 +119,11 @@ public:
 	Milosz();
 	virtual ~Milosz();
 
-	char jakie_stworzenie() const;
-	void kup(const vector <Przedmiot> przedmioty);
-
-
-private:
-	vector <Przedmiot> *ekwipunek;
-
+	
+	virtual bool czy_wstawia() const;
+	virtual void wstaw_komunikat(string s, float x);
+	virtual bool czy_moze_kupic() const;
+	virtual char jakie_stworzenie() const;
 };
 
 
@@ -138,11 +133,8 @@ public:
 	Znachorka();
 	virtual ~Znachorka();
 
-	char jakie_stworzenie() const;
-
+	virtual char jakie_stworzenie() const;
 	virtual void interakcjuj(Stworzenie &poszukiwacz);
-
- 	void komunikat(const Stworzenie &);
 };
 
 class Sklepikarz:public Inteligentne{
@@ -150,12 +142,12 @@ class Sklepikarz:public Inteligentne{
 public:
 	Sklepikarz();
 	virtual ~Sklepikarz();
-
-	void interakcjuj(Stworzenie &stworzenie);
+	
 	void dostawa();
+	
+	virtual void interakcjuj(Stworzenie &stworzenie);
+	virtual char jakie_stworzenie() const;
 
-	char jakie_stworzenie() const;
- //	string komunikat(const Stworzenie &stworzenie);
 private:
 	vector<Bron> asortyment_broni;
 	vector<Zbroja> asortyment_zbroi;
@@ -170,17 +162,15 @@ class Bard:public Inteligentne{
 public:	
 	Bard(int x);
 	virtual ~Bard();
-
-	void interakcjuj(Poszukiwacz &poszukiwacz);
+	
 	void ustaw_skarb(int x);
-
-	char jakie_stworzenie() const;
-
+	void pokaz();
 	int daj_skarb() const;
-// 	string komunikat(const Stworzenie &stworzenie);
+	
+	virtual void interakcjuj(Stworzenie &poszukiwacz);
+	virtual char jakie_stworzenie() const;
 
 private:
-
 	int skarb;
 	
 };
@@ -191,12 +181,9 @@ public:
 	Wybredne();
 	virtual ~Wybredne();
 
-	bool czy_atakowac(Stworzenie &stworzenie) const;
-// 	string komunikat(const Stworzenie &stworzenie);
-	void atakuj(Stworzenie &stworzenie);
-
-	char jakie_stworzenie() const;
-
+	virtual bool czy_atakowac(Stworzenie &stworzenie) const;
+	virtual void atakuj(Stworzenie &stworzenie);
+	virtual char jakie_stworzenie() const;
 };
 
 class Tchorzliwy:public Prymitywne{
@@ -205,9 +192,9 @@ public:
 	Tchorzliwy();
 	virtual ~Tchorzliwy();
 
-	bool czy_atakowac(Stworzenie &stworzenie) const;
-	char jakie_stworzenie() const;
-// 	string komunikat(const Stworzenie &stworzenie);
+	virtual bool czy_atakowac(Stworzenie &stworzenie) const;
+	virtual char jakie_stworzenie() const;
+
 };
 
 
@@ -217,9 +204,9 @@ public:
 	Neutralny();
 	virtual ~Neutralny();
 
-	bool czy_atakowac(Stworzenie &stworzenie) const;
-	char jakie_stworzenie() const;
-// 	string komunikat(const Stworzenie &stworzenie);
+	virtual bool czy_atakowac(Stworzenie &stworzenie) const;
+	virtual char jakie_stworzenie() const;
+
 };
 
 class Agresywny:public Prymitywne{
@@ -227,10 +214,9 @@ class Agresywny:public Prymitywne{
 public:
 	Agresywny();
 	virtual ~Agresywny();
+	
+	virtual bool czy_atakowac(Stworzenie &stworzenie) const;
+	virtual char jakie_stworzenie() const;
 
-	bool czy_atakowac(Stworzenie &stworzenie) const;
-
-	char jakie_stworzenie() const;
-// 	string komunikat(const Stworzenie &stworzenie);
 };
 #endif

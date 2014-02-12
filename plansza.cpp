@@ -5,18 +5,19 @@
  */
 Plansza::Plansza()
 {
+	koniec_gry = false;
 	plansza = new Pole* [100000];
 }
 
-Pole::Pole()
+Pole::Pole(Plansza* plansza)
 {
-	skarb = false;
+	plansza1 = plansza;
+
 }
 
 Pole::~Pole()
-{/*
-	 * 
-	 * */
+{
+
 }
 
 void Pole::ustaw_x(int pion)
@@ -27,6 +28,16 @@ void Pole::ustaw_x(int pion)
 void Pole::ustaw_y(int poziom)
 {
 	y = poziom;
+}
+
+void Plansza::ustaw_koniec_gry()
+{
+	koniec_gry = true;
+}
+
+bool Plansza::daj_koniec_gry() const
+{
+	return koniec_gry;
 }
 
 void Pole::postaw(Stworzenie& A)
@@ -67,16 +78,16 @@ Stworzenie*  Pole::daj_stworzenie() const
 	return stworek;
 }
 
-Dozwolone::Dozwolone()
-: Pole()
+Dozwolone::Dozwolone(Plansza* plansza)
+: Pole(plansza)
 {
 }
 Dozwolone::~Dozwolone()
 {
 }
 
-Zakazane::Zakazane()
-:Pole()
+Zakazane::Zakazane(Plansza* plansza)
+:Pole(plansza)
 {
 }
 
@@ -85,8 +96,8 @@ Zakazane::~Zakazane()
 }
 
 
-Trawa::Trawa()
-: Dozwolone()
+Trawa::Trawa(Plansza* plansza)
+: Dozwolone(plansza)
 {
 }
 
@@ -94,8 +105,8 @@ Trawa::~Trawa()
 {
 }
 
-Rzeka::Rzeka()
-:Dozwolone()
+Rzeka::Rzeka(Plansza* plansza)
+:Dozwolone(plansza)
 {
 }
 
@@ -103,8 +114,8 @@ Rzeka::~Rzeka()
 {
 }
 
-Jaskinia::Jaskinia()
-:Dozwolone()
+Jaskinia::Jaskinia(Plansza* plansza)
+:Dozwolone(plansza)
 {
 }
 
@@ -112,8 +123,8 @@ Jaskinia::~Jaskinia()
 {
 }
 
-Bagna::Bagna()
-:Dozwolone()
+Bagna::Bagna(Plansza* plansza)
+:Dozwolone(plansza)
 {
 }
 
@@ -121,8 +132,8 @@ Bagna::~Bagna()
 {
 }
 
-Bagna_lagodne::Bagna_lagodne()
-:Bagna()
+Bagna_lagodne::Bagna_lagodne(Plansza* plansza)
+:Bagna(plansza)
 {
 }
 
@@ -130,8 +141,8 @@ Bagna_lagodne::~Bagna_lagodne()
 {
 }
 
-Bagna_smiertelne::Bagna_smiertelne()
-:Bagna()
+Bagna_smiertelne::Bagna_smiertelne(Plansza* plansza)
+:Bagna(plansza)
 {
 }
 
@@ -139,7 +150,8 @@ Bagna_smiertelne::~Bagna_smiertelne()
 {
 }
 
-Droga::Droga()
+Droga::Droga(Plansza* plansza)
+:Dozwolone(plansza)
 {
 }
 
@@ -147,7 +159,8 @@ Droga::~Droga()
 {
 }
 
-Gory::Gory()
+Gory::Gory(Plansza* plansza)
+:Dozwolone(plansza)
 {
 	
 }
@@ -157,13 +170,18 @@ Gory::~Gory()
 	
 }
 
-Skaly::Skaly()
-:Zakazane()
+Skaly::Skaly(Plansza* plansza)
+:Zakazane(plansza)
 {
 }
 
 Skaly::~Skaly()
 {
+}
+
+void Plansza::pokaz_skarb()
+{
+	widac = true;
 }
 
 void Plansza::u(int x)
@@ -179,7 +197,6 @@ void Plansza::wczytaj(char** argv)
 	
 	plik = fopen(argv[1],"r");
    	fscanf(plik,"%d%d",&dl,&sz);
-   	//scanf("%d%d",&dl,&sz);
 
  	plansza = new Pole*[dl*sz + dl*2 + sz*2 +4000];
 
@@ -189,7 +206,7 @@ void Plansza::wczytaj(char** argv)
 
 	for( i = 0; i < sz + 2; i++)
 	{
-		plansza[ i ] = new Skaly;
+		plansza[ i ] = new Skaly(this);
 	}
 
 	for(; i < 2*dl + 2*sz + 4 + dl*sz -sz -1 ; i++)
@@ -197,7 +214,7 @@ void Plansza::wczytaj(char** argv)
 			pionowa = 0;
 			if( licznik == 0 || licznik == sz + 1)
 			{
-				plansza[ i ] = new Skaly;
+				plansza[ i ] = new Skaly(this);
 					if(licznik == sz + 1 )
 						licznik = -1;
 					pozioma++;
@@ -211,38 +228,39 @@ void Plansza::wczytaj(char** argv)
 				switch(tmp)
 				{
 				case '#':
-					plansza[ i ] = new Skaly;
+					plansza[ i ] = new Skaly(this);
 					break;
 				case '^':
-					plansza[ i ] = new Gory;
+					plansza[ i ] = new Gory(this);
 					break;
 				case '&':
 					if( wylosuj(1,100)%7 )
 					{
-						plansza[ i ] = new Bagna_lagodne;
+						plansza[ i ] = new Bagna_lagodne(this);
 						break;
 					}
 					else
 					{
-						plansza[ i ] = new Bagna_smiertelne;
+						plansza[ i ] = new Bagna_smiertelne(this);
 						break;
 					}
 					
 				case '.':
-					plansza[ i ] = new Trawa;
+					plansza[ i ] = new Trawa(this);
 					break;
 				case '=':
-					plansza[ i ] = new Droga;
+					plansza[ i ] = new Droga(this);
 					break;
 				case '~':
-					plansza[ i ] = new Rzeka;
+					plansza[ i ] = new Rzeka(this);
 					break;
 				case '$':
-					plansza[ i ] = new Jaskinia;
+					plansza[ i ] = new Jaskinia(this);
+
 					u(i);
 					break;
 				case '*':
-					plansza[ i ] = new Jaskinia;
+					plansza[ i ] = new Jaskinia(this);
 					break;
 				}
 			}
@@ -253,7 +271,7 @@ void Plansza::wczytaj(char** argv)
 	
  	for( i = (sz + 2)*(dl + 1)  ; i < 2*dl + 2*sz + 4 +dl*sz ; i++)
 	{
- 		plansza[ i ] = new Skaly;
+ 		plansza[ i ] = new Skaly(this);
  		plansza[ i ]->usun();
 	}
 	Stworzenie* stw;
@@ -261,6 +279,7 @@ void Plansza::wczytaj(char** argv)
 	{
 		char temp1;
 		int temp2,temp3;
+
 		fscanf(plik,"%c%d%d",&temp1,&temp3,&temp2);
 
 		switch(temp1)
@@ -334,19 +353,35 @@ void Plansza::wypisz() const
 			if(plansza[i]->spr())
 				cout<<plansza[i]->oddaj();
 			else
-				cout<<plansza[i]->jakie_pole(); 
+				if( widac_skarb() && i == pol())
+					cout<<"$";
+				else
+					cout<<plansza[i]->jakie_pole();
+
 			if(licznik == (sz+1))
 			{	
 				cout<<endl;
 				licznik = -1;
 			}
 			licznik++;
-	}	
+	}
+	//milosz->daj_ruch();
+}
+
+
+bool Plansza::widac_skarb() const
+{
+	return widac;
 }
 
 int Plansza::pol() const
 {
 	return polozenie_skarbu;
+}
+
+Plansza* Pole::daj_plansze() const
+{
+	return plansza1;
 }
 
 void Plansza::rusz_milosza()
@@ -378,18 +413,21 @@ void Plansza::rusz_milosza()
 		!plansza[ milosz->daj_pole() + x ]->spr() )
 	{
 			plansza[milosz->daj_pole()+x]->dzialaj(*milosz);
-			if(milosz->daj_zdrowie() <= 0 && milosz->daj_ruch() <= 0)
+			if(milosz->daj_zdrowie() <= 0 ||  milosz->daj_ruch() <= 0)
+
 			{
-				cout<<"Koniec gry"<<endl;
+				ustaw_koniec_gry();
+				milosz->wstaw_komunikat("Milosz zginal", 0);
 			}
 
 			milosz->ustaw_pole(milosz->daj_pole() + x);
 			plansza[milosz->daj_pole()]->postaw(*milosz);
 			plansza[milosz->daj_pole() - x ]->usun();
 
-			if(milosz->daj_pole()+x == pol() )
+			if(milosz->daj_pole()   == pol() )
 			{
 				cout<<"MILOSZ ZNALAZL SKARB"<<endl;
+				ustaw_koniec_gry();
 			}
 	}
 	else
@@ -397,7 +435,10 @@ void Plansza::rusz_milosza()
 		{
 			plansza[ milosz->daj_pole() +x ]->daj_stworzenie()->interakcjuj(*milosz);
 		}
- 	cout<<"Zdrowie Milosza"<<milosz->daj_zdrowie()<<endl;
+ 	milosz->wstaw_komunikat("Milosz ma zdrowie ",milosz->daj_zdrowie());
+ 	milosz->wstaw_komunikat("Milosz ma sile ",milosz->daj_sile());
+ 	milosz->wstaw_komunikat("Milosz ma punkty ruchu ",milosz->daj_ruch());
+
 }
 
 
@@ -436,7 +477,13 @@ void Plansza::rusz_reszte()
 			plansza[stw->daj_pole()]->postaw(*stw);
 			plansza[stw->daj_pole() - x ]->usun();
 
-			if(plansza[stw->daj_pole()]->daj_stworzenie()->daj_zdrowie() <= 0 &&
+			if(stw->daj_pole() == pol() && stw->jakie_stworzenie() == 'P')
+			{
+					cout<<"POSZUKIWACZ ZNALAZL SKARB"<<endl;
+					ustaw_koniec_gry();
+			}
+
+			if(plansza[stw->daj_pole()]->daj_stworzenie()->daj_zdrowie() <= 0 ||
 				plansza[stw->daj_pole()]->daj_stworzenie()->daj_ruch() <= 0)
 			{
 				int temp = 0;
@@ -467,10 +514,7 @@ void Plansza::rusz_reszte()
 
 
 
-void Pole::pokaz_skarb()
-{
-	widac_skarb = true;
-}
+
 
 int Pole::daj_y() const
 {

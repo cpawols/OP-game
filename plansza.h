@@ -10,72 +10,76 @@ class Stworzenie;
 
 class Plansza{
 
-	friend class Stworzenie;
-
 public:
 	Plansza();
 	Pole** plansza;
 	void wczytaj(char** argv);
 	void wypisz() const;
 	void rusz_milosza();
+	void pokaz_skarb();
 	void rusz_reszte();
+	bool widac_skarb() const;
+	bool daj_koniec_gry() const;
+	void ustaw_koniec_gry();
 	void u(int x);
 	int pol()const;
+
 
 private:
 	Milosz* milosz;
 	vector<Stworzenie*> stwory;
-
 	int dl;
 	int sz;
 	int polozenie_skarbu;
+	bool widac;
+	bool koniec_gry;
 	
 };
 
 class Pole{
-
-	friend class Stworzenie;
 	
 public:
-	Pole();
+	Pole(Plansza* x);
 	virtual ~Pole();
 
 	void dzialaj(Stworzenie &stworzenie) ;
-	int daj_x() const;
-	int daj_y() const;
 	void ustaw_x(int x);
 	void ustaw_y(int x);
-
+	void postaw(Stworzenie&);
+	void usun_z_pola();
+	void usun();
+	int daj_x() const;
+	int daj_y() const;
+	int daj_skarb() const;
+	char oddaj() const;
+	bool spr() const;
+	bool widac() const;
+	
 	virtual bool czy_mozna_wejsc() const = 0;
 	virtual bool czy_smiertelne() const;
 	virtual char jakie_pole() const = 0;
 	virtual int ruch() const = 0;
 	virtual int obrazenie() const;
 
-	void postaw(Stworzenie&);
-	void usun();
-
-	void pokaz_skarb();
-	char oddaj() const;
-	bool spr() const;
-	void usun_z_pola();
-
 	Stworzenie* daj_stworzenie() const;
+	Plansza* daj_plansze() const;
 	
 protected:
+
 	int x;		
 	int y;
-	int skarb;
 	int koszt_przejscia;
-	bool widac_skarb;
-	Stworzenie* stworek;	
-	
+	Stworzenie* stworek;
+	Plansza* plansza1;
 };
 
 class Dozwolone : public Pole {
+
 public:	
-	Dozwolone();
+
+	Dozwolone(Plansza* plansza);
 	virtual ~Dozwolone();
+	
 	virtual	bool czy_mozna_wejsc() const;
 	
 };
@@ -83,51 +87,49 @@ public:
 class Zakazane : public Pole {
 
 public:
-	Zakazane();
+
+	Zakazane(Plansza* plansza);
 	virtual ~Zakazane();
 
-	virtual bool czy_mozna_wejsc() const; 		//juz nic nie chce przedefiniowac bo wszystko wiem
+	virtual bool czy_mozna_wejsc() const;
 	
 };
 
 class Trawa : public Dozwolone{
 
 public:
-	Trawa();
+	Trawa(Plansza*);
 	virtual ~Trawa();
 
-	int ruch() const;
-	char jakie_pole() const;
-	
+	virtual int ruch() const;
+	virtual char jakie_pole() const;
 };
 
 class Rzeka : public Dozwolone{
 
 public:
-	Rzeka();
+	Rzeka(Plansza*);
 	virtual ~Rzeka();
 
-	int ruch() const;
-	int obrazenie() const;
-	char jakie_pole() const;
-	
+	virtual int ruch() const;
+	virtual int obrazenie() const;
+	virtual char jakie_pole() const;
 };
 
 class Jaskinia : public Dozwolone{
 
 public:	
-	Jaskinia();
+	Jaskinia(Plansza*);
 	virtual ~Jaskinia();
 
-	int ruch() const;
-	char jakie_pole() const;
-	
+	virtual int ruch() const;
+	virtual char jakie_pole() const;
 };
 
 class Bagna : public Dozwolone{
 
 public:
-	Bagna();
+	Bagna(Plansza*);
 	virtual ~Bagna();
 
 	virtual char jakie_pole() const;
@@ -137,56 +139,54 @@ public:
 class Bagna_lagodne : public Bagna{
 
 public:	
-	Bagna_lagodne();
+	Bagna_lagodne(Plansza*);
 	virtual ~Bagna_lagodne();
 
-	int ruch() const;
-	int obrazenie() const;
-	char jakie_pole() const;
-	
+	virtual int ruch() const;
+	virtual int obrazenie() const;
+	virtual char jakie_pole() const;
 };
 
 class Bagna_smiertelne: public Bagna{
 
 public:	
-	Bagna_smiertelne();
+	Bagna_smiertelne(Plansza*);
 	virtual ~Bagna_smiertelne();
 
-	bool czy_smiertelne() const;
-	int ruch() const;
-	char jakie_pole() const;
+	virtual bool czy_smiertelne() const;
+	virtual int ruch() const;
+	virtual char jakie_pole() const;
 };
 
 class Droga : public Dozwolone{
 
 public:
-	Droga();
+	Droga(Plansza*);
 	virtual ~Droga();
 
-	int ruch() const;
-	char jakie_pole() const;
+	virtual int ruch() const;
+	virtual char jakie_pole() const;
 };
 
 class Gory : public  Dozwolone{
 
 public:
-	Gory();
+	Gory(Plansza*);
 	virtual ~Gory();
 
-	int ruch() const;
-	int obrazenie() const;
-	char jakie_pole() const;
-
+	virtual int ruch() const;
+	virtual int obrazenie() const;
+	virtual char jakie_pole() const;
 };
 
 class Skaly:public Zakazane{
 
 public:	
-	Skaly();
+	Skaly(Plansza*);
 	virtual ~Skaly();
 
-	int ruch() const;
-	char jakie_pole() const;
+	virtual int ruch() const;
+	virtual char jakie_pole() const;
 };
 
 #endif
