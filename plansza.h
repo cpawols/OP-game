@@ -15,12 +15,13 @@ public:
 	Pole** plansza;
 	void wczytaj(char** argv);
 	void wypisz() const;
+	void posprzataj();
 	void rusz_milosza();
 	void pokaz_skarb();
 	void rusz_reszte();
 	bool widac_skarb() const;
 	bool daj_koniec_gry() const;
-	void ustaw_koniec_gry();
+	void ustaw_koniec_gry(bool x);
 	void u(int x);
 	int pol()const;
 
@@ -43,17 +44,20 @@ public:
 	virtual ~Pole();
 
 	void dzialaj(Stworzenie &stworzenie) ;
-	void ustaw_x(int x);
-	void ustaw_y(int x);
+	//void ustaw_x(int x);
+	//void ustaw_y(int x);
 	void postaw(Stworzenie&);
 	void usun_z_pola();
 	void usun();
-	int daj_x() const;
-	int daj_y() const;
+
+	//int daj_x() const;
+	//int daj_y() const;
 	int daj_skarb() const;
-	char oddaj() const;
+
+
 	bool spr() const;
 	bool widac() const;
+	char oddaj() const;
 	
 	virtual bool czy_mozna_wejsc() const = 0;
 	virtual bool czy_smiertelne() const;
@@ -66,8 +70,8 @@ public:
 	
 protected:
 
-	int x;		
-	int y;
+	//int x;
+	//int y;
 	int koszt_przejscia;
 	Stworzenie* stworek;
 	Plansza* plansza1;

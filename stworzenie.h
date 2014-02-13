@@ -36,7 +36,7 @@ public:
 	float daj_bron() const;
 	float daj_zbroje() const;
 
-
+	bool zyje() const;
 	void ustaw_pole(int x);
 	void ustaw_ruch(int x);
 	void ustaw_sile( int x );
@@ -47,8 +47,10 @@ public:
 	void zadaj_obrazenie(int x);
  	void uderz(Stworzenie&);
  	void umrzyj();
+ 	void ustaw_polozenie(Pole* pole);
 
   	virtual void wstaw_komunikat(string s, float x);
+  	virtual void wstaw_komunikat_bez_liczby(string s) ;
 	virtual void interakcjuj(Stworzenie &stworzenie);
 	virtual void atakuj(Stworzenie &stworzenie);
 	virtual char jakie_stworzenie() const = 0;
@@ -71,7 +73,7 @@ protected:
 	Bron bron;
 	Zbroja zbroja;
 	Prezent prezent;
-	Pole *polozenie;
+	Pole* polozenie;
 };
 
 
@@ -104,8 +106,8 @@ public:
 	Poszukiwacz();
 	virtual ~Poszukiwacz();
 
-	Zbroja daj_zbroje() const;
-	Bron daj_bron() const;
+	float daj_zbroje() const;
+	float daj_bron() const;
 	void ustaw_prezent(bool x);
 	
 	virtual bool daj_prezent() const;
@@ -119,9 +121,13 @@ public:
 	Milosz();
 	virtual ~Milosz();
 
-	
+	string daj_glowe() const;
+	void usun_glowe();
+	bool puste_komunikaty() const;
+
 	virtual bool czy_wstawia() const;
 	virtual void wstaw_komunikat(string s, float x);
+	virtual void wstaw_komunikat_bez_liczby(string s);
 	virtual bool czy_moze_kupic() const;
 	virtual char jakie_stworzenie() const;
 };
@@ -166,7 +172,7 @@ public:
 	void ustaw_skarb(int x);
 	void pokaz();
 	int daj_skarb() const;
-	
+
 	virtual void interakcjuj(Stworzenie &poszukiwacz);
 	virtual char jakie_stworzenie() const;
 

@@ -20,19 +20,19 @@ Pole::~Pole()
 
 }
 
-void Pole::ustaw_x(int pion)
+/*void Pole::ustaw_x(int pion)
 {
 	x = pion;
-}
+}*/
 
-void Pole::ustaw_y(int poziom)
+/*void Pole::ustaw_y(int poziom)
 {
 	y = poziom;
-}
+}*/
 
-void Plansza::ustaw_koniec_gry()
+void Plansza::ustaw_koniec_gry(bool x)
 {
-	koniec_gry = true;
+	koniec_gry = x;
 }
 
 bool Plansza::daj_koniec_gry() const
@@ -63,10 +63,10 @@ bool Pole::spr() const
 	return true;
 }
 
-int Pole::daj_x() const
+/*int Pole::daj_x() const
 {
 	return x;
-}
+}*/
 
 void Pole::usun_z_pola()
 {
@@ -194,7 +194,8 @@ void Plansza::wczytaj(char** argv)
 	FILE *plik;
 	int licznik = 0;
 	int x = 0;
-	
+	if(argv[1]	 == nullptr)
+	        cout<<"jestes debilem"<<endl;
 	plik = fopen(argv[1],"r");
    	fscanf(plik,"%d%d",&dl,&sz);
 
@@ -288,53 +289,62 @@ void Plansza::wczytaj(char** argv)
  				milosz= new Milosz;
  				plansza[ (sz + 2)*temp3 + temp2 ]->postaw(*milosz);
  				milosz->ustaw_pole((sz + 2)*temp3 + temp2);
+ 				milosz->ustaw_polozenie(plansza[ (sz + 2)*temp3 + temp2 ]);
 				break;
 			case 'S':
 				stw = new Sklepikarz;
 				plansza[ (sz + 2)*temp3 + temp2 ]->postaw(*stw);
 				stw->ustaw_pole((sz + 2)*temp3 + temp2);
+				stw->ustaw_polozenie(plansza[ (sz + 2)*temp3 + temp2 ]);
 				stwory.push_back(stw);
 				break;
 			case  'Z':
 				stw = new Znachorka;
 				plansza[ (sz + 2)*temp3 + temp2 ]->postaw(*stw);
 				stw->ustaw_pole((sz + 2)*temp3 + temp2);
+				stw->ustaw_polozenie(plansza[ (sz + 2)*temp3 + temp2 ]);
 				stwory.push_back(stw);
 				break;
 			case 'B':
 				stw = new Bard(x);
 				plansza[ (sz + 2)*temp3 + temp2 ]->postaw(*stw);
 				stw->ustaw_pole((sz + 2)*temp3 + temp2);
+				stw->ustaw_polozenie(plansza[ (sz + 2)*temp3 + temp2 ]);
 				stwory.push_back(stw);
 				break;
 			case 'P':
 				stw = new Poszukiwacz;
 				plansza[ (sz + 2)*temp3 + temp2 ]->postaw(*stw);
 				stw->ustaw_pole((sz + 2)*temp3 + temp2);
+				stw->ustaw_polozenie(plansza[ (sz + 2)*temp3 + temp2 ]);
 				stwory.push_back(stw);
 				break;
 			case 'W':
 				stw = new Wybredne;
 				plansza[ (sz + 2)*temp3 + temp2 ]->postaw(*stw);
 				stw->ustaw_pole((sz + 2)*temp3 + temp2);
+				stw->ustaw_polozenie(plansza[ (sz + 2)*temp3 + temp2 ]);
 				stwory.push_back(stw);
 				break;
 			case 'A':
 				stw = new Agresywny;
 				plansza[ (sz + 2)*temp3 + temp2 ]->postaw(*stw);
 				stw->ustaw_pole((sz + 2)*temp3 + temp2);
+				stw->ustaw_polozenie(plansza[ (sz + 2)*temp3 + temp2 ]);
 				stwory.push_back(stw);
 				break;
 			case 'T':
 				stw = new Tchorzliwy;
 				plansza[ (sz + 2)*temp3 + temp2 ]->postaw(*stw);
 				stw->ustaw_pole((sz + 2)*temp3 + temp2);
+				stw->ustaw_polozenie(plansza[ (sz + 2)*temp3 + temp2 ]);
 				stwory.push_back(stw);
 				break;
 			case 'N':
  				stw = new Neutralny;
 				plansza[ (sz + 2)*temp3 + temp2 ]->postaw(*stw);
 				stw->ustaw_pole((sz + 2)*temp3 + temp2);
+				stw->ustaw_polozenie(plansza[ (sz + 2)*temp3 + temp2 ]);
 				stwory.push_back(stw);
 					break;
 			
@@ -342,11 +352,17 @@ void Plansza::wczytaj(char** argv)
 
 		}
 	}
-	fclose(plik	);
+	fclose(plik);
 }
 
 void Plansza::wypisz() const
 {
+	while(!milosz->puste_komunikaty())
+	{
+		cout<<milosz->daj_glowe()<<endl;
+		milosz->usun_glowe();
+	}
+
 	int licznik = 0; 
 	for(int i = 0; i < (dl+2)*(sz+2); i++)
 	{			
@@ -365,7 +381,16 @@ void Plansza::wypisz() const
 			}
 			licznik++;
 	}
-	//milosz->daj_ruch();
+
+}
+
+void Plansza::posprzataj()
+{
+	for(int i = 0; i < (dl+2)*(sz+2); i++)
+	{
+		delete plansza[i];
+	}
+	stwory.clear();
 }
 
 
@@ -416,28 +441,43 @@ void Plansza::rusz_milosza()
 			if(milosz->daj_zdrowie() <= 0 ||  milosz->daj_ruch() <= 0)
 
 			{
-				ustaw_koniec_gry();
+				ustaw_koniec_gry(true);
 				milosz->wstaw_komunikat("Milosz zginal", 0);
 			}
 
 			milosz->ustaw_pole(milosz->daj_pole() + x);
 			plansza[milosz->daj_pole()]->postaw(*milosz);
+			milosz->ustaw_polozenie(plansza[milosz->daj_pole()]);
 			plansza[milosz->daj_pole() - x ]->usun();
 
 			if(milosz->daj_pole()   == pol() )
 			{
-				cout<<"MILOSZ ZNALAZL SKARB"<<endl;
-				ustaw_koniec_gry();
+				milosz->wstaw_komunikat_bez_liczby("MILOSZ ZNALAZL SKARB, KONIEC GRY");
+				ustaw_koniec_gry(true);
 			}
 	}
 	else
 		if(plansza[ milosz->daj_pole() + x ]->spr())
 		{
 			plansza[ milosz->daj_pole() +x ]->daj_stworzenie()->interakcjuj(*milosz);
+			if(!plansza[milosz->daj_pole() +x]->daj_stworzenie()->zyje())
+			{
+				milosz->ustaw_pole(milosz->daj_pole() + x);
+				plansza[milosz->daj_pole()]->postaw(*milosz);
+				milosz->ustaw_polozenie(plansza[milosz->daj_pole()]);
+				plansza[milosz->daj_pole() - x ]->usun();
+			}
 		}
  	milosz->wstaw_komunikat("Milosz ma zdrowie ",milosz->daj_zdrowie());
  	milosz->wstaw_komunikat("Milosz ma sile ",milosz->daj_sile());
  	milosz->wstaw_komunikat("Milosz ma punkty ruchu ",milosz->daj_ruch());
+ 	milosz->wstaw_komunikat("Milosz ma zbroje ",milosz->daj_zbroje());
+ 	milosz->wstaw_komunikat("Milosz ma bron ",milosz->daj_bron());
+ 	if(milosz->daj_prezent())
+ 		milosz->wstaw_komunikat_bez_liczby("Milosz posiada prezent");
+ 	else
+ 		milosz->wstaw_komunikat_bez_liczby("Milosz nie posiada prezentu");
+
 
 }
 
@@ -475,12 +515,13 @@ void Plansza::rusz_reszte()
 			plansza[stw->daj_pole() +x ]->dzialaj(*stw);
 			stw->ustaw_pole(stw->daj_pole() + x);
 			plansza[stw->daj_pole()]->postaw(*stw);
+			stw->ustaw_polozenie(plansza[stw->daj_pole()]);
 			plansza[stw->daj_pole() - x ]->usun();
 
 			if(stw->daj_pole() == pol() && stw->jakie_stworzenie() == 'P')
 			{
-					cout<<"POSZUKIWACZ ZNALAZL SKARB"<<endl;
-					ustaw_koniec_gry();
+					stw->wstaw_komunikat("Poszukiwacz znalazl skarb", 0);
+					ustaw_koniec_gry(true);
 			}
 
 			if(plansza[stw->daj_pole()]->daj_stworzenie()->daj_zdrowie() <= 0 ||
@@ -516,10 +557,10 @@ void Plansza::rusz_reszte()
 
 
 
-int Pole::daj_y() const
+/*int Pole::daj_y() const
 {
 	return y;
-}
+}*/
 
 
 bool Zakazane::czy_mozna_wejsc() const 

@@ -24,10 +24,12 @@ int main(int argc, char** argv)
 			p.rusz_reszte();
 			p.wypisz();
 		}
+		p.posprzataj();
 		char c;
 		cin>>c;
 		if(c=='N')
 		{
+
 			p.ustaw_koniec_gry(false);
 			gramy = true;
 		}

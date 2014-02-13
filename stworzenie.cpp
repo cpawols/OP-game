@@ -67,10 +67,10 @@ void Stworzenie::ustaw_pole(int x)
 	po = x;
 }
 
-/*char Stworzenie::jakie_stworzenie() const
+void Stworzenie::ustaw_polozenie(Pole* pole)
 {
-
-}*/
+	polozenie = pole;
+}
 
 void Stworzenie::zabierz_ruch( int x )
 {
@@ -185,31 +185,46 @@ Bard::~Bard()
 {
 }
 
+bool Stworzenie::zyje() const
+{
+	if(this->daj_zdrowie() <= 0)
+	{
+		return false;
+	}
+	return true;
+
+}
+
 void Stworzenie::wstaw_komunikat(string s, float x)
 {
-/*	//cout<<"DUPA DUPA DUPA"<<endl;
-	char Cstr[5];
-	gcvt(x , 6, Cstr);
-	string w = Cstr;
-	//cout<<"KOMUNIKAT WSTAWIANY "<<s<<endl;
-	komunikaty.push(s );
-*/
+
+}
+
+void Stworzenie::wstaw_komunikat_bez_liczby(string s)
+{
+
+}
+
+
+void Milosz::wstaw_komunikat_bez_liczby(string s)
+{
+	komunikaty.push(s);
 }
 
 void Milosz::wstaw_komunikat(string s, float x)
 {
-	if(x != 0 )
-	{
+	//if(x != 0 )
+
 		char Cstr[5];
 		gcvt(x , 6, Cstr);
 		string w = Cstr;
 		komunikaty.push(s+w);
-	}
-	else
-		komunikaty.push(s);
+	//}
+	//else
+		//komunikaty.push(s);
 	//cout<<"KOMUNIKAT WSTAWIANY "<<s<<endl;
-	cout<<komunikaty.front()<<endl;
-	komunikaty.pop();
+	//cout<<komunikaty.front()<<endl;
+	//komunikaty.pop();
 
 
 }
@@ -220,6 +235,7 @@ void Bard::ustaw_skarb(int x)
 {
 	skarb = x;
 }
+
 
 int Bard::daj_skarb() const
 {
@@ -243,10 +259,9 @@ void Bard::interakcjuj(Stworzenie &poszukiwacz)
 	if(poszukiwacz.daj_prezent())
 	{
 		poszukiwacz.ustaw_prezent( false );
-
-		polozenie->daj_plansze();
+		polozenie->daj_plansze()->pokaz_skarb();
+		poszukiwacz.wstaw_komunikat_bez_liczby("Bard Pokazal skarb ");
 	}
-	cout<<"DUPA"<<endl;
 }
 
 char Bard::jakie_stworzenie() const
@@ -337,7 +352,7 @@ void Sklepikarz::interakcjuj(Stworzenie& stworzenie)
 		{
 			if(stworzenie.czy_wstawia())
 			{
-				stworzenie.wstaw_komunikat("Milosz ma prezent",0);
+				stworzenie.wstaw_komunikat_bez_liczby("Milosz dostal prezent");
 			}
 			stworzenie.ustaw_prezent(true);
 			liczba_prezentow--;
@@ -379,8 +394,8 @@ void Znachorka::interakcjuj(Stworzenie &poszukiwacz)
 	{
  		if(poszukiwacz.czy_wstawia())
  		{
- 			string s = "Znachorka Uleczyla Milosza";
- 			poszukiwacz.wstaw_komunikat(s,0);
+
+ 			poszukiwacz.wstaw_komunikat_bez_liczby("Znachorka Uleczyla Milosza");
 
  		}
 		poszukiwacz.ustaw_zdrowie(100);
@@ -394,6 +409,16 @@ char Znachorka::jakie_stworzenie() const
 	return 'Z';
 }
 
+float Poszukiwacz::daj_bron() const
+{
+	return bron.daj_klase_broni();
+}
+
+float Poszukiwacz::daj_zbroje() const
+{
+	return zbroja.daj_klase_zbroi();
+}
+
 
 Milosz::Milosz()
 :Poszukiwacz()
@@ -405,13 +430,27 @@ Milosz::Milosz()
 	zbroja.ustaw_klase_zbroi(wylosuj_ekwipunek(1,100));
 	bron.ustaw_klase_broni(wylosuj_ekwipunek(1,100));
 	prezent.ustaw_prezent(true);
-
-	cout<<"Bron "<<bron.daj_klase_broni()<<endl;
 }
 
 Milosz::~Milosz()
 {
 }
+
+string Milosz::daj_glowe() const
+{
+	return komunikaty.front();
+}
+
+void Milosz::usun_glowe()
+{
+	komunikaty.pop();
+}
+
+bool Milosz::puste_komunikaty() const
+{
+	return komunikaty.empty();
+}
+
 
 char Milosz::jakie_stworzenie() const
 {
@@ -483,10 +522,8 @@ void Prymitywne::interakcjuj(Stworzenie &stworzenie)
 	stworzenie.atakuj(*this);
 	if(stworzenie.czy_wstawia())
 	{
-		string s = "Milosz zostal zaatakowany jego zdrowie to ";
-		stworzenie.wstaw_komunikat(s, (float)stworzenie.daj_zdrowie());
-		s = "Zdrowie przeciwnika to ";
-		stworzenie.wstaw_komunikat(s, (float)this->daj_zdrowie());
+		stworzenie.wstaw_komunikat("Milosz zostal zaatakowany jego zdrowie to ", (float)stworzenie.daj_zdrowie());
+		stworzenie.wstaw_komunikat("Zdrowie przeciwnika to ", (float)this->daj_zdrowie());
 	}
 }
 
