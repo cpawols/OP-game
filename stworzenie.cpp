@@ -32,14 +32,24 @@ Stworzenie::~Stworzenie()
 {
 }
 
-bool Stworzenie::czy_wstawia() const
+int Stworzenie::daj_zdrowie() const
 {
-	return false;
+	return zdrowie;
 }
 
-bool Stworzenie::czy_atakowac(Stworzenie&) const
+int Stworzenie::daj_sile() const
 {
-	return false;
+	return sila;
+}
+
+int Stworzenie::daj_ruch() const
+{
+	return punkty_ruchu;
+}
+
+int Stworzenie::daj_pole() const
+{
+		return po;
 }
 
 float Stworzenie::daj_bron() const
@@ -50,6 +60,36 @@ float Stworzenie::daj_bron() const
 float Stworzenie::daj_zbroje() const
 {
 	return zbroja.daj_klase_zbroi();
+}
+
+bool Stworzenie::zyje() const
+{
+	if(this->daj_zdrowie() <= 0)
+	{
+		return false;
+	}
+	return true;
+
+}
+
+bool Stworzenie::czy_wstawia() const
+{
+	return false;
+}
+
+bool Stworzenie::czy_atakowac(Stworzenie&) const
+{
+	return false;
+}
+
+bool Stworzenie::daj_prezent() const
+{
+	return false;
+}
+
+bool Stworzenie::czy_moze_kupic() const
+{
+	return false;
 }
 
 void Stworzenie::ustaw_bron(float x)
@@ -92,11 +132,6 @@ void Stworzenie::uderz( Stworzenie&  A)
 }
 
 
-int Stworzenie::daj_pole() const
-{
-		return po;
-}
-
 void Stworzenie::umrzyj()
 {
 	ustaw_zdrowie(0);
@@ -105,26 +140,6 @@ void Stworzenie::umrzyj()
 void Stworzenie::ustaw_ruch(int x)
 {
 	punkty_ruchu = x;
-}
-
-int Stworzenie::daj_zdrowie() const
-{
-	return zdrowie;
-}
-
-int Stworzenie::daj_sile() const
-{
-	return sila;
-}
-
-int Stworzenie::daj_ruch() const
-{
-	return punkty_ruchu;
-}
-
-bool Stworzenie::daj_prezent() const
-{
-	return false;
 }
 
 void Stworzenie::ustaw_prezent(bool x)
@@ -156,6 +171,21 @@ void Stworzenie::atakuj(Stworzenie& stworzenie)
 	
 }
 
+void Stworzenie::wstaw_komunikat(string s, float x)
+{
+
+}
+
+void Stworzenie::wstaw_komunikat_bez_liczby(string s)
+{
+
+}
+
+void Stworzenie::dostawa()
+{
+
+}
+
 
 Inteligentne::Inteligentne()
 :Stworzenie()
@@ -185,71 +215,17 @@ Bard::~Bard()
 {
 }
 
-bool Stworzenie::zyje() const
+
+
+
+char Bard::jakie_stworzenie() const
 {
-	if(this->daj_zdrowie() <= 0)
-	{
-		return false;
-	}
-	return true;
-
+	return 'B';
 }
-
-void Stworzenie::wstaw_komunikat(string s, float x)
-{
-
-}
-
-void Stworzenie::wstaw_komunikat_bez_liczby(string s)
-{
-
-}
-
-
-void Milosz::wstaw_komunikat_bez_liczby(string s)
-{
-	komunikaty.push(s);
-}
-
-void Milosz::wstaw_komunikat(string s, float x)
-{
-	//if(x != 0 )
-
-		char Cstr[5];
-		gcvt(x , 6, Cstr);
-		string w = Cstr;
-		komunikaty.push(s+w);
-	//}
-	//else
-		//komunikaty.push(s);
-	//cout<<"KOMUNIKAT WSTAWIANY "<<s<<endl;
-	//cout<<komunikaty.front()<<endl;
-	//komunikaty.pop();
-
-
-}
-
-
 
 void Bard::ustaw_skarb(int x)
 {
 	skarb = x;
-}
-
-
-int Bard::daj_skarb() const
-{
-	return skarb;
-}
-
-bool Stworzenie::czy_moze_kupic() const
-{
-	return false;
-}
-
-bool Milosz::czy_moze_kupic() const
-{
-	return true;
 }
 
 
@@ -264,10 +240,12 @@ void Bard::interakcjuj(Stworzenie &poszukiwacz)
 	}
 }
 
-char Bard::jakie_stworzenie() const
+int Bard::daj_skarb() const
 {
-	return 'B';
+	return skarb;
 }
+
+
 
 Sklepikarz::Sklepikarz()
 :Inteligentne()
@@ -285,10 +263,7 @@ Sklepikarz::~Sklepikarz()
 {
 }
 
-void Stworzenie::dostawa()
-{
 
-}
 
 void Sklepikarz::dostawa()
 {
@@ -436,6 +411,24 @@ Milosz::~Milosz()
 {
 }
 
+bool Milosz::czy_moze_kupic() const
+{
+	return true;
+}
+
+
+bool Milosz::czy_wstawia() const
+{
+	return true;
+}
+
+
+bool Milosz::puste_komunikaty() const
+{
+	return komunikaty.empty();
+}
+
+
 string Milosz::daj_glowe() const
 {
 	return komunikaty.front();
@@ -446,22 +439,25 @@ void Milosz::usun_glowe()
 	komunikaty.pop();
 }
 
-bool Milosz::puste_komunikaty() const
+void Milosz::wstaw_komunikat(string s, float x)
 {
-	return komunikaty.empty();
+		char Cstr[5];
+		gcvt(x , 6, Cstr);
+		string w = Cstr;
+		komunikaty.push(s+w);
 }
 
+
+
+void Milosz::wstaw_komunikat_bez_liczby(string s)
+{
+	komunikaty.push(s);
+}
 
 char Milosz::jakie_stworzenie() const
 {
 	return 'M';
 }
-
-bool Milosz::czy_wstawia() const
-{
-	return true;
-}
-
 
 Poszukiwacz::Poszukiwacz()
 :Inteligentne()

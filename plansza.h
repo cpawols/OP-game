@@ -34,12 +34,12 @@ private:
 	int polozenie_skarbu;
 	bool widac;
 	bool koniec_gry;
-	
 };
 
 class Pole{
 	
 public:
+
 	Pole(Plansza* x);
 	virtual ~Pole();
 
@@ -70,8 +70,6 @@ public:
 	
 protected:
 
-	//int x;
-	//int y;
 	int koszt_przejscia;
 	Stworzenie* stworek;
 	Plansza* plansza1;
