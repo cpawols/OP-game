@@ -50,10 +50,11 @@ public:
  	void ustaw_polozenie(Pole* pole);
 
   	virtual void wstaw_komunikat(string s, float x);
-  	virtual void wstaw_komunikat_bez_liczby(string s) ;
+  	virtual void wstaw_komunikat_bez_liczby(string s);
 	virtual void interakcjuj(Stworzenie &stworzenie);
 	virtual void atakuj(Stworzenie &stworzenie);
 	virtual char jakie_stworzenie() const = 0;
+	virtual bool czy_inteligentne() const;
 	virtual bool daj_prezent() const;
 	virtual bool czy_atakowac(Stworzenie&) const;
 	virtual void ustaw_prezent(bool x);
@@ -84,6 +85,7 @@ public:
 	Inteligentne();
 	virtual ~Inteligentne();
 
+	virtual bool czy_inteligentne() const;
 	virtual void interakcjuj(Poszukiwacz &stworzenie);
 };
 
@@ -166,18 +168,15 @@ private:
 class Bard:public Inteligentne{
 
 public:	
-	Bard(int x);
+	Bard();
 	virtual ~Bard();
 	
-	void ustaw_skarb(int x);
-	void pokaz();
-	int daj_skarb() const;
+	//void ustaw_skarb(int x);
+	//void pokaz();
+	//int daj_skarb() const;
 
 	virtual void interakcjuj(Stworzenie &poszukiwacz);
 	virtual char jakie_stworzenie() const;
-
-private:
-	int skarb;
 	
 };
 
@@ -226,3 +225,4 @@ public:
 
 };
 #endif
+

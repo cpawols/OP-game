@@ -9,6 +9,11 @@ Plansza::Plansza()
 	plansza = new Pole* [100000];
 }
 
+Plansza::~Plansza()
+{
+
+}
+
 bool Plansza::widac_skarb() const
 {
 	return widac;
@@ -16,14 +21,10 @@ bool Plansza::widac_skarb() const
 
 void Plansza::posprzataj()
 {
-	for(int i = 0; i < (dl+2)*(sz+2); i++)
-	{
-		delete plansza[i];
-	}
+	delete [] plansza;
 	stwory.clear();
 	delete milosz;
 }
-
 
 void Plansza::ustaw_koniec_gry(bool x)
 {
@@ -144,7 +145,6 @@ void Plansza::wczytaj(char** argv)
 {
 	FILE *plik;
 	int licznik = 0;
-	int x = 0;
 	if(argv[1] == nullptr)
 		cout<<"Nie podales planszy"<<endl;
 
@@ -152,8 +152,6 @@ void Plansza::wczytaj(char** argv)
 	fscanf(plik,"%d%d",&dl,&sz);
 	plansza = new Pole*[dl*sz + dl*2 + sz*2 +4000];
 	int i = 0;
-	int pionowa = 0;
-	int pozioma = 0;
 
 	for( i = 0; i < sz + 2; i++)
 	{
@@ -162,14 +160,12 @@ void Plansza::wczytaj(char** argv)
 
 	for(; i < 2*dl + 2*sz + 4 + dl*sz -sz -1 ; i++)
 	{
-			pionowa = 0;
+
 			if( licznik == 0 || licznik == sz + 1)
 			{
 				plansza[ i ] = new Skaly(this);
 					if(licznik == sz + 1 )
 						licznik = -1;
-					pozioma++;
-					pionowa++;
 			}
 			else
 			{
@@ -206,7 +202,7 @@ void Plansza::wczytaj(char** argv)
 					break;
 				case '$':
 					plansza[ i ] = new Jaskinia(this);
-					u(i);
+					miejsce_skarbu(i);
 					break;
 				case '*':
 					plansza[ i ] = new Jaskinia(this);
@@ -253,7 +249,7 @@ void Plansza::wczytaj(char** argv)
 				stwory.push_back(stw);
 				break;
 			case 'B':
-				stw = new Bard(x);
+				stw = new Bard();
 				plansza[ (sz + 2)*temp3 + temp2 ]->postaw(*stw);
 				stw->ustaw_pole((sz + 2)*temp3 + temp2);
 				stw->ustaw_polozenie(plansza[ (sz + 2)*temp3 + temp2 ]);
@@ -300,7 +296,7 @@ void Plansza::wczytaj(char** argv)
 		fclose(plik);
 }
 
-void Plansza::u(int x)
+void Plansza::miejsce_skarbu(int x)
 {
 	polozenie_skarbu = x;
 }
@@ -393,16 +389,6 @@ Pole::~Pole()
 {
 
 }
-
-/*void Pole::ustaw_x(int pion)
-{
-	x = pion;
-}*/
-
-/*void Pole::ustaw_y(int poziom)
-{
-	y = poziom;
-}*/
 
 void Pole::postaw(Stworzenie& A)
 {
@@ -592,7 +578,7 @@ int Bagna_lagodne::obrazenie() const
 
 int Bagna_lagodne::ruch() const
 {
-	return 7;
+	return 5;
 }
 
 Bagna_smiertelne::Bagna_smiertelne(Plansza* plansza)
@@ -651,7 +637,7 @@ Gory::~Gory()
 
 int Gory::ruch() const
 {
-	return 18;
+	return 8;
 }
 
 int Gory::obrazenie() const
@@ -674,15 +660,9 @@ Skaly::~Skaly()
 {
 }
 
-/*int Pole::daj_y() const
-{
-	return y;
-}*/
-
-
 int Skaly::ruch() const
 {
-	return 12;
+	return 1000000;
 }
 
 char Skaly::jakie_pole() const

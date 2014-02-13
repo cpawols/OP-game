@@ -116,7 +116,6 @@ void Stworzenie::zabierz_ruch( int x )
 {
 	punkty_ruchu -= x;
 
-// 	assert (punkty_ruchu > 0);
 }
 
 void Stworzenie::zadaj_obrazenie( int x )
@@ -156,6 +155,11 @@ void Stworzenie::ustaw_sile(int x)
 void Stworzenie::ustaw_zdrowie( int x)
 {
 	zdrowie = x;
+}
+
+bool Stworzenie::czy_inteligentne() const
+{
+	return false;
 }
 
 void Stworzenie::interakcjuj(Stworzenie&)
@@ -201,11 +205,16 @@ void Inteligentne::interakcjuj(Poszukiwacz& poszukiwacz)
 {
 
 }
+bool Inteligentne::czy_inteligentne() const
+{
+	return true;
+}
 
-Bard::Bard(int x)
+
+Bard::Bard()
 :Inteligentne()
 {
-	skarb = x;
+
 	ustaw_ruch(wylosuj(1,100));
 	ustaw_zdrowie(wylosuj(1,100));
 	ustaw_sile(wylosuj(1,100));
@@ -223,11 +232,11 @@ char Bard::jakie_stworzenie() const
 	return 'B';
 }
 
-void Bard::ustaw_skarb(int x)
+/*void Bard::ustaw_skarb(int x)
 {
 	skarb = x;
 }
-
+*/
 
 void Bard::interakcjuj(Stworzenie &poszukiwacz)
 {
@@ -240,10 +249,10 @@ void Bard::interakcjuj(Stworzenie &poszukiwacz)
 	}
 }
 
-int Bard::daj_skarb() const
+/*int Bard::daj_skarb() const
 {
 	return skarb;
-}
+}*/
 
 
 
@@ -541,13 +550,10 @@ Wybredne::Wybredne()
 Wybredne::~Wybredne()
 {
 }
-//
+
 bool Wybredne::czy_atakowac(Stworzenie& stworzenie) const
 {
-	if( stworzenie.jakie_stworzenie() == 'B' ||
-		stworzenie.jakie_stworzenie() == 'M' ||
-		stworzenie.jakie_stworzenie() == 'P' ||
-		stworzenie.jakie_stworzenie() == 'Z')
+	if(stworzenie.czy_inteligentne())
 		return true;
 	return false;
 }

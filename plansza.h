@@ -12,6 +12,7 @@ class Plansza{
 
 public:
 	Plansza();
+	virtual ~Plansza();
 	Pole** plansza;
 	void wczytaj(char** argv);
 	void wypisz() const;
@@ -22,7 +23,7 @@ public:
 	bool widac_skarb() const;
 	bool daj_koniec_gry() const;
 	void ustaw_koniec_gry(bool x);
-	void u(int x);
+	void miejsce_skarbu(int x);
 	int pol()const;
 
 
