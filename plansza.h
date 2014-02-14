@@ -131,7 +131,7 @@ public:
 	Bagna(Plansza*);
 	virtual ~Bagna();
 
-	virtual char jakie_pole() const;
+	virtual char jakie_pole() const = 0;
 	
 };
 

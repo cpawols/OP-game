@@ -58,9 +58,9 @@ public:
 	virtual bool daj_prezent() const;
 	virtual bool czy_atakowac(Stworzenie&) const;
 	virtual void ustaw_prezent(bool x);
-	virtual void dostawa();
 	virtual bool czy_moze_kupic() const;
 	virtual bool czy_wstawia() const;
+	virtual void poczatek_tury();
 
 	
 	
@@ -76,7 +76,6 @@ protected:
 	Prezent prezent;
 	Pole* polozenie;
 };
-
 
 
 class Inteligentne:public Stworzenie{
@@ -96,7 +95,7 @@ public:
 	Prymitywne();
 	virtual ~Prymitywne();
 
-	virtual void interakcjuj(Stworzenie&);	//trololo
+	virtual void interakcjuj(Stworzenie&);
 	virtual bool czy_atakowac(Stworzenie &stworzenie) const = 0;
 	virtual void atakuj(Stworzenie &stworzenie);
 };
@@ -151,10 +150,10 @@ public:
 	Sklepikarz();
 	virtual ~Sklepikarz();
 	
-	void dostawa();
 	
 	virtual void interakcjuj(Stworzenie &stworzenie);
 	virtual char jakie_stworzenie() const;
+	virtual void poczatek_tury();
 
 private:
 	std::vector<Bron> asortyment_broni;

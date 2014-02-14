@@ -178,17 +178,17 @@ void Stworzenie::atakuj(Stworzenie& stworzenie)
 	
 }
 
+void Stworzenie::poczatek_tury()
+{
+
+}
+
 void Stworzenie::wstaw_komunikat(std::string s, float x)
 {
 
 }
 
 void Stworzenie::wstaw_komunikat_bez_liczby(std::string s)
-{
-
-}
-
-void Stworzenie::dostawa()
 {
 
 }
@@ -263,33 +263,31 @@ Sklepikarz::~Sklepikarz()
 }
 
 
-
-void Sklepikarz::dostawa()
+void Sklepikarz::poczatek_tury()
 {
+		Zbroja  z;
+		Bron b;
+		int random_x = wylosuj(1,100);
+		if( random_x % 2  ==  0)
+		{
+			z.ustaw_klase_zbroi(wylosuj_ekwipunek(1,100));
+			asortyment_zbroi.push_back(z);
+		}
 
-	Zbroja  z;
-	Bron b;
-	int random_x = wylosuj(1,100);
-	if( random_x % 2  ==  0)
-	{
-		z.ustaw_klase_zbroi(wylosuj_ekwipunek(1,100));
-		asortyment_zbroi.push_back(z);
-	}
+		random_x = wylosuj(1,100);
 
-	random_x = wylosuj(1,100);
+		if(random_x % 5 == 0)
+		{
+			b.ustaw_klase_broni(wylosuj_ekwipunek(1,100));
+			asortyment_broni.push_back(b);
+		}
 
-	if(random_x % 5 == 0)
-	{
-		b.ustaw_klase_broni(wylosuj_ekwipunek(1,100));
-		asortyment_broni.push_back(b);
-	}
+		random_x = wylosuj(1,17);
 
-	random_x = wylosuj(1,17);
-
-	if(random_x % 3)
-	{
-		liczba_prezentow++;
-	}
+		if(random_x % 3)
+		{
+			liczba_prezentow++;
+		}
 }
 
 void Sklepikarz::interakcjuj(Stworzenie& stworzenie)
@@ -365,7 +363,6 @@ void Znachorka::interakcjuj(Stworzenie &poszukiwacz)
  		}
 		poszukiwacz.ustaw_zdrowie(100);
 		poszukiwacz.ustaw_prezent(false);
-
 	}
 }
 
@@ -388,8 +385,8 @@ Milosz::Milosz()
 :Poszukiwacz()
 {
 	
-	ustaw_zdrowie(50);
-	ustaw_sile(50);
+	ustaw_zdrowie(100);
+	ustaw_sile(100);
 	ustaw_ruch(100);
 	zbroja.ustaw_klase_zbroi(wylosuj_ekwipunek(1,100));
 	bron.ustaw_klase_broni(wylosuj_ekwipunek(1,100));
@@ -401,13 +398,13 @@ Milosz::Milosz()
 
 Milosz::~Milosz()
 {
+
 }
 
 bool Milosz::czy_moze_kupic() const
 {
 	return true;
 }
-
 
 bool Milosz::czy_wstawia() const
 {
@@ -461,6 +458,7 @@ Poszukiwacz::Poszukiwacz()
 
 Poszukiwacz::~Poszukiwacz()
 {
+
 }
 
 void Poszukiwacz::kup(const std::vector <Przedmiot> przedmioty)
@@ -514,7 +512,6 @@ void Prymitywne::atakuj(Stworzenie& stworzenie)
 	stworzenie.uderz(*this);
 	if(this->daj_zdrowie() < 0)
 	{
-		std::cout<<"wlazl"<<std::endl;
 		this->uderz(stworzenie);
 	}
 }
