@@ -6,12 +6,14 @@
 Plansza::Plansza()
 {
 	koniec_gry = false;
+	widac = false;
 	plansza = new Pole* [ 100000 ];
 }
 
 Plansza::~Plansza()
 {
 	posprzataj();
+
 }
 
 bool Plansza::widac_skarb() const
@@ -39,21 +41,9 @@ void Plansza::gra(char** argv)
 	{
 		rozegraj(argv);
 		posprzataj();
-		char c;
-		std::cin >> c;
-		switch (c)
-		{
-			case ('N'):
-				ustaw_koniec_gry(false);
-				gramy = true;
-				break;
-			case ('w'):
-				gramy = false;
-				ustaw_koniec_gry(true);
-				std::cout<<"Dziekujemy za gre :) \n";
-				exit(1);
-				break;
-		}
+		ustaw_koniec_gry(false);
+		gramy = true;
+		puts("Nowa gra");
 	}
 }
 
@@ -63,9 +53,12 @@ void Plansza::posprzataj()
 	{
 		delete plansza[i];
 	}
+
 	for(auto s : stwory)
+		//	delete s;
 		 s->ustaw_polozenie(nullptr);
 	stwory.clear();
+	widac = false;
 }
 
 void Plansza::ustaw_koniec_gry(bool x)
@@ -106,8 +99,7 @@ void Plansza::rusz_reszte()
 					break;
 		}
 
-		if(stw->jakie_stworzenie() == 'S')
-			stw->dostawa();
+		stw->poczatek_tury();
 
 		if(		plansza[stw->daj_pole() + x]->czy_mozna_wejsc() &&
 				!plansza[stw->daj_pole()+x]->spr()
@@ -125,14 +117,16 @@ void Plansza::rusz_reszte()
 					ustaw_koniec_gry(true);
 			}
 
-			if(plansza[stw->daj_pole()]->daj_stworzenie()->daj_zdrowie() <= 0 ||
-				plansza[stw->daj_pole()]->daj_stworzenie()->daj_ruch() <= 0)
+			/*if(plansza[stw->daj_pole()]->daj_stworzenie()->daj_zdrowie() <= 0 ||
+				plansza[stw->daj_pole()]->daj_stworzenie()->daj_ruch() <= 0)*/
+
+			if(stw->daj_zdrowie() <= 0 || stw->daj_ruch() <= 0)
 			{
 				int temp = 0;
 				for(auto s : stwory)
 				{
-
-					if(s == plansza[stw->daj_pole()]->daj_stworzenie())
+					if(s == stw)
+					//if(s == plansza[stw->daj_pole()]->daj_stworzenie())
 					{
 						stwory.erase(stwory.begin()+temp);
 					}
@@ -156,6 +150,7 @@ void Plansza::wypisz() const
 {
 	while(!milosz->puste_komunikaty())
 	{
+		//printf("%s\n",milosz->daj_glowe() );
 		std::cout<<milosz->daj_glowe()<<std::endl;
 		milosz->usun_glowe();
 	}
@@ -165,17 +160,21 @@ void Plansza::wypisz() const
 	{
 			if(plansza[i]->spr())
 			{
-				std::cout<<plansza[i]->oddaj();
+				printf("%c",plansza[i]->oddaj());
+				//std::cout<<plansza[i]->oddaj();
 			}
 			else
 				if( widac_skarb() && i == pol())
-					std::cout<<"$";
+					printf("$");
+					//std::cout<<"$";
 				else
-					std::cout<<plansza[i]->jakie_pole();
+					printf("%c",plansza[i]->jakie_pole());
+					//std::cout<<plansza[i]->jakie_pole();
 
 			if(licznik == (sz+1))
 			{
-				std::cout<<std::endl;
+				puts("");
+				//std::cout<<std::endl;
 				licznik = -1;
 			}
 			licznik++;
@@ -188,8 +187,8 @@ void Plansza::wczytaj(char** argv)
 	int licznik = 0;
 	if( argv[1] == nullptr )
 	{
-		std::cout<<"Podaj plansze \n";
-		exit(1);
+		puts("Podaj plansze \n");
+		exit(0);
 	}
 	plik = fopen(argv[1],"r");
 	fscanf(plik,"%d%d",&dl,&sz);
@@ -336,7 +335,6 @@ void Plansza::wczytaj(char** argv)
 			}
 		}
 		fclose(plik);
-		i = 0;
 }
 
 void Plansza::miejsce_skarbu(int x)
@@ -352,7 +350,7 @@ int Plansza::pol() const
 void Plansza::rusz_milosza()
 {
 	char kierunek;
-	std::cin>>kierunek;
+	scanf(" %c",&kierunek);
 	int x = 0;
 	
 	if(milosz->daj_zdrowie() > 0 && milosz->daj_ruch() > 0)
@@ -372,8 +370,8 @@ void Plansza::rusz_milosza()
 					x = sz+2;
 					break;
 			case('w'):
-					std::cout<<"Dziekujemy za gre :) \n";
-					exit (1);
+					puts("Dziekujemy za gre");
+					exit (0);
 					break;
 		}
 	}
@@ -605,11 +603,6 @@ Bagna::~Bagna()
 
 }
 
-char Bagna::jakie_pole() const
-{
-	return 0; //?
-}
-
 Bagna_lagodne::Bagna_lagodne(Plansza* plansza)
 :Bagna(plansza)
 {
@@ -728,4 +721,3 @@ char Skaly::jakie_pole() const
 {
 	return '#';
 }
-
