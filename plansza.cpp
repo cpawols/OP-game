@@ -6,7 +6,11 @@
 Plansza::Plansza()
 {
 	koniec_gry = false;
+	dl = 0;
+	sz = 0;
+	polozenie_skarbu = 0;
 	widac = false;
+	milosz = nullptr;
 	plansza = new Pole* [ 100000 ];
 }
 
@@ -29,7 +33,9 @@ void Plansza::rozegraj(char** argv)
 	{
 		rusz_milosza();
 		rusz_reszte();
+		koniec_tury();
 		wypisz();
+
 	}
 }
 
@@ -112,7 +118,7 @@ void Plansza::rusz_reszte()
 
 			if(stw->daj_pole() == pol() && stw->jakie_stworzenie() == 'P')
 			{
-					stw->wstaw_komunikat("Poszukiwacz znalazl skarb", 0);
+					milosz->wstaw_komunikat_bez_liczby("Poszukiwacz znalazl skarb");
 					ustaw_koniec_gry(true);
 			}
 
@@ -145,7 +151,7 @@ void Plansza::rusz_reszte()
 	}
 }
 
-void Plansza::wypisz() const
+void Plansza::koniec_tury()
 {
 	while(!milosz->puste_komunikaty())
 	{
@@ -153,6 +159,10 @@ void Plansza::wypisz() const
 		std::cout<<milosz->daj_glowe()<<std::endl;
 		milosz->usun_glowe();
 	}
+}
+void Plansza::wypisz() const
+{
+
 
 	int licznik = 0;
 	for(int i = 0; i < (dl+2)*(sz+2); i++)
@@ -330,7 +340,7 @@ void Plansza::wczytaj(char** argv)
 				stw->ustaw_polozenie(plansza[ (sz + 2)*temp3 + temp2 ]);
 				stwory.push_back(stw);
 					break;
-				delete stw;
+			//	delete stw;
 			}
 		}
 		fclose(plik);
@@ -419,19 +429,20 @@ void Plansza::rusz_milosza()
  	else
  		milosz->wstaw_komunikat_bez_liczby("Milosz nie posiada prezentu");
 
-
 }
 
 
 Pole::Pole(Plansza* plansza)
 {
+
 	plansza1 = plansza;
+	stworek = nullptr;
 
 }
 
 Pole::~Pole()
 {
-	delete stworek;
+	//delete stworek;
 }
 
 void Pole::postaw(Stworzenie& A)

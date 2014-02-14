@@ -24,7 +24,9 @@ public:
 	void ustaw_koniec_gry(bool x);
 	void miejsce_skarbu(int x);
 	void gra(char** argv);
+	void koniec_tury();
 	int pol()const;
+
 
 private:
 
@@ -67,7 +69,6 @@ public:
 	
 protected:
 
-	int koszt_przejscia;
 	Stworzenie* stworek;
 	Plansza* plansza1;
 };

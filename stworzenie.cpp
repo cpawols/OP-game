@@ -1,5 +1,6 @@
 #include <cassert>
 #include <random>
+#include <cmath>
 #include <iostream>
 #include "stworzenie.h"
 #include "plansza.h"
@@ -128,7 +129,8 @@ void Stworzenie::zadaj_obrazenie( int x )
 
 void Stworzenie::uderz( Stworzenie&  A)
 {
-	A.zadaj_obrazenie( int(A.daj_sile()* ( A.daj_zdrowie()*0.001 ) *(1.00 + A.daj_bron() ) *(1 - this->daj_zbroje())));
+	//printf("TAK LEJEMY SIE %f\n", ceil(A.daj_sile()* ( A.daj_zdrowie()*0.001 ) *(1.00 + A.daj_bron() ) *(1.00 - this->daj_zbroje())));
+	A.zadaj_obrazenie( ceil(A.daj_sile()* ( A.daj_zdrowie()*0.001 ) *(1.00 + A.daj_bron() ) *(1.00 - this->daj_zbroje())));
 }
 
 
@@ -357,9 +359,7 @@ void Znachorka::interakcjuj(Stworzenie &poszukiwacz)
 	{
  		if(poszukiwacz.czy_wstawia())
  		{
-
  			poszukiwacz.wstaw_komunikat_bez_liczby("Znachorka Uleczyla Milosza");
-
  		}
 		poszukiwacz.ustaw_zdrowie(100);
 		poszukiwacz.ustaw_prezent(false);
@@ -385,8 +385,8 @@ Milosz::Milosz()
 :Poszukiwacz()
 {
 	
-	ustaw_zdrowie(100);
-	ustaw_sile(100);
+	ustaw_zdrowie(50);
+	ustaw_sile(50);
 	ustaw_ruch(100);
 	zbroja.ustaw_klase_zbroi(wylosuj_ekwipunek(1,100));
 	bron.ustaw_klase_broni(wylosuj_ekwipunek(1,100));
@@ -510,7 +510,7 @@ void Prymitywne::interakcjuj(Stworzenie &stworzenie)
 void Prymitywne::atakuj(Stworzenie& stworzenie)
 {
 	stworzenie.uderz(*this);
-	if(this->daj_zdrowie() < 0)
+	if(this->daj_zdrowie() > 0)
 	{
 		this->uderz(stworzenie);
 	}
@@ -537,6 +537,7 @@ void Wybredne::atakuj(Stworzenie& stworzenie)
 	this->uderz(stworzenie);
 	if(stworzenie.daj_zdrowie() > 0)
 		stworzenie.uderz(*this);
+
 }
 
 char Wybredne::jakie_stworzenie() const
