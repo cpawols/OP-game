@@ -11,7 +11,7 @@ Plansza::Plansza()
 
 Plansza::~Plansza()
 {
-
+	posprzataj();
 }
 
 bool Plansza::widac_skarb() const
@@ -98,9 +98,7 @@ void Plansza::rusz_reszte()
 				}
 				plansza[stw->daj_pole()]->usun_z_pola();
 			}
-
-
-		}
+			}
 		else
 			if(plansza[stw->daj_pole() + x ]->spr())
 			{
@@ -294,6 +292,7 @@ void Plansza::wczytaj(char** argv)
 			}
 		}
 		fclose(plik);
+		i = 0;
 }
 
 void Plansza::miejsce_skarbu(int x)
@@ -387,7 +386,7 @@ Pole::Pole(Plansza* plansza)
 
 Pole::~Pole()
 {
-
+	usun();
 }
 
 void Pole::postaw(Stworzenie& A)
@@ -413,11 +412,6 @@ bool Pole::spr() const
 	return true;
 }
 
-/*int Pole::daj_x() const
-{
-	return x;
-}*/
-
 void Pole::usun_z_pola()
 {
 	stworek = nullptr;
@@ -437,6 +431,7 @@ void Pole::dzialaj(Stworzenie &stworzenie)
 		stworzenie.umrzyj();
 	}
 }
+
 Stworzenie*  Pole::daj_stworzenie() const
 {
 	return stworek;
@@ -455,9 +450,12 @@ int Pole::obrazenie() const
 Dozwolone::Dozwolone(Plansza* plansza)
 : Pole(plansza)
 {
+
 }
+
 Dozwolone::~Dozwolone()
 {
+
 }
 
 bool Dozwolone::czy_mozna_wejsc() const 
@@ -468,6 +466,7 @@ bool Dozwolone::czy_mozna_wejsc() const
 Zakazane::Zakazane(Plansza* plansza)
 :Pole(plansza)
 {
+
 }
 
 Zakazane::~Zakazane()
@@ -502,10 +501,12 @@ char Trawa::jakie_pole() const
 Rzeka::Rzeka(Plansza* plansza)
 :Dozwolone(plansza)
 {
+
 }
 
 Rzeka::~Rzeka()
 {
+
 }
 
 int Rzeka::ruch() const
@@ -526,10 +527,12 @@ int Rzeka::obrazenie() const
 Jaskinia::Jaskinia(Plansza* plansza)
 :Dozwolone(plansza)
 {
+
 }
 
 Jaskinia::~Jaskinia()
 {
+
 }
 
 int Jaskinia::ruch() const
@@ -546,10 +549,12 @@ char Jaskinia::jakie_pole() const
 Bagna::Bagna(Plansza* plansza)
 :Dozwolone(plansza)
 {
+
 }
 
 Bagna::~Bagna()
 {
+
 }
 
 char Bagna::jakie_pole() const
@@ -560,10 +565,12 @@ char Bagna::jakie_pole() const
 Bagna_lagodne::Bagna_lagodne(Plansza* plansza)
 :Bagna(plansza)
 {
+
 }
 
 Bagna_lagodne::~Bagna_lagodne()
 {
+
 }
 
 char Bagna_lagodne::jakie_pole() const
@@ -584,10 +591,12 @@ int Bagna_lagodne::ruch() const
 Bagna_smiertelne::Bagna_smiertelne(Plansza* plansza)
 :Bagna(plansza)
 {
+
 }
 
 Bagna_smiertelne::~Bagna_smiertelne()
 {
+
 }
 
 int Bagna_smiertelne::ruch() const
@@ -608,10 +617,12 @@ bool Bagna_smiertelne::czy_smiertelne() const
 Droga::Droga(Plansza* plansza)
 :Dozwolone(plansza)
 {
+
 }
 
 Droga::~Droga()
 {
+
 }
 
 int Droga::ruch() const
@@ -650,10 +661,10 @@ char Gory::jakie_pole() const
 	return '^';
 }
 
-
 Skaly::Skaly(Plansza* plansza)
 :Zakazane(plansza)
 {
+
 }
 
 Skaly::~Skaly()
