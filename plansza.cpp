@@ -186,7 +186,11 @@ void Plansza::wczytaj(char** argv)
 {
 	FILE *plik;
 	int licznik = 0;
-
+	if( argv[1] == nullptr )
+	{
+		std::cout<<"Podaj plansze \n";
+		exit(1);
+	}
 	plik = fopen(argv[1],"r");
 	fscanf(plik,"%d%d",&dl,&sz);
 	int i = 0;
