@@ -394,7 +394,7 @@ Milosz::Milosz()
 	zbroja.ustaw_klase_zbroi(wylosuj_ekwipunek(1,100));
 	bron.ustaw_klase_broni(wylosuj_ekwipunek(1,100));
 	wstaw_komunikat("Milosz ma zbroje ", zbroja.daj_klase_zbroi());
-	wstaw_komunikat("Milosz ma zbroje ", zbroja.daj_klase_zbroi());
+	wstaw_komunikat("Milosz ma bron ", bron.daj_klase_broni());
 	wstaw_komunikat_bez_liczby("Milosz nie posiada prezentu");
 	prezent.ustaw_prezent(false);
 }
@@ -512,7 +512,6 @@ void Prymitywne::interakcjuj(Stworzenie &stworzenie)
 void Prymitywne::atakuj(Stworzenie& stworzenie)
 {
 	stworzenie.uderz(*this);
-	std::cout<<"Ddushkljvfs"<<std::endl;
 	if(this->daj_zdrowie() < 0)
 	{
 		std::cout<<"wlazl"<<std::endl;
