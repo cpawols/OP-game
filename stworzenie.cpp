@@ -30,6 +30,7 @@ Stworzenie::Stworzenie()
 
 Stworzenie::~Stworzenie()
 {
+
 }
 
 int Stworzenie::daj_zdrowie() const
@@ -171,16 +172,18 @@ void Stworzenie::atakuj(Stworzenie& stworzenie)
 {
 	this->uderz(stworzenie);
 	if(stworzenie.daj_zdrowie() > 0)
+	{
 		stworzenie.uderz(*this);
+	}
 	
 }
 
-void Stworzenie::wstaw_komunikat(string s, float x)
+void Stworzenie::wstaw_komunikat(std::string s, float x)
 {
 
 }
 
-void Stworzenie::wstaw_komunikat_bez_liczby(string s)
+void Stworzenie::wstaw_komunikat_bez_liczby(std::string s)
 {
 
 }
@@ -222,21 +225,14 @@ Bard::Bard()
 
 Bard::~Bard()
 {
+
 }
-
-
-
 
 char Bard::jakie_stworzenie() const
 {
 	return 'B';
 }
 
-/*void Bard::ustaw_skarb(int x)
-{
-	skarb = x;
-}
-*/
 
 void Bard::interakcjuj(Stworzenie &poszukiwacz)
 {
@@ -248,12 +244,6 @@ void Bard::interakcjuj(Stworzenie &poszukiwacz)
 		poszukiwacz.wstaw_komunikat_bez_liczby("Bard Pokazal skarb ");
 	}
 }
-
-/*int Bard::daj_skarb() const
-{
-	return skarb;
-}*/
-
 
 
 Sklepikarz::Sklepikarz()
@@ -312,9 +302,8 @@ void Sklepikarz::interakcjuj(Stworzenie& stworzenie)
 
 			if(stworzenie.czy_wstawia())
 			{
-				string s = "Milosz ma nowa bron ";
+				std::string s = "Milosz ma nowa bron ";
 				stworzenie.wstaw_komunikat(s,asortyment_broni.back().daj_klase_broni());
-				//cout<<komunikaty.front()<<endl;
 			}
 
 			stworzenie.ustaw_bron(asortyment_broni.back().daj_klase_broni());
@@ -325,8 +314,7 @@ void Sklepikarz::interakcjuj(Stworzenie& stworzenie)
 
 			if(stworzenie.czy_wstawia())
 			{
-				string s = "Milosz ma nowa zbroje ";
-				stworzenie.wstaw_komunikat(s,asortyment_zbroi.back().daj_klase_zbroi());
+				stworzenie.wstaw_komunikat("Milosz ma nowa zbroje ",asortyment_zbroi.back().daj_klase_zbroi());
 			}
 
 			stworzenie.ustaw_zbroje(asortyment_zbroi.back().daj_klase_zbroi());
@@ -343,13 +331,6 @@ void Sklepikarz::interakcjuj(Stworzenie& stworzenie)
 		}
 
 	}
-	//cout<<"DUPA"<<endl;
-	while(!komunikaty.empty())
-	{
-		cout<<komunikaty.front()<<endl;
-		komunikaty.pop();
-	}
-
 }
 
 char Sklepikarz::jakie_stworzenie() const
@@ -403,7 +384,6 @@ float Poszukiwacz::daj_zbroje() const
 	return zbroja.daj_klase_zbroi();
 }
 
-
 Milosz::Milosz()
 :Poszukiwacz()
 {
@@ -413,7 +393,10 @@ Milosz::Milosz()
 	ustaw_ruch(100);
 	zbroja.ustaw_klase_zbroi(wylosuj_ekwipunek(1,100));
 	bron.ustaw_klase_broni(wylosuj_ekwipunek(1,100));
-	prezent.ustaw_prezent(true);
+	wstaw_komunikat("Milosz ma zbroje ", zbroja.daj_klase_zbroi());
+	wstaw_komunikat("Milosz ma zbroje ", zbroja.daj_klase_zbroi());
+	wstaw_komunikat_bez_liczby("Milosz nie posiada prezentu");
+	prezent.ustaw_prezent(false);
 }
 
 Milosz::~Milosz()
@@ -438,7 +421,7 @@ bool Milosz::puste_komunikaty() const
 }
 
 
-string Milosz::daj_glowe() const
+std::string Milosz::daj_glowe() const
 {
 	return komunikaty.front();
 }
@@ -448,17 +431,15 @@ void Milosz::usun_glowe()
 	komunikaty.pop();
 }
 
-void Milosz::wstaw_komunikat(string s, float x)
+void Milosz::wstaw_komunikat(std::string s, float x)
 {
 		char Cstr[5];
 		gcvt(x , 6, Cstr);
-		string w = Cstr;
+		std::string w = Cstr;
 		komunikaty.push(s+w);
 }
 
-
-
-void Milosz::wstaw_komunikat_bez_liczby(string s)
+void Milosz::wstaw_komunikat_bez_liczby(std::string s)
 {
 	komunikaty.push(s);
 }
@@ -475,14 +456,14 @@ Poszukiwacz::Poszukiwacz()
 	ustaw_ruch(wylosuj(1,100));
 	ustaw_sile(wylosuj(1,100));
 	zbroja.ustaw_klase_zbroi(wylosuj_ekwipunek(0,100));
-	prezent.ustaw_prezent(0); //ustawia wszystkim poszukiwaczom brak prezentu.
+	prezent.ustaw_prezent(0);
 }
 
 Poszukiwacz::~Poszukiwacz()
 {
 }
 
-void Poszukiwacz::kup(const vector <Przedmiot> przedmioty)
+void Poszukiwacz::kup(const std::vector <Przedmiot> przedmioty)
 {
 	
 }
@@ -506,6 +487,9 @@ char Poszukiwacz::jakie_stworzenie() const
 Prymitywne::Prymitywne()
 :Stworzenie()
 {
+	ustaw_ruch(wylosuj(1,100));
+	ustaw_zdrowie(wylosuj(1,100));
+	ustaw_sile(wylosuj(1,100));
 	zbroja.ustaw_klase_zbroi(0);
 	bron.ustaw_klase_broni(0);
 	prezent.ustaw_prezent(0);
@@ -515,15 +499,8 @@ Prymitywne::~Prymitywne()
 {
 }
 
-/*bool Prymitywne::czy_atakowac(Stworzenie&) const
-{
-	
-}*/
-
 void Prymitywne::interakcjuj(Stworzenie &stworzenie)
 {
-
-	//TU COS ROBILEM + interakcuj dla prymitywnych i cos jeszcze ale nie pamietam co
 	stworzenie.atakuj(*this);
 	if(stworzenie.czy_wstawia())
 	{
@@ -535,9 +512,10 @@ void Prymitywne::interakcjuj(Stworzenie &stworzenie)
 void Prymitywne::atakuj(Stworzenie& stworzenie)
 {
 	stworzenie.uderz(*this);
-	if(this->daj_zdrowie() > 0)
+	std::cout<<"Ddushkljvfs"<<std::endl;
+	if(this->daj_zdrowie() < 0)
 	{
-		cout<<"wlazl"<<endl;
+		std::cout<<"wlazl"<<std::endl;
 		this->uderz(stworzenie);
 	}
 }
@@ -635,4 +613,3 @@ Neutralny::~Neutralny()
 {
 	
 }
-

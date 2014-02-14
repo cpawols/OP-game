@@ -2,9 +2,7 @@
 #define PLANSZA_H
 #include "stworzenie.h"
 
-/*
- * Interakcjuj ma byc odpowiedzialne glownie za "odbieranie" punktow sily za ruch po danym polu
- * */
+
 class Pole;
 class Stworzenie;
 
@@ -13,23 +11,26 @@ class Plansza{
 public:
 	Plansza();
 	virtual ~Plansza();
-	Pole** plansza;
+
 	void wczytaj(char** argv);
 	void wypisz() const;
 	void posprzataj();
 	void rusz_milosza();
 	void pokaz_skarb();
 	void rusz_reszte();
+	void rozegraj(char** argv);
 	bool widac_skarb() const;
 	bool daj_koniec_gry() const;
 	void ustaw_koniec_gry(bool x);
 	void miejsce_skarbu(int x);
+	void gra(char** argv);
 	int pol()const;
 
-
 private:
+
+	Pole** plansza;
 	Milosz* milosz;
-	vector<Stworzenie*> stwory;
+	std::vector<Stworzenie*> stwory;
 	int dl;
 	int sz;
 	int polozenie_skarbu;
@@ -45,16 +46,11 @@ public:
 	virtual ~Pole();
 
 	void dzialaj(Stworzenie &stworzenie) ;
-	//void ustaw_x(int x);
-	//void ustaw_y(int x);
 	void postaw(Stworzenie&);
 	void usun_z_pola();
 	void usun();
 
-	//int daj_x() const;
-	//int daj_y() const;
 	int daj_skarb() const;
-
 
 	bool spr() const;
 	bool widac() const;

@@ -12,7 +12,7 @@
 #ifndef STWORZENIE_H
 #define STWORZENIE_H
 
-using namespace std;
+//using namespace std;
 
 class Poszukiwacz;
 class Stworzenie;
@@ -49,8 +49,8 @@ public:
  	void umrzyj();
  	void ustaw_polozenie(Pole* pole);
 
-  	virtual void wstaw_komunikat(string s, float x);
-  	virtual void wstaw_komunikat_bez_liczby(string s);
+  	virtual void wstaw_komunikat(std::string s, float x);
+  	virtual void wstaw_komunikat_bez_liczby(std::string s);
 	virtual void interakcjuj(Stworzenie &stworzenie);
 	virtual void atakuj(Stworzenie &stworzenie);
 	virtual char jakie_stworzenie() const = 0;
@@ -70,7 +70,7 @@ protected:
 	int punkty_ruchu;
 	int po;
 
-	queue<string> komunikaty;
+	std::queue<std::string> komunikaty;
 	Bron bron;
 	Zbroja zbroja;
 	Prezent prezent;
@@ -113,7 +113,7 @@ public:
 	void ustaw_prezent(bool x);
 	
 	virtual bool daj_prezent() const;
-	virtual void kup(const vector <Przedmiot> przedmioty);
+	virtual void kup(const std::vector <Przedmiot> przedmioty);
 	virtual char jakie_stworzenie() const;
 };
 
@@ -123,13 +123,13 @@ public:
 	Milosz();
 	virtual ~Milosz();
 
-	string daj_glowe() const;
+	std::string daj_glowe() const;
 	void usun_glowe();
 	bool puste_komunikaty() const;
 
 	virtual bool czy_wstawia() const;
-	virtual void wstaw_komunikat(string s, float x);
-	virtual void wstaw_komunikat_bez_liczby(string s);
+	virtual void wstaw_komunikat(std::string s, float x);
+	virtual void wstaw_komunikat_bez_liczby(std::string s);
 	virtual bool czy_moze_kupic() const;
 	virtual char jakie_stworzenie() const;
 };
@@ -157,8 +157,8 @@ public:
 	virtual char jakie_stworzenie() const;
 
 private:
-	vector<Bron> asortyment_broni;
-	vector<Zbroja> asortyment_zbroi;
+	std::vector<Bron> asortyment_broni;
+	std::vector<Zbroja> asortyment_zbroi;
 	int liczba_prezentow;
 
 	
@@ -170,10 +170,6 @@ class Bard:public Inteligentne{
 public:	
 	Bard();
 	virtual ~Bard();
-	
-	//void ustaw_skarb(int x);
-	//void pokaz();
-	//int daj_skarb() const;
 
 	virtual void interakcjuj(Stworzenie &poszukiwacz);
 	virtual char jakie_stworzenie() const;

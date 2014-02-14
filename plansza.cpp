@@ -6,7 +6,7 @@
 Plansza::Plansza()
 {
 	koniec_gry = false;
-	plansza = new Pole* [100000];
+	plansza = new Pole* [ 100000 ];
 }
 
 Plansza::~Plansza()
@@ -19,11 +19,53 @@ bool Plansza::widac_skarb() const
 	return widac;
 }
 
+void Plansza::rozegraj(char** argv)
+{
+	wczytaj(argv);
+	wypisz();
+
+	while(!daj_koniec_gry())
+	{
+		rusz_milosza();
+		rusz_reszte();
+		wypisz();
+	}
+}
+
+void Plansza::gra(char** argv)
+{
+	bool gramy = true;
+	while (gramy)
+	{
+		rozegraj(argv);
+		posprzataj();
+		char c;
+		std::cin >> c;
+		switch (c)
+		{
+			case ('N'):
+				ustaw_koniec_gry(false);
+				gramy = true;
+				break;
+			case ('w'):
+				gramy = false;
+				ustaw_koniec_gry(true);
+				std::cout<<"Dziekujemy za gre :) \n";
+				exit(1);
+				break;
+		}
+	}
+}
+
 void Plansza::posprzataj()
 {
-	delete [] plansza;
+	for(int i = 0 ; i < (dl+2)*(sz+2);++i)
+	{
+		delete plansza[i];
+	}
+	for(auto s : stwory)
+		 s->ustaw_polozenie(nullptr);
 	stwory.clear();
-	delete milosz;
 }
 
 void Plansza::ustaw_koniec_gry(bool x)
@@ -114,7 +156,7 @@ void Plansza::wypisz() const
 {
 	while(!milosz->puste_komunikaty())
 	{
-		cout<<milosz->daj_glowe()<<endl;
+		std::cout<<milosz->daj_glowe()<<std::endl;
 		milosz->usun_glowe();
 	}
 
@@ -122,33 +164,31 @@ void Plansza::wypisz() const
 	for(int i = 0; i < (dl+2)*(sz+2); i++)
 	{
 			if(plansza[i]->spr())
-				cout<<plansza[i]->oddaj();
+			{
+				std::cout<<plansza[i]->oddaj();
+			}
 			else
 				if( widac_skarb() && i == pol())
-					cout<<"$";
+					std::cout<<"$";
 				else
-					cout<<plansza[i]->jakie_pole();
+					std::cout<<plansza[i]->jakie_pole();
 
 			if(licznik == (sz+1))
 			{
-				cout<<endl;
+				std::cout<<std::endl;
 				licznik = -1;
 			}
 			licznik++;
 	}
-
 }
 
 void Plansza::wczytaj(char** argv)
 {
 	FILE *plik;
 	int licznik = 0;
-	if(argv[1] == nullptr)
-		cout<<"Nie podales planszy"<<endl;
 
 	plik = fopen(argv[1],"r");
 	fscanf(plik,"%d%d",&dl,&sz);
-	plansza = new Pole*[dl*sz + dl*2 + sz*2 +4000];
 	int i = 0;
 
 	for( i = 0; i < sz + 2; i++)
@@ -308,7 +348,7 @@ int Plansza::pol() const
 void Plansza::rusz_milosza()
 {
 	char kierunek;
-	cin>>kierunek;
+	std::cin>>kierunek;
 	int x = 0;
 	
 	if(milosz->daj_zdrowie() > 0 && milosz->daj_ruch() > 0)
@@ -326,6 +366,10 @@ void Plansza::rusz_milosza()
 					break;
 			case('d'):
 					x = sz+2;
+					break;
+			case('w'):
+					std::cout<<"Dziekujemy za gre :) \n";
+					exit (1);
 					break;
 		}
 	}
@@ -386,7 +430,7 @@ Pole::Pole(Plansza* plansza)
 
 Pole::~Pole()
 {
-	usun();
+	delete stworek;
 }
 
 void Pole::postaw(Stworzenie& A)
