@@ -13,7 +13,6 @@ Plansza::Plansza()
 Plansza::~Plansza()
 {
 	posprzataj();
-
 }
 
 bool Plansza::widac_skarb() const
@@ -55,8 +54,8 @@ void Plansza::posprzataj()
 	}
 
 	for(auto s : stwory)
-		//	delete s;
-		 s->ustaw_polozenie(nullptr);
+			delete s;
+		// s->ustaw_polozenie(nullptr);
 	stwory.clear();
 	widac = false;
 }
