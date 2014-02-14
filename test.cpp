@@ -4,17 +4,19 @@
 #include "przedmioty.h"
 #include "stworzenie.h"
 
-using namespace std;
+//using namespace std;
 
 
 int main(int argc, char** argv)
 {
 
-	Plansza p;
+
+
 	bool gramy = true;
 
 	while(gramy)
 	{
+		Plansza p;
 		p.wczytaj(argv);
 		p.wypisz();
 
@@ -26,7 +28,8 @@ int main(int argc, char** argv)
 		}
 		p.posprzataj();
 		char c;
-		cin>>c;
+		std::cin>>c;
+		std::cout<<"Lubie Placky"<<std::endl;
 		if(c=='N')
 		{
 
