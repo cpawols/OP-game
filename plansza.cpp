@@ -1,8 +1,6 @@
 #include "plansza.h"
 #include "stworzenie.h"
-/*
- * TROLOLOLO
- */
+
 Plansza::Plansza()
 {
 	koniec_gry = false;
@@ -60,8 +58,7 @@ void Plansza::posprzataj()
 	}
 
 	for(auto s : stwory)
-			delete s;
-		// s->ustaw_polozenie(nullptr);
+		delete s;
 	stwory.clear();
 	widac = false;
 }
@@ -131,7 +128,6 @@ void Plansza::rusz_reszte()
 				for(auto s : stwory)
 				{
 					if(s == stw)
-					//if(s == plansza[stw->daj_pole()]->daj_stworzenie())
 					{
 						stwory.erase(stwory.begin()+temp);
 					}
@@ -139,7 +135,7 @@ void Plansza::rusz_reszte()
 				}
 				plansza[stw->daj_pole()]->usun_z_pola();
 			}
-			}
+		}
 		else
 			if(plansza[stw->daj_pole() + x ]->spr())
 			{
@@ -155,8 +151,11 @@ void Plansza::koniec_tury()
 {
 	while(!milosz->puste_komunikaty())
 	{
-		//printf("%s\n",milosz->daj_glowe() );
-		std::cout<<milosz->daj_glowe()<<std::endl;
+		for(unsigned int i = 0; i < milosz->daj_glowe().size();++i)
+		{
+			printf("%c",milosz->daj_glowe()[i]);
+		}
+		puts("");
 		milosz->usun_glowe();
 	}
 }
@@ -272,72 +271,72 @@ void Plansza::wczytaj(char** argv)
 	while(!feof(plik))
 	{
 		char temp1;
-		int temp2,temp3;
+		int y,x;
 
-		fscanf(plik,"%c%d%d",&temp1,&temp3,&temp2);
+		fscanf(plik,"%c%d%d",&temp1,&x,&y);
 
 		switch(temp1)
 		{
 			case 'M':
 				milosz= new Milosz;
-				plansza[ (sz + 2)*temp3 + temp2 ]->postaw(*milosz);
-				milosz->ustaw_pole((sz + 2)*temp3 + temp2);
-				milosz->ustaw_polozenie(plansza[ (sz + 2)*temp3 + temp2 ]);
+				plansza[ (sz + 2)*x + y ]->postaw(*milosz);
+				milosz->ustaw_pole((sz + 2)*x + y);
+				milosz->ustaw_polozenie(plansza[ (sz + 2)*x + y ]);
 				break;
 			case 'S':
 				stw = new Sklepikarz;
-				plansza[ (sz + 2)*temp3 + temp2 ]->postaw(*stw);
-				stw->ustaw_pole((sz + 2)*temp3 + temp2);
-				stw->ustaw_polozenie(plansza[ (sz + 2)*temp3 + temp2 ]);
+				plansza[ (sz + 2)*x + y ]->postaw(*stw);
+				stw->ustaw_pole((sz + 2)*x + y);
+				stw->ustaw_polozenie(plansza[ (sz + 2)*x + y ]);
 				stwory.push_back(stw);
 				break;
 			case  'Z':
 				stw = new Znachorka;
-				plansza[ (sz + 2)*temp3 + temp2 ]->postaw(*stw);
-				stw->ustaw_pole((sz + 2)*temp3 + temp2);
-				stw->ustaw_polozenie(plansza[ (sz + 2)*temp3 + temp2 ]);
+				plansza[ (sz + 2)*x + y ]->postaw(*stw);
+				stw->ustaw_pole((sz + 2)*x + y);
+				stw->ustaw_polozenie(plansza[ (sz + 2)*x + y ]);
 				stwory.push_back(stw);
 				break;
 			case 'B':
 				stw = new Bard();
-				plansza[ (sz + 2)*temp3 + temp2 ]->postaw(*stw);
-				stw->ustaw_pole((sz + 2)*temp3 + temp2);
-				stw->ustaw_polozenie(plansza[ (sz + 2)*temp3 + temp2 ]);
+				plansza[ (sz + 2)*x + y ]->postaw(*stw);
+				stw->ustaw_pole((sz + 2)*x + y);
+				stw->ustaw_polozenie(plansza[ (sz + 2)*x + y ]);
 				stwory.push_back(stw);
 				break;
 			case 'P':
 				stw = new Poszukiwacz;
-				plansza[ (sz + 2)*temp3 + temp2 ]->postaw(*stw);
-				stw->ustaw_pole((sz + 2)*temp3 + temp2);
-				stw->ustaw_polozenie(plansza[ (sz + 2)*temp3 + temp2 ]);
+				plansza[ (sz + 2)*x + y ]->postaw(*stw);
+				stw->ustaw_pole((sz + 2)*x + y);
+				stw->ustaw_polozenie(plansza[ (sz + 2)*x + y ]);
 				stwory.push_back(stw);
 				break;
 			case 'W':
 				stw = new Wybredne;
-				plansza[ (sz + 2)*temp3 + temp2 ]->postaw(*stw);
-				stw->ustaw_pole((sz + 2)*temp3 + temp2);
-				stw->ustaw_polozenie(plansza[ (sz + 2)*temp3 + temp2 ]);
+				plansza[ (sz + 2)*x + y ]->postaw(*stw);
+				stw->ustaw_pole((sz + 2)*x + y);
+				stw->ustaw_polozenie(plansza[ (sz + 2)*x + y ]);
 				stwory.push_back(stw);
 				break;
 			case 'A':
 				stw = new Agresywny;
-				plansza[ (sz + 2)*temp3 + temp2 ]->postaw(*stw);
-				stw->ustaw_pole((sz + 2)*temp3 + temp2);
-				stw->ustaw_polozenie(plansza[ (sz + 2)*temp3 + temp2 ]);
+				plansza[ (sz + 2)*x + y ]->postaw(*stw);
+				stw->ustaw_pole((sz + 2)*x + y);
+				stw->ustaw_polozenie(plansza[ (sz + 2)*x + y ]);
 				stwory.push_back(stw);
 				break;
 			case 'T':
 				stw = new Tchorzliwy;
-				plansza[ (sz + 2)*temp3 + temp2 ]->postaw(*stw);
-				stw->ustaw_pole((sz + 2)*temp3 + temp2);
-				stw->ustaw_polozenie(plansza[ (sz + 2)*temp3 + temp2 ]);
+				plansza[ (sz + 2)*x + y ]->postaw(*stw);
+				stw->ustaw_pole((sz + 2)*x + y);
+				stw->ustaw_polozenie(plansza[ (sz + 2)*x + y ]);
 				stwory.push_back(stw);
 				break;
 			case 'N':
 				stw = new Neutralny;
-				plansza[ (sz + 2)*temp3 + temp2 ]->postaw(*stw);
-				stw->ustaw_pole((sz + 2)*temp3 + temp2);
-				stw->ustaw_polozenie(plansza[ (sz + 2)*temp3 + temp2 ]);
+				plansza[ (sz + 2)*x + y ]->postaw(*stw);
+				stw->ustaw_pole((sz + 2)*x + y);
+				stw->ustaw_polozenie(plansza[ (sz + 2)*x + y ]);
 				stwory.push_back(stw);
 					break;
 			//	delete stw;
