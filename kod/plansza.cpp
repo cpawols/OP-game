@@ -80,12 +80,22 @@ bool Plansza::daj_koniec_gry() const
 	return koniec_gry;
 }
 
-/*void Plansza::postaw_po_walce(const Stworzenie stw)
+void Plansza::wyrzuc(Stworzenie& stw)
 {
-	
-}*/
+/*	int temp = 0;
+	for(auto s : stwory)
+	{
+		if(*s == stw)
+		{
+			stwory.erase(stwory.begin()+temp);
+		}
+			temp++;
+	}
+	plansza[stw.daj_pole()]->usun_z_pola();
+	*/
+}
 
-bool Plansza::rusz_agresywnego(int x, Stworzenie& stw )
+bool Plansza::rusz_prymitywnego(int x, Stworzenie& stw )
 {
 	 if(plansza[stw.daj_pole() + x]->spr())
 	 {
@@ -100,8 +110,8 @@ bool Plansza::rusz_agresywnego(int x, Stworzenie& stw )
 			 		stw.ustaw_polozenie(plansza[stw.daj_pole()]);
 			 		plansza[stw.daj_pole() - x ]->usun();
 			 }
+			 return true; 
 		 }
-		 return true;
 	 }
 	 return false;
 }
@@ -128,17 +138,17 @@ void Plansza::rusz_reszte()
 					x = sz + 2;
 					break;
 		}
+		
 		stw->poczatek_tury();
 		
 		if(!stw->czy_inteligentne())
 		{
-			 if(rusz_agresywnego(1,(*stw)) || rusz_agresywnego(-1,(*stw)) || rusz_agresywnego(sz+2,(*stw)) || rusz_agresywnego(-sz-2,(*stw)) )
+			 if(rusz_prymitywnego(1,(*stw)) || rusz_prymitywnego(-1,(*stw)) || rusz_prymitywnego(sz+2,(*stw)) || rusz_prymitywnego(-sz-2,(*stw)) )
 			 {
-				puts("No i co");
+				 	 continue;
 			 }
 			 else
 			 {
-				 puts("vhjkdgbhjskvnrjuskdnvhdfbvdjfvusdkjhs");
 				 if(plansza[stw->daj_pole() + x]->czy_mozna_wejsc() &&
 				 	!plansza[stw->daj_pole()+x]->spr()
 				 	)
@@ -154,7 +164,6 @@ void Plansza::rusz_reszte()
 		else
 		{
 	
-
 		if(		plansza[stw->daj_pole() + x]->czy_mozna_wejsc() &&
 				!plansza[stw->daj_pole()+x]->spr()
 		)
@@ -183,6 +192,7 @@ void Plansza::rusz_reszte()
 					temp++;
 				}
 				plansza[stw->daj_pole()]->usun_z_pola();
+				delete stw;
 			}
 		}
 		else
@@ -476,8 +486,8 @@ void Plansza::rusz_milosza()
 					}
 						temp++;
 				}
+				delete plansza[milosz->daj_pole() +x ]->daj_stworzenie();
 				plansza[milosz->daj_pole()+x]->usun_z_pola();
-				//
 				milosz->ustaw_pole(milosz->daj_pole() + x);
 				plansza[milosz->daj_pole()]->postaw(*milosz);
 				milosz->ustaw_polozenie(plansza[milosz->daj_pole()]);
