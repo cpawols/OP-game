@@ -51,8 +51,6 @@ void Plansza::gra(char** argv)
 
 void Plansza::posprzataj()
 {
-	if(plansza != nullptr)
-	{
 		for(int i = 0 ; i < (dl+2)*(sz+2);++i)
 		{
 			delete plansza[i];
@@ -63,7 +61,8 @@ void Plansza::posprzataj()
 			delete s;
 		stwory.clear();
 		widac = false;
-	}
+		plansza = nullptr;
+	
 }
 
 void Plansza::ustaw_koniec_gry(bool x)
@@ -189,7 +188,6 @@ void Plansza::rusz_reszte()
 				if(stw->czy_atakowac(*plansza[stw->daj_pole()+x]->daj_stworzenie()))
 				{
 					stw->interakcjuj(*plansza[stw->daj_pole()+x]->daj_stworzenie());
-
 				}
 
 			}
@@ -204,10 +202,9 @@ void Plansza::rusz_reszte()
 					stwory.erase(stwory.begin()+temp);
 				}
 				temp++;
-			}	
-				//delete stw;
-				//plansza[stw->daj_pole()]->usun_z_pola();
-				
+			}
+			//delete plansza[stw->daj_pole()  ]->daj_stworzenie();
+			//delete stw;
 		}
 	}
 }
@@ -410,13 +407,14 @@ int Plansza::pol() const
 
 void Plansza::rusz_milosza()
 {
-	char kierunek;
-	scanf(" %c",&kierunek);
-	int x = 0;
-
+	
 
 	if(milosz->daj_zdrowie() > 0 && milosz->daj_ruch() > 0)
 	{
+		char kierunek;
+		scanf(" %c",&kierunek);
+		int x = 0;
+
 		switch(kierunek)
 		{
 			case('p'):
