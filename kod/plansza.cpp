@@ -89,11 +89,7 @@ bool Plansza::rusz_prymitywnego(int x, Stworzenie& stw )
 			 stw.interakcjuj(*plansza[stw.daj_pole()+x]->daj_stworzenie());
 			 if(plansza[stw.daj_pole()+x]->daj_stworzenie()->daj_zdrowie() <= 0)
 			 {
-			 		plansza[stw.daj_pole() +x ]->dzialaj(stw);
-			 		stw.ustaw_pole(stw.daj_pole() + x);
-			 		plansza[stw.daj_pole()]->postaw(stw);
-			 		stw.ustaw_polozenie(plansza[stw.daj_pole()]);
-			 		plansza[stw.daj_pole() - x ]->usun();
+			 		przestaw(x,stw);
 			 }
 			 return true; 
 		 }
@@ -143,56 +139,25 @@ void Plansza::rusz_reszte()
 			 }
 			 else
 			 {
-				 if(plansza[stw->daj_pole() + x]->czy_mozna_wejsc() &&
-				 	!plansza[stw->daj_pole()+x]->spr()
-				 	)
+				 if(plansza[stw->daj_pole() + x]->czy_mozna_wejsc() && !plansza[stw->daj_pole()+x]->spr() )
 				 {
 					 	 przestaw(x,*stw);
-				 	/*	plansza[stw->daj_pole() +x ]->dzialaj(*stw);
-				 		stw->ustaw_pole(stw->daj_pole() + x);
-				 		plansza[stw->daj_pole()]->postaw(*stw);
-				 		stw->ustaw_polozenie(plansza[stw->daj_pole()]);
-				 		plansza[stw->daj_pole() - x ]->usun();
-				 		*/
 				 }
 			 }
 		}
 		else
 		{
 	
-		if(		plansza[stw->daj_pole() + x]->czy_mozna_wejsc() &&
-				!plansza[stw->daj_pole()+x]->spr()
-		)
+		if(	plansza[stw->daj_pole() + x]->czy_mozna_wejsc() && !plansza[stw->daj_pole()+x]->spr() )
 		{
-			przestaw(x,*stw);
-			/*plansza[stw->daj_pole() +x ]->dzialaj(*stw);
-			stw->ustaw_pole(stw->daj_pole() + x);
-			plansza[stw->daj_pole()]->postaw(*stw);
-			stw->ustaw_polozenie(plansza[stw->daj_pole()]);
-			plansza[stw->daj_pole() - x ]->usun();
-	*/
+				przestaw(x,*stw);
+
 			if(stw->daj_pole() == pol() && stw->jakie_stworzenie() == 'P')
 			{
 					milosz->wstaw_komunikat_bez_liczby("Poszukiwacz znalazl skarb");
 					ustaw_koniec_gry(true);
 			}
 
-			/*if(stw->daj_zdrowie() <= 0 || stw->daj_ruch() <= 0)
-			{
-				int temp = 0;
-				for(auto s : stwory)
-				{
-					if(s == stw)
-					{
-						stwory.erase(stwory.begin()+temp);
-					}
-					temp++;
-				}
-				//delete stw;
-				plansza[stw->daj_pole()]->usun_z_pola();
-			
-			}
-			*/
 		}
 		else
 			if(plansza[stw->daj_pole() + x ]->spr())
@@ -448,22 +413,15 @@ void Plansza::rusz_milosza()
 		}
 	
 
- 	if(	plansza[ milosz->daj_pole()+x]->czy_mozna_wejsc() &&
-		!plansza[ milosz->daj_pole() + x ]->spr() )
+ 	if(	plansza[ milosz->daj_pole()+x]->czy_mozna_wejsc() && !plansza[ milosz->daj_pole() + x ]->spr() )
 	{
-			plansza[milosz->daj_pole()+x]->dzialaj(*milosz);
+			
+ 			przestaw(x,*milosz);
 			if(milosz->daj_zdrowie() <= 0 ||  milosz->daj_ruch() <= 0)
-
 			{
 				ustaw_koniec_gry(true);
 				milosz->wstaw_komunikat_bez_liczby("Milosz zginal!");
-			}
-
-			milosz->ustaw_pole(milosz->daj_pole() + x);
-			plansza[milosz->daj_pole()]->postaw(*milosz);
-			milosz->ustaw_polozenie(plansza[milosz->daj_pole()]);
-			plansza[milosz->daj_pole() - x ]->usun();
-
+			}	
 			if(milosz->daj_pole()   == pol() )
 			{
 				milosz->wstaw_komunikat_bez_liczby("MILOSZ ZNALAZL SKARB, KONIEC GRY");
@@ -476,7 +434,7 @@ void Plansza::rusz_milosza()
 			plansza[ milosz->daj_pole() +x ]->daj_stworzenie()->interakcjuj(*milosz);
 			if(!plansza[milosz->daj_pole() +x]->daj_stworzenie()->zyje())
 			{
-				//
+				przestaw(x,*milosz);
 				int temp = 0;
 				for(auto s : stwory)
 				{
@@ -486,12 +444,8 @@ void Plansza::rusz_milosza()
 					}
 						temp++;
 				}
-				delete plansza[milosz->daj_pole() +x ]->daj_stworzenie();
-				plansza[milosz->daj_pole()+x]->usun_z_pola();
-				milosz->ustaw_pole(milosz->daj_pole() + x);
-				plansza[milosz->daj_pole()]->postaw(*milosz);
-				milosz->ustaw_polozenie(plansza[milosz->daj_pole()]);
-				plansza[milosz->daj_pole() - x ]->usun();
+				
+					
 			}
 		}
  	milosz->wstaw_komunikat("Milosz ma zdrowie ",milosz->daj_zdrowie());
