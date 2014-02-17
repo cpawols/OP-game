@@ -123,7 +123,7 @@ void Plansza::usun(Stworzenie* stw)
 		temp++;
 	}
 	stwory.erase(stwory.begin()+gdzie);
-	delete stw;		
+//	delete stw;		
 }
 
 void Plansza::rusz_reszte()
