@@ -57,6 +57,7 @@ void Plansza::posprzataj()
 	{
 		delete plansza[i];
 	}
+	delete [] plansza;
 
 	for(auto s : stwory)
 		delete s;
@@ -86,7 +87,6 @@ bool Plansza::daj_koniec_gry() const
 
 bool Plansza::rusz_agresywnego(int x, Stworzenie& stw )
 {
-	puts("ile razy");
 	 if(plansza[stw.daj_pole() + x]->spr())
 	 {
 		 if(stw.czy_atakowac(*plansza[stw.daj_pole()+x]->daj_stworzenie()))
@@ -101,7 +101,6 @@ bool Plansza::rusz_agresywnego(int x, Stworzenie& stw )
 			 		plansza[stw.daj_pole() - x ]->usun();
 			 }
 		 }
-		
 		 return true;
 	 }
 	 return false;
@@ -130,6 +129,7 @@ void Plansza::rusz_reszte()
 					break;
 		}
 		stw->poczatek_tury();
+		
 		if(!stw->czy_inteligentne())
 		{
 			 if(rusz_agresywnego(1,(*stw)) || rusz_agresywnego(-1,(*stw)) || rusz_agresywnego(sz+2,(*stw)) || rusz_agresywnego(-sz-2,(*stw)) )
@@ -171,7 +171,7 @@ void Plansza::rusz_reszte()
 					ustaw_koniec_gry(true);
 			}
 
-			/*if(stw->daj_zdrowie() <= 0 || stw->daj_ruch() <= 0)
+			if(stw->daj_zdrowie() <= 0 || stw->daj_ruch() <= 0)
 			{
 				int temp = 0;
 				for(auto s : stwory)
@@ -183,7 +183,7 @@ void Plansza::rusz_reszte()
 					temp++;
 				}
 				plansza[stw->daj_pole()]->usun_z_pola();
-			}*/
+			}
 		}
 		else
 			if(plansza[stw->daj_pole() + x ]->spr())
@@ -466,6 +466,18 @@ void Plansza::rusz_milosza()
 			plansza[ milosz->daj_pole() +x ]->daj_stworzenie()->interakcjuj(*milosz);
 			if(!plansza[milosz->daj_pole() +x]->daj_stworzenie()->zyje())
 			{
+				//
+				int temp = 0;
+				for(auto s : stwory)
+				{
+					if(s == plansza[ milosz->daj_pole() +x ]->daj_stworzenie())
+					{
+						stwory.erase(stwory.begin()+temp);
+					}
+						temp++;
+				}
+				plansza[milosz->daj_pole()+x]->usun_z_pola();
+				//
 				milosz->ustaw_pole(milosz->daj_pole() + x);
 				plansza[milosz->daj_pole()]->postaw(*milosz);
 				milosz->ustaw_polozenie(plansza[milosz->daj_pole()]);
@@ -502,7 +514,7 @@ Pole::Pole(Plansza* plansza)
 
 Pole::~Pole()
 {
-	//delete stworek;
+	
 }
 
 void Pole::postaw(Stworzenie& A)
