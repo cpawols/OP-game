@@ -106,6 +106,22 @@ void Plansza::przestaw(int x, Stworzenie& stw)
 	plansza[stw.daj_pole() - x ]->usun();
 }
 
+void Plansza::usun(Stworzenie* stw)
+{
+	int temp = 0;
+	int gdzie = 0;
+	for(auto s : stwory)
+	{
+		if(s == stw)
+		{
+			gdzie = temp;
+		}
+		temp++;
+	}
+	stwory.erase(stwory.begin()+gdzie);
+	delete stw;		
+}
+
 void Plansza::rusz_reszte()
 {
 	int x;
@@ -171,17 +187,19 @@ void Plansza::rusz_reszte()
 		}
 		if(stw->daj_zdrowie() <= 0 || stw->daj_ruch() <= 0)
 		{
-			int temp = 0;
+			usun(stw);
+			/*int temp = 0;
 			for(auto s : stwory)
 			{
 				if(s == stw)
 				{
 					stwory.erase(stwory.begin()+temp);
+					delete s;
 				}
 				temp++;
 			}
 			//delete plansza[stw->daj_pole()  ]->daj_stworzenie();
-			//delete stw;
+			//delete stw;*/
 		}
 	}
 }
@@ -422,7 +440,7 @@ void Plansza::rusz_milosza()
 				ustaw_koniec_gry(true);
 				milosz->wstaw_komunikat_bez_liczby("Milosz zginal!");
 			}	
-			if(milosz->daj_pole()   == pol() )
+			if(milosz->daj_pole() == pol() )
 			{
 				milosz->wstaw_komunikat_bez_liczby("MILOSZ ZNALAZL SKARB, KONIEC GRY");
 				ustaw_koniec_gry(true);
@@ -441,11 +459,12 @@ void Plansza::rusz_milosza()
 					if(s == plansza[ milosz->daj_pole() +x ]->daj_stworzenie())
 					{
 						stwory.erase(stwory.begin()+temp);
+						delete s;
 					}
 						temp++;
+						
 				}
-				
-					
+			
 			}
 		}
  	milosz->wstaw_komunikat("Milosz ma zdrowie ",milosz->daj_zdrowie());
