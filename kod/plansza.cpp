@@ -51,16 +51,19 @@ void Plansza::gra(char** argv)
 
 void Plansza::posprzataj()
 {
-	for(int i = 0 ; i < (dl+2)*(sz+2);++i)
+	if(plansza != nullptr)
 	{
-		delete plansza[i];
+		for(int i = 0 ; i < (dl+2)*(sz+2);++i)
+		{
+			delete plansza[i];
+		}
+		delete [] plansza;
+	
+		for(auto s : stwory)
+			delete s;
+		stwory.clear();
+		widac = false;
 	}
-	delete [] plansza;
-
-	for(auto s : stwory)
-		delete s;
-	stwory.clear();
-	widac = false;
 }
 
 void Plansza::ustaw_koniec_gry(bool x)
@@ -76,21 +79,6 @@ void Plansza::pokaz_skarb()
 bool Plansza::daj_koniec_gry() const
 {
 	return koniec_gry;
-}
-
-void Plansza::wyrzuc(Stworzenie& stw)
-{
-/*	int temp = 0;
-	for(auto s : stwory)
-	{
-		if(*s == stw)
-		{
-			stwory.erase(stwory.begin()+temp);
-		}
-			temp++;
-	}
-	plansza[stw.daj_pole()]->usun_z_pola();
-	*/
 }
 
 bool Plansza::rusz_prymitywnego(int x, Stworzenie& stw )
@@ -178,7 +166,7 @@ void Plansza::rusz_reszte()
 					ustaw_koniec_gry(true);
 			}
 
-			if(stw->daj_zdrowie() <= 0 || stw->daj_ruch() <= 0)
+			/*if(stw->daj_zdrowie() <= 0 || stw->daj_ruch() <= 0)
 			{
 				int temp = 0;
 				for(auto s : stwory)
@@ -189,9 +177,11 @@ void Plansza::rusz_reszte()
 					}
 					temp++;
 				}
+				//delete stw;
 				plansza[stw->daj_pole()]->usun_z_pola();
-				delete stw;
+			
 			}
+			*/
 		}
 		else
 			if(plansza[stw->daj_pole() + x ]->spr())
@@ -214,8 +204,10 @@ void Plansza::rusz_reszte()
 					stwory.erase(stwory.begin()+temp);
 				}
 				temp++;
-			}
-				plansza[stw->daj_pole()]->usun_z_pola();
+			}	
+				//delete stw;
+				//plansza[stw->daj_pole()]->usun_z_pola();
+				
 		}
 	}
 }
