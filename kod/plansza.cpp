@@ -9,13 +9,11 @@ Plansza::Plansza()
 	polozenie_skarbu = 0;
 	widac = false;
 	milosz = nullptr;
-	//plansza = new Pole* [1000];
 }
 
 Plansza::~Plansza()
 {
 	posprzataj();
-	delete [] plansza;
 }
 
 bool Plansza::widac_skarb() const
