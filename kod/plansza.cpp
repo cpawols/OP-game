@@ -91,6 +91,10 @@ bool Plansza::rusz_prymitywnego(int x, Stworzenie& stw )
 			 {
 			 		przestaw(x,stw);
 			 }
+			 if(stw.daj_zdrowie() < 1)
+			 {
+				 usun(&stw);
+			 }
 			 return true; 
 		 }
 	 }
@@ -188,18 +192,6 @@ void Plansza::rusz_reszte()
 		if(stw->daj_zdrowie() <= 0 || stw->daj_ruch() <= 0)
 		{
 			usun(stw);
-			/*int temp = 0;
-			for(auto s : stwory)
-			{
-				if(s == stw)
-				{
-					stwory.erase(stwory.begin()+temp);
-					delete s;
-				}
-				temp++;
-			}
-			//delete plansza[stw->daj_pole()  ]->daj_stworzenie();
-			//delete stw;*/
 		}
 	}
 }
@@ -453,18 +445,7 @@ void Plansza::rusz_milosza()
 			if(!plansza[milosz->daj_pole() +x]->daj_stworzenie()->zyje())
 			{
 				przestaw(x,*milosz);
-				int temp = 0;
-				for(auto s : stwory)
-				{
-					if(s == plansza[ milosz->daj_pole() +x ]->daj_stworzenie())
-					{
-						stwory.erase(stwory.begin()+temp);
-						delete s;
-					}
-						temp++;
-						
-				}
-			
+				usun(plansza[milosz->daj_pole()+x]->daj_stworzenie());
 			}
 		}
  	milosz->wstaw_komunikat("Milosz ma zdrowie ",milosz->daj_zdrowie());
