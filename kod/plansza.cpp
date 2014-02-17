@@ -101,6 +101,15 @@ bool Plansza::rusz_prymitywnego(int x, Stworzenie& stw )
 	 return false;
 }
 
+void Plansza::przestaw(int x, Stworzenie& stw)
+{
+	plansza[stw.daj_pole() +x ]->dzialaj(stw);
+	stw.ustaw_pole(stw.daj_pole() + x);
+	plansza[stw.daj_pole()]->postaw(stw);
+	stw.ustaw_polozenie(plansza[stw.daj_pole()]);
+	plansza[stw.daj_pole() - x ]->usun();
+}
+
 void Plansza::rusz_reszte()
 {
 	int x;
@@ -138,11 +147,13 @@ void Plansza::rusz_reszte()
 				 	!plansza[stw->daj_pole()+x]->spr()
 				 	)
 				 {
-				 		plansza[stw->daj_pole() +x ]->dzialaj(*stw);
+					 	 przestaw(x,*stw);
+				 	/*	plansza[stw->daj_pole() +x ]->dzialaj(*stw);
 				 		stw->ustaw_pole(stw->daj_pole() + x);
 				 		plansza[stw->daj_pole()]->postaw(*stw);
 				 		stw->ustaw_polozenie(plansza[stw->daj_pole()]);
 				 		plansza[stw->daj_pole() - x ]->usun();
+				 		*/
 				 }
 			 }
 		}
@@ -153,12 +164,13 @@ void Plansza::rusz_reszte()
 				!plansza[stw->daj_pole()+x]->spr()
 		)
 		{
-			plansza[stw->daj_pole() +x ]->dzialaj(*stw);
+			przestaw(x,*stw);
+			/*plansza[stw->daj_pole() +x ]->dzialaj(*stw);
 			stw->ustaw_pole(stw->daj_pole() + x);
 			plansza[stw->daj_pole()]->postaw(*stw);
 			stw->ustaw_polozenie(plansza[stw->daj_pole()]);
 			plansza[stw->daj_pole() - x ]->usun();
-
+	*/
 			if(stw->daj_pole() == pol() && stw->jakie_stworzenie() == 'P')
 			{
 					milosz->wstaw_komunikat_bez_liczby("Poszukiwacz znalazl skarb");
