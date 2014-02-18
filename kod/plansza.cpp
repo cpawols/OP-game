@@ -86,13 +86,18 @@ bool Plansza::rusz_prymitywnego(int x, Stworzenie& stw )
 	 {
 		 if(stw.czy_atakowac(*plansza[stw.daj_pole()+x]->daj_stworzenie()))
 		 {
-			 stw.interakcjuj(*plansza[stw.daj_pole()+x]->daj_stworzenie());
-			 if(plansza[stw.daj_pole()+x]->daj_stworzenie()->daj_zdrowie() <= 0)
+			stw.interakcjuj(*plansza[stw.daj_pole()+x]->daj_stworzenie());
+			if(plansza[stw.daj_pole()+x]->daj_stworzenie()->daj_zdrowie() <= 0)
 			 {
 				plansza[stw.daj_pole()+x]->usun_z_pola();
 				usun(plansza[stw.daj_pole()+x]->daj_stworzenie());
 			 	przestaw(x,stw);
 			 }
+			if(stw.daj_zdrowie() < 1)
+			{
+				plansza[stw.daj_pole()]->usun_z_pola();
+				usun(&stw);
+			}
 			 return true; 
 		 }
 	 }
@@ -110,6 +115,7 @@ void Plansza::przestaw(int x, Stworzenie& stw)
 
 void Plansza::usun(Stworzenie* stw)
 {
+
 	int temp = 0;
 	int gdzie = 0;
 	for(auto s : stwory)
@@ -120,7 +126,9 @@ void Plansza::usun(Stworzenie* stw)
 		}
 		temp++;
 	}
-	stwory.erase(stwory.begin()+gdzie);	
+//	plansza[stw->daj_pole()]->usun_z_pola();
+	//stw->ustaw_polozenie(nullptr);
+	stwory.erase(stwory.begin()+gdzie);
 	delete stw;
 }
 
@@ -192,11 +200,11 @@ void Plansza::rusz_reszte()
 				}
 			}
 		}
-		if(stw->daj_zdrowie() <= 0 || stw->daj_ruch() <= 0)
+		/*if(stw->daj_zdrowie() <= 0 || stw->daj_ruch() <= 0)
 		{
 			usun(stw);
 			plansza[stw->daj_pole()]->usun_z_pola();
-		}
+		}*/
 	}
 }
 

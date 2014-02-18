@@ -66,7 +66,7 @@ float Stworzenie::daj_zbroje() const
 
 bool Stworzenie::zyje() const
 {
-	if(this->daj_zdrowie() <= 0)
+	if(this->daj_zdrowie() <  1)
 	{
 		return false;
 	}
@@ -172,7 +172,8 @@ void Stworzenie::interakcjuj(Stworzenie&)
 
 void Stworzenie::atakuj(Stworzenie& stworzenie)
 {
-	this->uderz(stworzenie);
+	this->uderz(stworzenie);		
+		
 	if(stworzenie.daj_zdrowie() > 0)
 	{
 		stworzenie.uderz(*this);
@@ -521,7 +522,7 @@ void Prymitywne::interakcjuj(Stworzenie &stworzenie)
 	if(stworzenie.czy_wstawia())
 	{
 		stworzenie.wstaw_komunikat("Milosz zostal zaatakowany jego zdrowie to ", (float)stworzenie.daj_zdrowie());
-		stworzenie.wstaw_komunikat("Zdrowie przeciwnika to ", (float)this->daj_zdrowie());
+		stworzenie.wstaw_komunikat("Zdrowie przeciwnika to ", ceil((float)this->daj_zdrowie()));
 	}
 }
 
@@ -574,7 +575,7 @@ Tchorzliwy::~Tchorzliwy()
 
 bool Tchorzliwy::czy_atakowac(Stworzenie& stworzenie) const
 {
-	if(stworzenie.daj_zdrowie() < 50)
+	if(stworzenie.daj_zdrowie() < 50)	
 		return true;
 	return false;
 }
