@@ -90,6 +90,7 @@ bool Plansza::rusz_prymitywnego(int x, Stworzenie& stw )
 			 if(plansza[stw.daj_pole()+x]->daj_stworzenie()->daj_zdrowie() <= 0)
 			 {
 				plansza[stw.daj_pole()+x]->usun_z_pola();
+				usun(plansza[stw.daj_pole()+x]->daj_stworzenie());
 			 	przestaw(x,stw);
 			 }
 			 return true; 
@@ -120,6 +121,7 @@ void Plansza::usun(Stworzenie* stw)
 		temp++;
 	}
 	stwory.erase(stwory.begin()+gdzie);	
+	delete stw;
 }
 
 void Plansza::rusz_reszte()
@@ -157,7 +159,6 @@ void Plansza::rusz_reszte()
 			 {
 				 if(plansza[stw->daj_pole() + x]->czy_mozna_wejsc() && !plansza[stw->daj_pole()+x]->spr() )
 				 {
-					 plansza[stw->daj_pole() + x]->usun_z_pola();
 					 przestaw(x,*stw);
 				 }
 			 }
@@ -167,7 +168,6 @@ void Plansza::rusz_reszte()
 	
 		if(	plansza[stw->daj_pole() + x]->czy_mozna_wejsc() && !plansza[stw->daj_pole()+x]->spr() )
 		{
-			plansza[stw->daj_pole() + x]->usun_z_pola();
 			przestaw(x,*stw);
 
 			if(stw->daj_pole() == pol() 	&& stw->jakie_stworzenie() == 'P')
@@ -185,8 +185,8 @@ void Plansza::rusz_reszte()
 					stw->interakcjuj(*plansza[stw->daj_pole()+x]->daj_stworzenie());
 					if(!plansza[stw->daj_pole() +x]->daj_stworzenie()->zyje())
 					{
-						plansza[stw->daj_pole()+x]->usun_z_pola();
 						usun(plansza[stw->daj_pole()+x]->daj_stworzenie());
+						plansza[stw->daj_pole()+x]->usun_z_pola();
 						przestaw(x,*stw);	
 					}
 				}
@@ -194,8 +194,8 @@ void Plansza::rusz_reszte()
 		}
 		if(stw->daj_zdrowie() <= 0 || stw->daj_ruch() <= 0)
 		{
-			plansza[stw->daj_pole()]->usun_z_pola();
 			usun(stw);
+			plansza[stw->daj_pole()]->usun_z_pola();
 		}
 	}
 }
