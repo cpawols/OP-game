@@ -56,13 +56,13 @@ void Plansza::posprzataj()
 			delete plansza[i];
 		}
 		delete [] plansza;
-	
+
 		for(auto s : stwory)
 			delete s;
 		stwory.clear();
 		widac = false;
 		plansza = nullptr;
-	
+
 }
 
 void Plansza::ustaw_koniec_gry(bool x)
@@ -154,9 +154,9 @@ void Plansza::rusz_reszte()
 					x = sz + 2;
 					break;
 		}
-		
+
 		stw->poczatek_tury();
-		
+
 		if(!stw->czy_inteligentne())
 		{
 			 if(rusz_prymitywnego(1,(*stw)) || rusz_prymitywnego(-1,(*stw)) || rusz_prymitywnego(sz+2,(*stw)) || rusz_prymitywnego(-sz-2,(*stw)) )
@@ -173,7 +173,7 @@ void Plansza::rusz_reszte()
 		}
 		else
 		{
-	
+
 		if(	plansza[stw->daj_pole() + x]->czy_mozna_wejsc() && !plansza[stw->daj_pole()+x]->spr() )
 		{
 			przestaw(x,*stw);
@@ -431,17 +431,17 @@ void Plansza::rusz_milosza()
 					exit (0);
 					break;
 		}
-	
+
 
  	if(	plansza[ milosz->daj_pole()+x]->czy_mozna_wejsc() && !plansza[ milosz->daj_pole() + x ]->spr() )
 	{
- 			
+
  			przestaw(x,*milosz);
 			if(milosz->daj_zdrowie() <= 0 ||  milosz->daj_ruch() <= 0)
 			{
 				ustaw_koniec_gry(true);
 				milosz->wstaw_komunikat_bez_liczby("Milosz zginal!");
-			}	
+			}
 			if(milosz->daj_pole() == pol() )
 			{
 				milosz->wstaw_komunikat_bez_liczby("MILOSZ ZNALAZL SKARB, KONIEC GRY");
@@ -459,7 +459,7 @@ void Plansza::rusz_milosza()
 				przestaw(x,*milosz);
 			}
 		}
- 	
+
  	milosz->wstaw_komunikat("Milosz ma zdrowie ",milosz->daj_zdrowie());
  	milosz->wstaw_komunikat("Milosz ma sile ",milosz->daj_sile());
  	milosz->wstaw_komunikat("Milosz ma punkty ruchu ",milosz->daj_ruch());
@@ -489,7 +489,7 @@ Pole::Pole(Plansza* plansza)
 
 Pole::~Pole()
 {
-	
+
 }
 
 void Pole::postaw(Stworzenie& A)

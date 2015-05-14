@@ -11,7 +11,6 @@ int wylosuj(int a, int b)
 	std::random_device rd;
 	std::mt19937 gen(rd());
 	std::uniform_int_distribution<> dis(a, b);
-
 	return dis(gen);
 }
 
@@ -129,7 +128,6 @@ void Stworzenie::zadaj_obrazenie( int x )
 
 void Stworzenie::uderz( Stworzenie&  A)
 {
-	//printf("TAK LEJEMY SIE %f\n", ceil(A.daj_sile()* ( A.daj_zdrowie()*0.001 ) *(1.00 + A.daj_bron() ) *(1.00 - this->daj_zbroje())));
 	A.zadaj_obrazenie( ceil(A.daj_sile()* ( A.daj_zdrowie()*0.001 ) *(1.00 + A.daj_bron() ) *(1.00 - this->daj_zbroje())));
 }
 

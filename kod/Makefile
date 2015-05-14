@@ -1,4 +1,4 @@
-CPPFLAGS = -Wall -pedantic  -std=c++11
+CPPFLAGS = -Wall -ggdb -pedantic  -std=c++11
 
 all : test
 
@@ -8,4 +8,4 @@ test: test.cpp objects
 	g++  $(CPPFLAGS) test.cpp *.o  -o test
 
 clean :
-	rm -f bst *.o
+	rm -f bst *.o  test
